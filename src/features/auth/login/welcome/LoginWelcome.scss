@@ -1,0 +1,32 @@
+.welcome_wrapper {
+  width: 40rem;
+  padding: 0 1.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  span {
+    font-size: 2.4rem;
+    text-align: center;
+  }
+
+  img {
+    width: 30rem;
+    margin-bottom: -1rem;
+  }
+}
+
+@media only screen and (min-width: 900px) {
+  .welcome_wrapper {
+    padding-bottom: 10rem;
+    align-items: start;
+    span {
+      text-align: left;
+    }
+
+    img {
+      margin-left: -3rem;
+    }
+  }
+}

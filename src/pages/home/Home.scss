@@ -1,0 +1,98 @@
+.home {
+  min-height: calc(100vh - 7.5rem); // - headr height and padding
+  background: var(--bg-secondary);
+  display: grid;
+  grid-template-columns: 1fr minmax(55%, auto) minmax(25rem, 1fr);
+  // grid-template-columns: minmax(1fr, 36rem) minmax(55%, auto) minmax(1fr, 36rem);
+  margin-top: var(--header-height);
+  padding-top: 2rem;
+  gap: 4rem;
+}
+
+.home_middle {
+  padding: 0 3.2rem;
+}
+
+@media (max-width: 1100px) {
+  .home {
+    gap: 0px;
+    grid-template-columns: auto 2.5fr 1fr;
+  }
+
+  .left_home .left_link span,
+  .left_home .left_link .col,
+  .shortcut,
+  .shortcut_item span,
+  .splitter,
+  .fb_copyright {
+    display: none;
+  }
+
+  .left_link {
+    background: var(--bg-third);
+    width: 5.5rem;
+    height: 5.5rem;
+    // height: 55px;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+  }
+
+  .contact_circle {
+    width: 2rem;
+  }
+}
+
+@media (max-width: 890px) {
+  .left_home {
+    display: none;
+  }
+
+  .home {
+    grid-template-columns: 2.5fr 1fr;
+  }
+}
+
+@media (max-width: 805px) {
+  .story_profile_name,
+  .story_create_text {
+    display: none;
+  }
+  .create_story_card {
+    filter: brightness(96%);
+  }
+
+  .left_home::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+@media (max-width: 715px) {
+  .right_home {
+    display: none;
+  }
+
+  .home {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 620px) {
+  .left_home {
+    display: none;
+  }
+
+  .stories .white_circle {
+    display: none;
+  }
+
+  .createPost_icon {
+    font-size: 12px;
+  }
+  .open_post {
+    font-size: 16px;
+  }
+  .createPost_icon svg {
+    width: 2rem;
+  }
+}

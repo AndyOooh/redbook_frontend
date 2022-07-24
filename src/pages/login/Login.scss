@@ -1,0 +1,20 @@
+.login_wrapper {
+  background: var(--bg-secondary);
+  min-height: 90vh;
+  padding: 0 2rem 10rem;
+  width: 100%;
+  // max-width: 98rem;
+  color: var(--color-primary);
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  gap: 1.6rem;
+}
+
+@media only screen and (min-width: 900px) {
+  .login_wrapper {
+    flex-direction: row;
+  }
+}

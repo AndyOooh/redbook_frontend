@@ -18,6 +18,7 @@ export const registerUser = createAsyncThunk(
     try {
       return await authService.register(userInputs);
     } catch (error) {
+      console.log('in registerUser, error:', error);
       const message = authService.errorHandler(error);
       return rejectWithValue(message);
     }
@@ -50,6 +51,24 @@ export const activateAccount = createAsyncThunk(
   }
 );
 
+// resend activation-email ---------------------------------------------------------------
+export const resendActivationEmail = createAsyncThunk(
+  'users/resendActivate',
+  async (undefined, thunkAPI) => {
+    console.log('in resendActivationEmail thunk');
+    const userToken = thunkAPI.getState().auth.user.token;
+    try {
+      return await authService.resendActivate(userToken);
+      // console.log('data in resendActivationEmail thunk', data);
+      // return data;
+    } catch (error) {
+      console.log('error in resendActivate catch block', error);
+      const message = authService.errorHandler(error);
+      return thunkAPI.rejectWithValue(message);
+    }
+  }
+);
+
 //  Slice ---------------------------------------------------------------
 const authSlice = createSlice({
   name: 'auth',
@@ -61,6 +80,10 @@ const authSlice = createSlice({
       state.isError = false;
       state.message = '';
     },
+    logout: state => {
+      localStorage.removeItem('user');
+      state.user = null;
+    }
   },
   // Extra Reducers ---------------------------------------------------------------
   extraReducers(builder) {
@@ -106,10 +129,26 @@ const authSlice = createSlice({
         state.message = action.payload;
       })
       .addCase(activateAccount.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
         state.message = 'Activation successfull.';
         state.user = { ...state.user, verified: true };
+      })
+      // Resend Activation email ------------------------------------------------------------------------
+      .addCase(resendActivationEmail.pending, state => {
+        state.isLoading = true;
+      })
+      .addCase(resendActivationEmail.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.message = action.payload;
+      })
+      .addCase(resendActivationEmail.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.message = 'A verification link has been sent to your email.';
       });
-      
+
     // Logout ------------------------------------------------------------------------
     // .addCase(logout.fulfilled, state => {
     //   state.user = null;
@@ -117,5 +156,5 @@ const authSlice = createSlice({
   },
 });
 
-export const { reset } = authSlice.actions;
+export const { reset, logout } = authSlice.actions;
 export default authSlice.reducer;

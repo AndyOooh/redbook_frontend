@@ -185,7 +185,7 @@ export const RegisterForm = ({ setIsVisible }) => {
                 {isLoading ? (
                   <DotLoader color='#1876f2' loading={isLoading} size={30} />
                 ) : (
-                  <button className='blue_btn create_account_btn' disabled={!formIsValid}>
+                  <button className='btn red_btn create_account_btn' disabled={!formIsValid}>
                     Sign Up
                   </button>
                 )}

@@ -1,12 +1,13 @@
 import { Dots, NewRoom, Search } from 'assets/svg';
 import Contact from './Contact';
-import './style.css';
-export default function RightHome({ user }) {
+import './style.scss';
+
+export const RightHome = ({ user }) => {
   const color = '#65676b';
   return (
     <div className='right_home'>
       <div className='heading'>Sponsored</div>
-      <div className='splitter1'></div>
+      <div className="vert_line"></div>
       <div className='contacts_wrap'>
         <div className='contacts_header'>
           <div className='contacts_header_left'>Contacts</div>
@@ -28,4 +29,4 @@ export default function RightHome({ user }) {
       </div>
     </div>
   );
-}
+};

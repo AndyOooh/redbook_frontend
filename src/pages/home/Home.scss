@@ -11,11 +11,19 @@
 
 .home_middle {
   padding: 0 3.2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.1rem;
 }
 
-@media (max-width: 1100px) {
+@media (max-width: 1295px) {
   .home {
-    gap: 0px;
+    gap: 0;
+  }
+}
+
+@media (max-width: 1145px) {
+  .home {
     grid-template-columns: auto 2.5fr 1fr;
   }
 
@@ -58,9 +66,6 @@
   .story_create_text {
     display: none;
   }
-  .create_story_card {
-    filter: brightness(96%);
-  }
 
   .left_home::-webkit-scrollbar {
     display: none;
@@ -94,5 +99,11 @@
   }
   .createPost_icon svg {
     width: 2rem;
+  }
+}
+
+@media screen and (max-width: 440px) {
+  .createPost_icon {
+    font-size: 0px;
   }
 }

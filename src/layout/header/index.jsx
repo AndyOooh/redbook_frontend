@@ -1,11 +1,21 @@
-import './index.scss';
 import { Link } from 'react-router-dom';
+import { BsGrid3X3GapFill } from 'react-icons/bs';
+import { useSelector } from 'react-redux';
+import { useRef, useState } from 'react';
+
+import './index.scss';
+import SearchMenu from './SearchMenu';
+import AllMenu from './AllMenu';
+import useClickOutside from '../../hooks/clickOutside';
+import { UserMenu } from './userMenu';
+// import { getUser } from 'features/auth/authSlice';
+import RbLogo from 'assets/icons/icon-redbook.png';
 import {
   ArrowDown,
   Friends,
   Gaming,
   HomeActive,
-  Logo,
+  // Logo,
   Market,
   Menu,
   Messenger,
@@ -13,13 +23,6 @@ import {
   Search,
   Watch,
 } from 'assets/svg';
-import { useSelector } from 'react-redux';
-import SearchMenu from './SearchMenu';
-import { useRef, useState } from 'react';
-import AllMenu from './AllMenu';
-import useClickOutside from '../../hooks/clickOutside';
-import UserMenu from './userMenu';
-import { getUser } from 'features/auth/authSlice';
 
 export default function Header() {
   const { user } = useSelector(state => state.auth);
@@ -39,9 +42,10 @@ export default function Header() {
   return (
     <header>
       <div className='header_left'>
-        <Link to='/' className='header_logo'>
+        <Link to='/' >
           <div className='circle'>
-            <Logo />
+            <img src={RbLogo} alt='logo' />
+            {/* <Logo /> */}
           </div>
         </Link>
         <div
@@ -50,7 +54,7 @@ export default function Header() {
             setShowSearchMenu(true);
           }}>
           <Search color={color} />
-          <input type='text' placeholder='Search Facebook' className='hide_input' />
+          <input type='text' placeholder='Search Redbook' className='hide_input' />
         </div>
       </div>
       {showSearchMenu && <SearchMenu color={color} setShowSearchMenu={setShowSearchMenu} />}
@@ -77,14 +81,14 @@ export default function Header() {
           <img src={user?.picture} alt='' />
           <span>{user?.first_name}</span>
         </Link>
-        <div className='circle_icon hover1' ref={allmenu}>
-          <div
-            onClick={() => {
-              setShowAllMenu(prev => !prev);
-            }}>
-            <Menu />
-          </div>
-
+        <div
+          className='circle_icon hover1'
+          ref={allmenu}
+          onClick={() => {
+            setShowAllMenu(prev => !prev);
+          }}>
+          <BsGrid3X3GapFill />
+          {/* <Menu /> */}
           {showAllMenu && <AllMenu />}
         </div>
         <div className='circle_icon hover1'>
@@ -94,15 +98,15 @@ export default function Header() {
           <Notifications />
           <div className='right_notification'>5</div>
         </div>
-        <div className='circle_icon hover1' ref={usermenu}>
-          <div
-            onClick={() => {
-              setShowUserMenu(prev => !prev);
-            }}>
-            <ArrowDown />
-          </div>
+        <div
+          className='circle_icon hover1'
+          ref={usermenu}
+          onClick={() => {
+            setShowUserMenu(prev => !prev);
+          }}>
+          <ArrowDown />
 
-          {showUserMenu && <UserMenu user={user} />}
+          {showUserMenu && <UserMenu />}
         </div>
       </div>
     </header>

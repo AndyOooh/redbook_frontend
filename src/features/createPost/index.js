@@ -1,5 +1,5 @@
 import { Feeling, LiveVideo, Photo } from "assets/svg";
-import UserMenu from "layout/header/userMenu";
+// import UserMenu from "layout/header/userMenu";
 import "./style.scss";
 export default function CreatePost({ user }) {
   return (

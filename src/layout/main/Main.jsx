@@ -5,7 +5,8 @@ import Profile from 'pages/profile/Profile';
 import Home from 'pages/home/Home';
 import { PrivateRoutes } from 'routes/PrivateRoutes';
 import { PublucRoutes } from 'routes/PublucRoutes';
-import { ActivateAccount } from 'features/auth/activateAccount/ActivateAccount';
+import { VerifyAccount } from 'features/auth/verifyAccount/VerifyAccount';
+import { ResetPassword } from 'pages/resetPassword';
 
 const Main = () => {
   return (
@@ -15,10 +16,11 @@ const Main = () => {
           <Route exact path='/login' element={<Login />} />
         </Route>
         <Route element={<PrivateRoutes />}>
-          <Route path='/activate' element={<ActivateAccount />} />
+          <Route path='/activate' element={<VerifyAccount />} />
           <Route exact path='/profile' element={<Profile />} />
           <Route exact path='/' element={<Home />} />
         </Route>
+        <Route path='/reset' element={<ResetPassword />} />
       </Routes>
     </main>
   );

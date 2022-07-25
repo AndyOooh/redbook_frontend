@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate, Link, Navigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { Formik, Form } from 'formik';
 import DotLoader from 'react-spinners/DotLoader';
 
@@ -46,6 +46,7 @@ export const LoginForm = ({ setIsVisible }) => {
   };
 
   const loginSubmitHandler = async () => {
+    dispatch(reset());
     console.log('loginSubmitHandler');
     await dispatch(loginUser(formData)).unwrap();
     // console.log('unwrapped response in loginHandler', data);
@@ -78,13 +79,11 @@ export const LoginForm = ({ setIsVisible }) => {
               placeholder='Password'
               onChange={handleInputChange}
             />
-
-            <button
-              className='red_btn'
-              type='submit'
-              disabled={!formIsValid}>
-              Log In
-            </button>
+            {!isLoading && (
+              <button className='btn red_btn' type='submit' disabled={!formIsValid}>
+                Log In
+              </button>
+            )}
             {isError && <div className='error_text'>{isError}</div>}
           </Form>
         </Formik>
@@ -94,26 +93,24 @@ export const LoginForm = ({ setIsVisible }) => {
         {isLoading ? (
           <DotLoader color='#1876f2' loading={isLoading} size={30} />
         ) : (
-          <Link to='/forgot' className='forgot_password'>
-            Forgot password?
-          </Link>
-        )}
-        <div className='vert_line'></div>
+          <>
+            <Link to='/reset' className='forgot_password'>
+              Forgot password?
+            </Link>
+            <div className='vert_line'></div>
 
-        <div className='btn_wrapper'>
-          {isLoading ? (
-            <DotLoader color='#1876f2' loading={isLoading} size={30} />
-          ) : (
-            <button
-              className='create_account_btn red_btn'
-              onClick={() => {
-                setIsVisible(true);
-                dispatch(reset());
-              }}>
-              Create new account
-            </button>
-          )}
-        </div>
+            <div className='btn_wrapper'>
+              <button
+                className='btn red_btn create_account_btn'
+                onClick={() => {
+                  setIsVisible(true);
+                  dispatch(reset());
+                }}>
+                Create new account
+              </button>
+            </div>
+          </>
+        )}
       </div>
 
       <Link to='/' className='sign_extra'>

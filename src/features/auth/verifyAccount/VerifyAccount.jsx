@@ -3,19 +3,19 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 
 import 'pages/home/Home.scss';
-import './ActivateAccount.scss';
-import { ActivateForm } from './ActivateForm';
+import './VerifyAccount.scss';
+import { VerifyForm } from './VerifyForm';
 import Header from 'layout/header';
 import Home from '../../../pages/home/Home';
 import { activateAccount, reset } from 'features/auth/authSlice';
 
-export const ActivateAccount = () => {
-  const [searchParams, setSearchParams] = useSearchParams();
+export const VerifyAccount = () => {
+  const [searchParams] = useSearchParams();
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const activationToken = searchParams.get('activationToken');
-  const { user, isLoading, isError, isSuccess, message } = useSelector(state => state.auth);
+  const { user } = useSelector(state => state.auth);
 
   useEffect(() => {
     if (!activationToken) {
@@ -43,33 +43,9 @@ export const ActivateAccount = () => {
 
   return (
     <>
-      {isSuccess && (
-        <ActivateForm
-          type='success'
-          header='Account activation succeded.'
-          text={message}
-          loading={isLoading}
-        />
-      )}
-      {isError && (
-        <ActivateForm
-          type='error'
-          header='Account activation failed.'
-          text={message}
-          loading={isLoading}
-        />
-      )}
-      <ActivateForm />
+      <VerifyForm />
       <Header />
       <Home />
-      {/* <div className='home'>
-        <LeftHome user={user} />
-        <div className='home_middle'>
-          <Stories />
-          <CreatePost user={user} />
-        </div>
-        <RightHome user={user} />
-      </div> */}
     </>
   );
 };

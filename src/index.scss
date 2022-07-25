@@ -60,10 +60,21 @@ input {
 }
 
 // My stuff -------------------------------------------------------
+
+/*----Buttons----*/
+.blue_btn {
+  background: var(--blue-color);
+  padding: 8.5px 12px;
+}
 .red_btn {
+  background: var(--red-color);
+  padding: 0 1.6rem;
+}
+
+.btn {
   border: none;
   outline: none;
-  background: var(--red-color);
+  // background: var(--red-color);
   padding: 0 1.6rem;
   border-radius: 0.7rem;
   font-family: inherit;
@@ -73,6 +84,9 @@ input {
   justify-content: center;
   gap: 0.6rem;
   cursor: pointer;
+
+  // padding: 8.5px 12px;
+  padding: 0 1.6rem;
 }
 
 .create_account_btn {
@@ -90,24 +104,6 @@ input {
 }
 
 // My stuff -------------------------------------------------------
-
-/*----Buttons----*/
-.blue_btn {
-  border: none;
-  outline: none;
-  background: var(--blue-color);
-  padding: 8.5px 12px;
-  border-radius: 7px;
-  font-family: inherit;
-  font-weight: 600;
-  font-size: 14px;
-  color: #fff;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 6px;
-  cursor: pointer;
-}
 
 .blur {
   position: fixed;

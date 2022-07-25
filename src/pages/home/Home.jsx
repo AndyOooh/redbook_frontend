@@ -1,11 +1,11 @@
-import { useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
 
 import CreatePost from 'features/createPost';
 import Header from 'layout/header';
 import LeftHome from './left';
-import RightHome from './right';
+import { RightHome } from './right';
 import Stories from './stories';
+import { ResendVerification } from 'features/auth/resendVerification/ResendVerification';
 import './Home.scss';
 export default function Home() {
   // const { user } = useSelector(auth => ({ ...auth }));
@@ -17,6 +17,7 @@ export default function Home() {
         <LeftHome user={user} />
         <div className='home_middle'>
           <Stories />
+          {!user.verified && <ResendVerification />}
           <CreatePost user={user} />
         </div>
         <RightHome user={user} />

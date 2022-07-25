@@ -33,9 +33,22 @@ const login = async userData => {
 //   localStorage.removeItem('user');
 // };
 
-const activate = (activationToken, userToken) => {
-  const { data } = axios.post(
+const activate = async (activationToken, userToken) => {
+  const { data } = await axios.post(
     `${endpoint}/activate/${activationToken}`,
+    {},
+    {
+      headers: {
+        Authorization: `Bearer ${userToken}`,
+      },
+    }
+  );
+  return data;
+};
+
+const resendActivate = async userToken => {
+  const { data } = await axios.post(
+    `${endpoint}/resendactivate`,
     {},
     {
       headers: {
@@ -51,6 +64,7 @@ const authService = {
   register,
   login,
   activate,
+  resendActivate,
   // logout,
 };
 

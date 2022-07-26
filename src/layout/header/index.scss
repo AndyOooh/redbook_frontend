@@ -15,7 +15,7 @@ header {
 .header_left {
   display: flex;
   align-items: center;
-  justify-content: start;
+  justify-content: flex-start;
   gap: 1rem;
   padding: 5px 1rem;
 
@@ -168,7 +168,7 @@ header {
 .header_right {
   display: flex;
   align-items: center;
-  justify-content: end;
+  justify-content: flex-end;
 }
 
 .profile_link {

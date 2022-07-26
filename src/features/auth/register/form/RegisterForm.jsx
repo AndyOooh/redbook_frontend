@@ -71,6 +71,7 @@ export const RegisterForm = ({ setIsVisible }) => {
 
   //  SubmitHandler ------------------------------------------------------------------------------------------------
   const registerSubmitHandler = async e => {
+    console.log('in registerSubmitHandler');
     await dispatch(registerUser(formData)).unwrap();
     setTimeout(() => {
       navigate('/');

@@ -6,9 +6,11 @@ import { Link } from 'react-router-dom';
 import { ArrowDown1 } from 'assets/svg';
 import Shortcut from './Shortcut';
 import './styles.scss';
+import { useSelector } from 'react-redux';
 
-export default function LeftHome({ user }) {
+export default function LeftHome() {
   const [visible, setVisible] = useState(false);
+  const { user } = useSelector(state => state.auth);
   return (
     <div className='left_home scrollbar'>
       <Link to='/profile' className='left_link hover1'>

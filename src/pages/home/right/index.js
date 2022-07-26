@@ -1,9 +1,12 @@
 import { Dots, NewRoom, Search } from 'assets/svg';
+import { useSelector } from 'react-redux';
 import Contact from './Contact';
 import './style.scss';
 
-export const RightHome = ({ user }) => {
+export const RightHome = () => {
+  const { user } = useSelector(state => state.auth);
   const color = '#65676b';
+
   return (
     <div className='right_home'>
       <div className='heading'>Sponsored</div>

@@ -1,23 +1,60 @@
-import { Modal } from 'components';
-import { useSelector } from 'react-redux';
-import { DotLoader, PropagateLoader } from 'react-spinners';
+import { useCallback, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate, useSearchParams } from 'react-router-dom';
+import { DotLoader } from 'react-spinners';
 
+import 'pages/home/Home.scss';
+import './VerifyAccount.scss';
+import { verifyAccount, reset } from 'features/auth/authSlice';
+import { Modal } from 'components';
+
+// export const VerifyForm = ({ verificationToken }) => {
 export const VerifyForm = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const [searchParams] = useSearchParams();
+  const verificationToken = searchParams.get('verificationToken');
+
   const { isLoading, isSuccess, message } = useSelector(state => state.auth);
-  const headerText = isSuccess ? 'Account activation succeded.' : 'Account activation failed.';
+  const { user } = useSelector(state => state.auth);
+
+  const headerText = isSuccess ? 'Account verification succeded.' : 'Account verification failed.';
+
+  const verify = useCallback(async () => {
+    try {
+      console.log('in verify');
+      const data = await dispatch(verifyAccount(verificationToken)).unwrap();
+      console.log('past dispatch data: ', data);
+      localStorage.setItem('user', JSON.stringify({ ...user, verified: true }));
+      // setTimeout(() => {
+      //   reset();
+      //   navigate('/');
+      // }, 3000);
+    } catch (error) {
+      console.log('error in verify: ', error);
+      // setTimeout(() => {
+      //   navigate('/');
+      // }, 3000);
+    }
+  }, [dispatch, user, verificationToken]);
+
+  useEffect(() => {
+    console.log('in useEftect of VerifyForm');
+    // searchParams.delete('verificationToken');
+    if (!verificationToken) {
+      navigate('/login');
+    }
+    verify();
+  }, []);
+
+  // verify();
+
   return (
-    // <Modal styles='signupForm_wrapper' hideModal={() => setIsVisible(false)}>
-    <Modal styles='activate_modal'>
-      {/* <div className='header'>
-        <div className='heading'></div>
-        <h1>Activate Account</h1>
-        <span>Please enter the activation code that was sent to your email.</span>
-        <DotLoader color='#1876f2' sixe={30} loading={loading} />
-      </div> */}
+    <Modal styles='verify_modal'>
       {isLoading ? (
         <DotLoader color='#1876f2' size={40} loading={isLoading} />
       ) : (
-        // <PropagateLoader color='#1876f2' size={20} loading={isLoading} />
         <>
           <div className={`header ${isSuccess ? 'success_text' : 'error_text'}`}>{headerText}</div>
           <div className='message'>{message}</div>
@@ -26,17 +63,3 @@ export const VerifyForm = () => {
     </Modal>
   );
 };
-
-export default function ActivateForm({ type, header, text, loading }) {
-  return (
-    <div className='blur'>
-      <div className='popup'>
-        <div className={`popup_header ${type === 'success' ? 'success_text' : 'error_text'}`}>
-          {header}
-        </div>
-        <div className='popup_message'>{text}</div>
-        <PropagateLoader color='#1876f2' size={20} loading={loading} />
-      </div>
-    </div>
-  );
-}

@@ -7,7 +7,7 @@ import './VerifyAccount.scss';
 import { VerifyForm } from './VerifyForm';
 import Header from 'layout/header';
 import Home from '../../../pages/home/Home';
-import { activateAccount, reset } from 'features/auth/authSlice';
+import { verifyAccount, reset } from 'features/auth/authSlice';
 
 export const VerifyAccount = () => {
   const [searchParams] = useSearchParams();
@@ -26,7 +26,7 @@ export const VerifyAccount = () => {
 
   const activate = async () => {
     try {
-      const data = await dispatch(activateAccount(activationToken)).unwrap();
+      const data = await dispatch(verifyAccount(activationToken)).unwrap();
       console.log('past dispatch data: ', data);
       localStorage.setItem('user', JSON.stringify({ ...user, verified: true }));
       setTimeout(() => {

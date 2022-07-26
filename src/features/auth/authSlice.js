@@ -36,33 +36,33 @@ export const loginUser = createAsyncThunk('auth/login', async (userInputs, { rej
   }
 });
 
-// activate ---------------------------------------------------------------
-export const activateAccount = createAsyncThunk(
-  'users/activateAccount',
-  async (activationToken, thunkAPI) => {
+// verify ---------------------------------------------------------------
+export const verifyAccount = createAsyncThunk(
+  'users/verifyAccount',
+  async (verificationToken, thunkAPI) => {
     const userToken = thunkAPI.getState().auth.user.token;
     try {
-      return await authService.activate(activationToken, userToken);
+      return await authService.verify(verificationToken, userToken);
     } catch (error) {
-      console.log('error in activateAccount catch block', error);
+      console.log('error in verifyAccount catch block: ', error);
       const message = authService.errorHandler(error);
       return thunkAPI.rejectWithValue(message);
     }
   }
 );
 
-// resend activation-email ---------------------------------------------------------------
-export const resendActivationEmail = createAsyncThunk(
-  'users/resendActivate',
+// resend verification email ---------------------------------------------------------------
+export const resendVerificationEmail = createAsyncThunk(
+  'users/resendVerify',
   async (undefined, thunkAPI) => {
-    console.log('in resendActivationEmail thunk');
+    console.log('in resendVerificationEmail thunk');
     const userToken = thunkAPI.getState().auth.user.token;
     try {
-      return await authService.resendActivate(userToken);
-      // console.log('data in resendActivationEmail thunk', data);
+      return await authService.resendVerify(userToken);
+      // console.log('data in resendVerificationEmail thunk', data);
       // return data;
     } catch (error) {
-      console.log('error in resendActivate catch block', error);
+      console.log('error in resendVerificationEmail catch block: ', error);
       const message = authService.errorHandler(error);
       return thunkAPI.rejectWithValue(message);
     }
@@ -82,8 +82,12 @@ const authSlice = createSlice({
     },
     logout: state => {
       localStorage.removeItem('user');
+      state.isLoading = false;
+      state.isSuccess = false;
+      state.isError = false;
+      state.message = '';
       state.user = null;
-    }
+    },
   },
   // Extra Reducers ---------------------------------------------------------------
   extraReducers(builder) {
@@ -119,31 +123,31 @@ const authSlice = createSlice({
         state.message = 'Login successfull.';
         state.user = action.payload;
       })
-      // Activate ------------------------------------------------------------------------
-      .addCase(activateAccount.pending, state => {
+      // Verify ------------------------------------------------------------------------
+      .addCase(verifyAccount.pending, state => {
         state.isLoading = true;
       })
-      .addCase(activateAccount.rejected, (state, action) => {
+      .addCase(verifyAccount.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
         state.message = action.payload;
       })
-      .addCase(activateAccount.fulfilled, (state, action) => {
+      .addCase(verifyAccount.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isSuccess = true;
-        state.message = 'Activation successfull.';
+        state.message = 'Verification successfull.';
         state.user = { ...state.user, verified: true };
       })
-      // Resend Activation email ------------------------------------------------------------------------
-      .addCase(resendActivationEmail.pending, state => {
+      // Resend Verification email ------------------------------------------------------------------------
+      .addCase(resendVerificationEmail.pending, state => {
         state.isLoading = true;
       })
-      .addCase(resendActivationEmail.rejected, (state, action) => {
+      .addCase(resendVerificationEmail.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
         state.message = action.payload;
       })
-      .addCase(resendActivationEmail.fulfilled, (state, action) => {
+      .addCase(resendVerificationEmail.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isSuccess = true;
         state.message = 'A verification link has been sent to your email.';

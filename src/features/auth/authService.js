@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const endpoint = `${process.env.REACT_APP_BACKEND_URL}/api/auth/`;
+const endpoint = `${process.env.REACT_APP_BACKEND_URL}/api/auth`;
 
 // Error handler ---------------------------------------------------------------
 const errorHandler = error => {
@@ -12,7 +12,7 @@ const errorHandler = error => {
 
 // Register user ---------------------------------------------------------------
 const register = async userInputs => {
-  const { data } = await axios.post(endpoint + 'register', userInputs);
+  const { data } = await axios.post(endpoint + '/register', userInputs);
   if (data) {
     localStorage.setItem('user', JSON.stringify(data));
   }
@@ -21,7 +21,7 @@ const register = async userInputs => {
 
 // Login user ---------------------------------------------------------------
 const login = async userData => {
-  const { data } = await axios.post(endpoint + 'login', userData);
+  const { data } = await axios.post(endpoint + '/login', userData);
   if (data) {
     localStorage.setItem('user', JSON.stringify(data));
   }
@@ -33,9 +33,9 @@ const login = async userData => {
 //   localStorage.removeItem('user');
 // };
 
-const activate = async (activationToken, userToken) => {
+const verify = async (verificationToken, userToken) => {
   const { data } = await axios.post(
-    `${endpoint}/activate/${activationToken}`,
+    `${endpoint}/verify/${verificationToken}`,
     {},
     {
       headers: {
@@ -46,9 +46,9 @@ const activate = async (activationToken, userToken) => {
   return data;
 };
 
-const resendActivate = async userToken => {
+const resendVerify = async userToken => {
   const { data } = await axios.post(
-    `${endpoint}/resendactivate`,
+    `${endpoint}/resendverify`,
     {},
     {
       headers: {
@@ -63,8 +63,8 @@ const authService = {
   errorHandler,
   register,
   login,
-  activate,
-  resendActivate,
+  verify,
+  resendVerify,
   // logout,
 };
 

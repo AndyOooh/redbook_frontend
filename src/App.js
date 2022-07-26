@@ -1,35 +1,29 @@
-import Header from './layout/header';
-import Main from './layout/main/Main';
-import Footer from './layout/footer/Footer';
-import { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import { Routes, Route } from 'react-router-dom';
 
-let initial = true;
+import Login from 'pages/login/Login';
+import Profile from 'pages/profile/Profile';
+import Home from 'pages/home/Home';
+import { PrivateRoutes } from 'routes/PrivateRoutes';
+import { PublucRoutes } from 'routes/PublucRoutes';
+
+// import { VerifyAccount } from 'features/auth/verifyAccount/VerifyAccount';
+import { ResetPassword } from 'pages/resetPassword';
+
 
 const App = () => {
-  const dispatch = useDispatch();
-
-  // useEffect(() => {
-  //   console.log('useEffetct in App.js');
-  //   const getUsers = async () => await dispatch(fetchUsers());
-
-  //   if (initial) {
-  //     console.log('in if');
-  //     initial = false;
-  //     getUsers();
-  //   } else {
-  //     console.log('in else');
-  //     return;
-  //   }
-  //   console.log('after if-block');
-  // }, []);
-
+ 
   return (
-    <>
-      {/* <Header></Header> */}
-      <Main></Main>
-      {/* <Footer></Footer> */}
-    </>
+    <Routes>
+    <Route element={<PublucRoutes />}>
+      <Route exact path='/login' element={<Login />} />
+    </Route>
+    <Route element={<PrivateRoutes />}>
+      {/* <Route path='/activate' element={<VerifyAccount />} />  */}
+      <Route exact path='/profile' element={<Profile />} />
+      <Route exact path='/' element={<Home />} />
+    </Route>
+    <Route path='/reset' element={<ResetPassword />} />
+  </Routes>
   );
 };
 

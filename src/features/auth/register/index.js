@@ -1,1 +1,1 @@
-export { RegisterForm as SignupForm } from './form/RegisterForm';
+export { RegisterForm } from './form/RegisterForm';

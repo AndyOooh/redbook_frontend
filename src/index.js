@@ -7,7 +7,7 @@ import './index.scss'; // should be first local import
 // import './assets/icons/icons.scss';
 import './assets/icons/icons.css';
 import App from './App';
-import store from 'store/index';
+import store from 'app/store';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(

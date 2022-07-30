@@ -5,7 +5,7 @@ import { DotLoader } from 'react-spinners';
 
 import 'pages/home/Home.scss';
 import './VerifyAccount.scss';
-import { verifyAccount, reset } from 'features/auth/authSlice';
+// import { verifyAccount, reset } from 'features/auth/authSlice';
 import { Modal } from 'components';
 
 // export const VerifyForm = ({ verificationToken }) => {
@@ -21,32 +21,32 @@ export const VerifyForm = () => {
 
   const headerText = isSuccess ? 'Account verification succeded.' : 'Account verification failed.';
 
-  const verify = useCallback(async () => {
-    try {
-      console.log('in verify');
-      const data = await dispatch(verifyAccount(verificationToken)).unwrap();
-      console.log('past dispatch data: ', data);
-      localStorage.setItem('user', JSON.stringify({ ...user, verified: true }));
-      // setTimeout(() => {
-      //   reset();
-      //   navigate('/');
-      // }, 3000);
-    } catch (error) {
-      console.log('error in verify: ', error);
-      // setTimeout(() => {
-      //   navigate('/');
-      // }, 3000);
-    }
-  }, [dispatch, user, verificationToken]);
+  // const verify = useCallback(async () => {
+  //   try {
+  //     console.log('in verify');
+  //     // const data = await dispatch(verifyAccount(verificationToken)).unwrap();
+  //     console.log('past dispatch data: ', data);
+  //     localStorage.setItem('user', JSON.stringify({ ...user, verified: true }));
+  //     // setTimeout(() => {
+  //     //   reset();
+  //     //   navigate('/');
+  //     // }, 3000);
+  //   } catch (error) {
+  //     console.log('error in verify: ', error);
+  //     // setTimeout(() => {
+  //     //   navigate('/');
+  //     // }, 3000);
+  //   }
+  // }, [dispatch, user, verificationToken]);
 
-  useEffect(() => {
-    console.log('in useEftect of VerifyForm');
-    // searchParams.delete('verificationToken');
-    if (!verificationToken) {
-      navigate('/login');
-    }
-    verify();
-  }, []);
+  // useEffect(() => {
+  //   console.log('in useEftect of VerifyForm');
+  //   // searchParams.delete('verificationToken');
+  //   if (!verificationToken) {
+  //     navigate('/login');
+  //   }
+  //   verify();
+  // }, []);
 
   // verify();
 

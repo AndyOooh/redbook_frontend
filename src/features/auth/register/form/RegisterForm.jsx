@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Form, Formik } from 'formik';
 import DotLoader from 'react-spinners/DotLoader';
@@ -9,11 +9,12 @@ import { DateOfBirthSelect } from './inputs/DateOfBirthSelect';
 import { TextInput } from './inputs/TextInput';
 import { registerValidation } from './registerValidation';
 import './RegisterForm.scss';
-import { useDispatch, useSelector } from 'react-redux';
-import { registerUser, reset } from 'features/auth/authSlice';
+import { useDispatch } from 'react-redux';
+import { useRegisterMutation } from 'features/auth/authApiSlice';
+import { setCredentials } from 'features/auth/authSlice';
 
 export const RegisterForm = ({ setIsVisible }) => {
-  const initFormdata = {
+  const initialFormData = {
     first_name: '',
     last_name: '',
     email: '',
@@ -25,32 +26,20 @@ export const RegisterForm = ({ setIsVisible }) => {
   };
 
   //  State ---------------------------------------------------------------------------
-  const [formData, setFormData] = useState(initFormdata);
+  const [formData, setFormData] = useState(initialFormData);
   const [dateError, setDateError] = useState('');
   const [genderError, setGenderError] = useState('');
-  const { user, isLoading, isError, isSuccess, message } = useSelector(state => state.auth);
+  // const { user, isLoading, isError, isSuccess, message } = useSelector(state => state.auth);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  const [register, { isLoading, isError, error }] = useRegisterMutation();
 
   const { first_name, last_name, email, password, birth_year, birth_month, birth_date, gender } =
     formData;
 
   const formIsValid = registerValidation.isValidSync(formData);
-
-  useEffect(() => {
-    // if (isError) {
-    //   toast.error(message)
-    // }
-
-    if (isSuccess || user) {
-      navigate('/');
-    }
-
-    return () => {
-      dispatch(reset());
-    };
-  }, [user, isSuccess, navigate, dispatch]);
 
   // MOVE? --------------------------------
   const years = Array.from(new Array(108), (val, index) => new Date().getFullYear() - index);
@@ -72,17 +61,21 @@ export const RegisterForm = ({ setIsVisible }) => {
   //  SubmitHandler ------------------------------------------------------------------------------------------------
   const registerSubmitHandler = async e => {
     console.log('in registerSubmitHandler');
-    await dispatch(registerUser(formData)).unwrap();
-    setTimeout(() => {
+    try {
+      const userData = await register(formData).unwrap();
+      dispatch(setCredentials({ ...userData }));
+      setFormData(initialFormData);
       navigate('/');
-    }, 2000);
+    } catch (error) {
+      console.log('error', error);
+    }
   };
   //  SubmitHandler ------------------------------------------------------------------------------------------------
 
   // JSX ------------------------------------------------------------------------------------------------
   return (
     <>
-      <Modal styles='signupForm_wrapper' hideModal={() => setIsVisible(false)}>
+      <Modal styles='RegisterForm_wrapper' hideModal={() => setIsVisible(false)}>
         <div className='header'>
           <div className='heading'>
             <h1>Sign Up </h1>
@@ -180,13 +173,16 @@ export const RegisterForm = ({ setIsVisible }) => {
                 and <span>Cookie Policy.</span> You may receive SMS notifications from us and can
                 opt out at any time.
               </div>
-              {isError && <div className='error_text'>{message}</div>}
-              {isSuccess && <div className='success_text'>{message}</div>}
+              {isError && <div className='error_text'>{error.data.message}</div>}
+              {/* {isSuccess && <div className='success_text'>{message}</div>} */}
               <div className='btn_wrapper'>
                 {isLoading ? (
                   <DotLoader color='#1876f2' loading={isLoading} size={30} />
                 ) : (
-                  <button className='btn red_btn create_account_btn' disabled={!formIsValid}>
+                  <button
+                    type='submit'
+                    className='btn red_btn create_account_btn'
+                    disabled={!formIsValid}>
                     Sign Up
                   </button>
                 )}

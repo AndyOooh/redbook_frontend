@@ -2,7 +2,7 @@ import { useState } from 'react';
 
 import { LoginForm } from 'features';
 import { LoginWelcome } from 'features/';
-import { SignupForm } from 'features';
+import { RegisterForm } from 'features';
 import { LoginFooter } from 'features/';
 
 import './Login.scss';
@@ -11,6 +11,9 @@ import './Login.scss';
 export const Login = () => {
   const [registerVisible, setRegisterIsVisible] = useState(false);
 
+
+  console.log('in Login Page')
+
   return (
     <>
       <div className='login_wrapper'>
@@ -18,7 +21,7 @@ export const Login = () => {
         <LoginForm setIsVisible={setRegisterIsVisible} />
       </div>
       <LoginFooter />
-      {registerVisible && <SignupForm setIsVisible={setRegisterIsVisible} />}
+      {registerVisible && <RegisterForm setIsVisible={setRegisterIsVisible} />}
     </>
   );
 };

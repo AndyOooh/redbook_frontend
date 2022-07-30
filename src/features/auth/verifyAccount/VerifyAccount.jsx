@@ -8,6 +8,7 @@ import { VerifyForm } from './VerifyForm';
 import Header from 'layout/header';
 import Home from '../../../pages/home/Home';
 import { verifyAccount, reset } from 'features/auth/authSlice';
+import { useVerifyAccountMutation } from '../authApiSlice';
 
 export const VerifyAccount = () => {
   const [searchParams] = useSearchParams();
@@ -17,14 +18,16 @@ export const VerifyAccount = () => {
   const activationToken = searchParams.get('activationToken');
   const { user } = useSelector(state => state.auth);
 
+  const [verifyAccount, { isLoading, error }] = useVerifyAccountMutation();
+
   useEffect(() => {
     if (!activationToken) {
       navigate('/login');
     }
-    activate();
+    verify();
   }, [activationToken, navigate]);
 
-  const activate = async () => {
+  const verify = async () => {
     try {
       const data = await dispatch(verifyAccount(activationToken)).unwrap();
       console.log('past dispatch data: ', data);
@@ -38,6 +41,18 @@ export const VerifyAccount = () => {
       setTimeout(() => {
         navigate('/');
       }, 3000);
+    }
+  };
+
+  const registerSubmitHandler = async e => {
+    console.log('in registerSubmitHandler');
+    try {
+      const userData = await register(formData).unwrap();
+      dispatch(setCredentials({ ...userData }));
+      setFormData(initialFormData);
+      navigate('/');
+    } catch (error) {
+      console.log('error', error);
     }
   };
 

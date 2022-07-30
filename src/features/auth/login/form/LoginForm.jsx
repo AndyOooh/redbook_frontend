@@ -1,5 +1,5 @@
-import { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { useNavigate, Link } from 'react-router-dom';
 import { Formik, Form } from 'formik';
 import DotLoader from 'react-spinners/DotLoader';
@@ -7,35 +7,22 @@ import DotLoader from 'react-spinners/DotLoader';
 import './LoginForm.scss';
 import { TextInput } from './inputs/LoginInputs';
 import { loginvalidation } from './loginValidation';
-import { loginUser, reset } from 'features/auth/authSlice';
+import { reset, setCredentials } from 'features/auth/authSlice';
+import { useLoginMutation } from 'features/auth/authApiSlice';
 
 export const LoginForm = ({ setIsVisible }) => {
-  const [formData, setFormData] = useState({
+  const initialFormData = {
     email: '',
     password: '',
-  });
-  const { user, isLoading, isError, isSuccess, message } = useSelector(state => state.auth);
+  };
+  const [formData, setFormData] = useState(initialFormData);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
+  const [login, { isLoading, isError, error }] = useLoginMutation();
+
   const formIsValid = loginvalidation.isValidSync(formData);
-  // const formIsValid = false;
-  console.log('formIsValid', formIsValid);
-
-  useEffect(() => {
-    // if (isError) {
-    //   toast.error(message)
-    // }
-
-    if (isSuccess || user) {
-      navigate('/');
-    }
-
-    return () => {
-      dispatch(reset());
-    };
-  }, [user, isSuccess, navigate, dispatch]);
 
   const handleInputChange = e => {
     const { name, value } = e.target;
@@ -45,14 +32,17 @@ export const LoginForm = ({ setIsVisible }) => {
     }));
   };
 
+  // submitHandler ------------------------------------------------------
   const loginSubmitHandler = async () => {
-    dispatch(reset());
-    console.log('loginSubmitHandler');
-    await dispatch(loginUser(formData)).unwrap();
-    // console.log('unwrapped response in loginHandler', data);
-    navigate('/');
+    try {
+      const userData = await login(formData).unwrap();
+      dispatch(setCredentials({ ...userData }));
+      setFormData(initialFormData);
+      navigate('/');
+    } catch (error) {
+      console.log('error', error);
+    }
   };
-
   // -------------------------------------------------------
 
   // return ------------------------------------------------
@@ -84,11 +74,11 @@ export const LoginForm = ({ setIsVisible }) => {
                 Log In
               </button>
             )}
-            {isError && <div className='error_text'>{isError}</div>}
+            {isError && <div className='error_text'>{error.data.message}</div>}
           </Form>
         </Formik>
-        {isError && <div className='error_text'>{message}</div>}
-        {isSuccess && <div className='success_text'>{message}</div>}
+        {/* {isError && <div className='error_text'>{error}</div>} */}
+        {/* {isSuccess && <div className='success_text'>{message}</div>} */}
 
         {isLoading ? (
           <DotLoader color='#1876f2' loading={isLoading} size={30} />
@@ -101,6 +91,7 @@ export const LoginForm = ({ setIsVisible }) => {
 
             <div className='btn_wrapper'>
               <button
+                type='button'
                 className='btn red_btn create_account_btn'
                 onClick={() => {
                   setIsVisible(true);

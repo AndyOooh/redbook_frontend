@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { resendVerificationEmail } from '../authSlice';
+// import { resendVerificationEmail } from '../authSlice';
 import './ResendVerification.scss';
 
 export const ResendVerification = () => {
@@ -11,7 +11,7 @@ export const ResendVerification = () => {
 
   const sendVerificationLink = async () => {
     try {
-      await dispatch(resendVerificationEmail()).unwrap();
+      // await dispatch(resendVerificationEmail()).unwrap();
     } catch (error) {
       console.log('error in ResendVerification: ', error);
     }

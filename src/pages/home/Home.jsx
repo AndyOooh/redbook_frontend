@@ -10,24 +10,22 @@ import './Home.scss';
 import { useSearchParams } from 'react-router-dom';
 import { VerifyForm } from 'features/auth/verifyAccount/VerifyForm';
 import { useEffect } from 'react';
-export default function Home() {
-  // const { user } = useSelector(auth => ({ ...auth }));
-  // const { verified } = useSelector(state => state.auth.user);
+
+export const Home = () => {
+  console.log('in Home');
   const [searchParams, setSearchParams] = useSearchParams();
 
   const verificationToken = searchParams.get('verificationToken');
-  console.log('in Home');
+  console.log('in Home 2');
 
   useEffect(() => {
     if (verificationToken) {
-      searchParams.delete("verificationToken");
+      searchParams.delete('verificationToken');
       // console.log("setting params:", { searchParams: searchParams.toString() });
       // console.dir(searchParams.toString());
       // setSearchParams(searchParams);
     }
-  }
-  , [verificationToken, searchParams]);
-  
+  }, [verificationToken, searchParams]);
 
   // let verificationToken;
   // console.log('verificationToken2: ', verificationToken);
@@ -53,4 +51,4 @@ export default function Home() {
       </div>
     </>
   );
-}
+};

@@ -6,7 +6,7 @@ import { useRef, useState } from 'react';
 import './index.scss';
 import SearchMenu from './SearchMenu';
 import AllMenu from './AllMenu';
-import useClickOutside from '../../hooks/clickOutside';
+import { useClickOutside } from 'hooks/useClickOutside';
 import { UserMenu } from './userMenu';
 // import { getUser } from 'features/auth/authSlice';
 import RbLogo from 'assets/icons/icon-redbook.png';
@@ -33,16 +33,18 @@ export default function Header() {
   const [showUserMenu, setShowUserMenu] = useState(false);
   const allmenu = useRef(null);
   const usermenu = useRef(null);
+
   useClickOutside(allmenu, () => {
     setShowAllMenu(false);
   });
+  
   useClickOutside(usermenu, () => {
     setShowUserMenu(false);
   });
   return (
     <header>
       <div className='header_left'>
-        <Link to='/' >
+        <Link to='/'>
           <div className='circle'>
             <img src={RbLogo} alt='logo' />
             {/* <Logo /> */}

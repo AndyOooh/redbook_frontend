@@ -1,24 +1,31 @@
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { IoMdHelpCircle } from 'react-icons/io';
 import { FaCog, FaMoon } from 'react-icons/fa';
 import { RiFeedbackFill, RiLogoutBoxRFillRiLogoutBoxRFill } from 'react-icons/ri';
 import { TbLogout } from 'react-icons/tb';
 
-import { logout } from 'features/auth/authSlice';
-
 import DisplayAccessibility from './DisplayAccessibility';
 import HelpSupport from './HelpSupport';
 import SettingsPrivacy from './SettingsPrivacy';
+import { useLogoutMutation } from 'features/auth/authApiSlice';
+import { reset } from 'features/auth/authSlice';
 
 export const UserMenu = () => {
   const [visible, setVisible] = useState(0);
   const { user } = useSelector(state => state.auth);
+  const [logout] = useLogoutMutation();
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
-  const logoutHandler = () => {
-    dispatch(logout());
+  const logoutHandler = async () => {
+    console.log('before logout');
+    await logout();
+    console.log('after logout');
+    await dispatch(reset());
+    console.log('after reset');
+    navigate('/login', );
   };
 
   return (
@@ -28,9 +35,9 @@ export const UserMenu = () => {
           <div className='header'>
             <Link to='/profile' className='header_link hover3'>
               <img src={user?.picture} alt='' />
-                <span>
-                  {user?.first_name} {user?.last_name}
-                </span>
+              <span>
+                {user?.first_name} {user?.last_name}
+              </span>
             </Link>
             <div className='vert_line'></div>
             <span className='see_all_span'>See all profiles</span>

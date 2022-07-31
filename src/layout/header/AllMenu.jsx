@@ -1,6 +1,6 @@
 import { useRef } from 'react';
 import { menu, create } from './allMenuData';
-import useClickOutside from '../../hooks/clickOutside';
+import { useClickOutside } from 'hooks/useClickOutside';
 import AllMenuItem from './AllMenuItem';
 
 export default function AllMenu() {

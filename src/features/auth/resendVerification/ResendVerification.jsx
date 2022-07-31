@@ -3,11 +3,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import './ResendVerification.scss';
 
 export const ResendVerification = () => {
+  console.log('in resend verification 1');
   const { isError, isSuccess, message } = useSelector(state => state.auth);
-  const { verified } = useSelector(state => state.auth.user);
+  const verified = useSelector(state => state.auth.user?.verified);
   const dispatch = useDispatch();
-
-  console.log('in ResendVerification: ', verified);
 
   const sendVerificationLink = async () => {
     try {
@@ -42,7 +41,7 @@ export const ResendVerification = () => {
   const content2 = content();
 
   console.log('content: ', content());
-  return content2 ;
+  return content2;
   // {if (verified) {
   //     if (isSuccess) {
   //      return <div className='success_text'>{message}</div>;

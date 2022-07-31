@@ -28,10 +28,7 @@ const login = async userData => {
   return data;
 };
 
-// Logout user
-// const logout = () => {
-//   localStorage.removeItem('user');
-// };
+
 
 const verify = async (verificationToken, userToken) => {
   const { data } = await axios.post(

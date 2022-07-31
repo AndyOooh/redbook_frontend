@@ -1,9 +1,9 @@
 import { useSelector } from 'react-redux';
 import { Navigate, Outlet } from 'react-router-dom';
 
-export const PublucRoutes = () => {
-  console.log('in PublucRoutes');
+export const PublicRoutes = () => {
   const { user } = useSelector(state => state.auth);
+  console.log('in PublucRoutes, user: ', user);
   return user ? <Navigate to='/' /> : <Outlet />;
 };
 

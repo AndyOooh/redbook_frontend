@@ -3,17 +3,18 @@ import { useEffect } from 'react';
 
 import { setCredentials } from 'features/auth/authSlice';
 import { useRefreshAccessTokenQuery } from 'features/auth/authApiSlice';
+import { Navigate } from 'react-router-dom';
 
 export const PersistLogin = () => {
   const dispatch = useDispatch();
 
   const { data, isLoading, isError, error } = useRefreshAccessTokenQuery();
-  console.log('isLoading', isLoading);
+  console.log('in PersistLogin isLoading: ', isLoading);
 
   let content = <h1>Loading...</h1>;
 
   if (isError) {
-    content = <h1>Error: {error.message}</h1>;
+    content = <Navigate to='/login' />;
   }
 
   useEffect(() => {

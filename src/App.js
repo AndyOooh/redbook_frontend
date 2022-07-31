@@ -2,8 +2,8 @@ import { Routes, Route } from 'react-router-dom';
 
 import Login from 'pages/login/Login';
 import Profile from 'pages/profile/Profile';
-import Home from 'pages/home/Home';
-import { PublucRoutes } from 'routes/PublucRoutes';
+import { Home } from 'pages/home/Home';
+import { PublicRoutes } from 'routes/PublicRoutes';
 
 // import { VerifyAccount } from 'features/auth/verifyAccount/VerifyAccount';
 import { ResetPassword } from 'pages/resetPassword';
@@ -12,7 +12,7 @@ import { PersistLoginWrapper } from 'routes/persistLogin/PersistLoginWrapper';
 const App = () => {
   return (
     <Routes>
-      <Route element={<PublucRoutes />}>
+      <Route element={<PublicRoutes />}>
         <Route exact path='/login' element={<Login />} />
       </Route>
 

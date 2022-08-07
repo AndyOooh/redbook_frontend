@@ -91,9 +91,10 @@ export const PostTextarea = ({ imagePickerVisible, setVisible }) => {
           placeholder={textareaPlaceholder}
         />
 
+        {/* NEW Component???? */}
         {imagePickerVisible ? (
-          <div className='bg_emoji_wrapper' style={{height: 0, marginBottom: '-1rem'}}>
-            <div className="invisible"></div>
+          <div className='bg_emoji_wrapper' style={{ height: 0, marginBottom: '-1rem' }}>
+            <div className='invisible'></div>
             <div className='emoji_opener push_up' onClick={showEmojiPicker}>
               <VscSmiley />
             </div>

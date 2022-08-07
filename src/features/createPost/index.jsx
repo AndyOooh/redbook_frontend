@@ -3,7 +3,7 @@ import { useState } from 'react';
 // import UserMenu from "layout/header/userMenu";
 import './style.scss';
 
-import { CreatePostModal } from './CreatePostModal';
+import { CreatePostModal } from './createPostModal/CreatePostModal';
 import { CreatePostHeader } from './CreatePostHeader';
 import { CreatePostBody } from './CreatePostBody';
 

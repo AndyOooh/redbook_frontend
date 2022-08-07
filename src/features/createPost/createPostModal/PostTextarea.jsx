@@ -7,7 +7,7 @@ import { VscSmiley } from 'react-icons/vsc';
 import { useSelector } from 'react-redux';
 import { BackgroundPicker } from './BackgroundPicker';
 
-export const PostTextarea = ({ imagePickerVisible, setVisible }) => {
+export const PostTextarea = ({ imagePickerVisible, setVisible: setImagePickerVisible }) => {
   const { user } = useSelector(state => state.auth);
   const bgRef = useRef();
 

@@ -69,7 +69,7 @@ export const CreatePostModal = ({ setVisible }) => {
           <div className='modal_bottom'>
             <PostModalUser />
             <PostTextarea
-              setVisible={setImagePickerVisible}
+              setImagePickerVisible={setImagePickerVisible}
               imagePickerVisible={imagePickerVisible}
             />
             {/* INssrt bg emoji picker component OR NOT */}

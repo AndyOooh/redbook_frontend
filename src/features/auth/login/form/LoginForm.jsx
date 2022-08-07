@@ -5,7 +5,7 @@ import { Formik, Form } from 'formik';
 import DotLoader from 'react-spinners/DotLoader';
 
 import './LoginForm.scss';
-import { TextInput } from './inputs/LoginInputs';
+import { TextInput } from '../../../../components/ui/inputs/TextInput';
 import { loginvalidation } from './loginValidation';
 import { reset, setCredentials } from 'features/auth/authSlice';
 import { useLoginMutation } from 'features/auth/authApiSlice';
@@ -36,6 +36,7 @@ export const LoginForm = ({ setIsVisible }) => {
   const loginSubmitHandler = async () => {
     try {
       const userData = await login(formData).unwrap();
+      console.log('userData', userData);
       dispatch(setCredentials({ ...userData }));
       setFormData(initialFormData);
       navigate('/');

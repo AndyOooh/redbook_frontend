@@ -1,7 +1,7 @@
 import { Dots, NewRoom, Search } from 'assets/svg';
 import { useSelector } from 'react-redux';
 import Contact from './Contact';
-import './style.scss';
+import './styles.scss';
 
 export const RightHome = () => {
   const { user } = useSelector(state => state.auth);

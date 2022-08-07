@@ -6,7 +6,7 @@ import DotLoader from 'react-spinners/DotLoader';
 import { Modal } from 'components';
 import { GenderSelect } from './inputs/GenderSelect';
 import { DateOfBirthSelect } from './inputs/DateOfBirthSelect';
-import { TextInput } from './inputs/TextInput';
+import { TextInput } from 'components/ui/inputs/TextInput';
 import { registerValidation } from './registerValidation';
 import './RegisterForm.scss';
 import { useDispatch } from 'react-redux';
@@ -29,7 +29,6 @@ export const RegisterForm = ({ setIsVisible }) => {
   const [formData, setFormData] = useState(initialFormData);
   const [dateError, setDateError] = useState('');
   const [genderError, setGenderError] = useState('');
-  // const { user, isLoading, isError, isSuccess, message } = useSelector(state => state.auth);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();

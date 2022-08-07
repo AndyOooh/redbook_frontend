@@ -20,12 +20,9 @@ export const UserMenu = () => {
   const navigate = useNavigate();
 
   const logoutHandler = async () => {
-    console.log('before logout');
     await logout();
-    console.log('after logout');
     await dispatch(reset());
-    console.log('after reset');
-    navigate('/login', );
+    navigate('/login');
   };
 
   return (

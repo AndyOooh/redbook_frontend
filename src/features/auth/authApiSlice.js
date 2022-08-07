@@ -1,8 +1,17 @@
 import { apiSlice } from 'app/api/apiSlice';
-import authService from './authService';
+import authService from './[old]authService';
 
 const authApiSlice = apiSlice.injectEndpoints({
   endpoints: builder => ({
+    refreshAccessToken: builder.query({
+      query: () => '/auth/refresh',
+    }),
+    // refreshAccessToken: builder.mutation({
+    //   query: () => ({
+    //     url: '/auth/refresh',
+    //     method: 'POST',
+    //   }),
+    // }),
     login: builder.mutation({
       query: userInputs => ({
         url: '/auth/login',
@@ -23,27 +32,64 @@ const authApiSlice = apiSlice.injectEndpoints({
         body: { ...userInputs },
       }),
     }),
-    verifyAcount: builder.mutation({
+    verifyAccount: builder.mutation({
       query: verificationToken => ({
         url: `auth/verify/${verificationToken}`,
         method: 'PATCH',
       }),
     }),
-    resendVerificationEmail: builder.query({
-      query: '/auth/resendverify',
+    resendVerificationEmail: builder.mutation({
+      query: () => ({
+        url: '/auth/resendverify',
+        method: 'POST',
+      }),
     }),
-    refreshAccessToken: builder.query({
-      query: () => '/auth/refresh',
+    // Reset PW flow (four mutations)
+    findUser: builder.mutation({
+      query: email => ({
+        url: '/auth/findUser',
+        method: 'POST',
+        body: { email },
+      }),
+    }),
+    sendPwResetCode: builder.mutation({
+      query: email => ({
+        url: '/auth/resetPassword',
+        method: 'POST',
+        body: { email },
+      }),
+    }),
+    validateResetCode: builder.mutation({
+      query: userInputs => ({
+        url: '/auth/validateResetCode',
+        method: 'POST',
+        body: { ...userInputs },
+      }),
+    }),
+    changePassword: builder.mutation({
+      query: userInputs => ({
+        url: '/auth/changePassword',
+        method: 'POST',
+        body: { ...userInputs },
+      }),
     }),
   }),
 });
 
 export const {
+  useRefreshAccessTokenQuery,
+  useRefreshAccessTokenMutation,
+
   useLoginMutation,
   useLogoutMutation,
   useRegisterMutation,
+
   useVerifyAccountMutation,
   useResendVerificationEmailMutation,
-  useRefreshAccessTokenMutation,
-  useRefreshAccessTokenQuery,
+
+  useFindUserMutation,
+  useSendPwResetCodeMutation,
+  useValidateResetCodeMutation,
+  useChangePasswordMutation,
+
 } = authApiSlice;

@@ -52,4 +52,9 @@
   font-size: 14px;
 }
 
-
+@media screen and (max-width: 475px) {
+  .createPost_icon,
+  .open_post {
+    font-size: 0px;
+  }
+}

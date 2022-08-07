@@ -1,68 +1,37 @@
-import { useDispatch, useSelector } from 'react-redux';
-// import { resendVerificationEmail } from '../authSlice';
+import { useResendVerificationEmailMutation } from '../authApiSlice';
 import './ResendVerification.scss';
 
 export const ResendVerification = () => {
   console.log('in resend verification 1');
-  const { isError, isSuccess, message } = useSelector(state => state.auth);
-  const verified = useSelector(state => state.auth.user?.verified);
-  const dispatch = useDispatch();
 
-  const sendVerificationLink = async () => {
+  const [resendVerificationEmail, { isLoading, isSuccess, isError, error, data }] =
+    useResendVerificationEmailMutation();
+
+  const handleSendVerificationLink = async () => {
     try {
-      // await dispatch(resendVerificationEmail()).unwrap();
+      await resendVerificationEmail().unwrap();
     } catch (error) {
-      console.log('error in ResendVerification: ', error);
+      console.log(error);
     }
   };
 
-  const content = () => {
-    if (!verified) {
-      if (isSuccess) {
-        return <div className='success_text'>{message}</div>;
-      } else if (isError) {
-        return <div className='error_text'>{message}</div>;
-      } else {
-        return (
-          <div className='send_verification'>
-            <span>
-              Your account is not verified, verify your account before it gets deleted after a month
-              from creating.
-            </span>
-            <button href='#' onClick={() => sendVerificationLink()}>
-              Click here to resend verification link
-            </button>
-          </div>
-        );
-      }
-    } else return null;
-  };
+  let content;
+  if (isSuccess) {
+    content = <div className='success_text'>{data.message}</div>;
+  } else if (isError) {
+    content = <div className='error_text'>{error?.data.message}</div>;
+  } else {
+    content = (
+      <div className='send_verification'>
+        <span>
+          Your account is not verified. Unverified accounts will be deleted after one month.
+        </span>
+        <button href='#' onClick={handleSendVerificationLink}>
+          Click here to resend verification link
+        </button>
+      </div>
+    );
+  }
 
-  const content2 = content();
-
-  console.log('content: ', content());
-  return content2;
-  // {if (verified) {
-  //     if (isSuccess) {
-  //      return <div className='success_text'>{message}</div>;
-  //   }
-  // } else null})
-
-  // if (!verified) {
-  //   return isSuccess ? (
-  //     <div className='success_text'>{message}</div>
-  //   ) : isError ? return (
-  //     <div className='error_text'>{message}</div>
-  //   ) : return (
-  //     <div className='send_verification'>
-  //       <span>
-  //         Your account is not verified, verify your account before it gets deleted after a month
-  //         from creating.
-  //       </span>
-  //       <button href='#' onClick={() => sendVerificationLink()}>
-  //         Click here to resend verification link
-  //       </button>
-  //     </div>
-  //   );
-  // } else return null;
+  return content;
 };

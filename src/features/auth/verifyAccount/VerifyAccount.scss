@@ -6,13 +6,11 @@
 
   background: var(--bg-primary);
   box-shadow: 0 1px 2px var(--shadow-1);
-  max-width: 30vw;
 
   margin: 1rem auto;
   user-select: none;
   border-radius: 1rem;
 
-  // width: 40vw;
   height: 20rem;
 
   .header {
@@ -43,5 +41,11 @@
   }
   .test {
     border: 1px solid pink;
+  }
+}
+
+@media (max-width: 650px) {
+  .verify_modal {
+    width: 80vw;
   }
 }

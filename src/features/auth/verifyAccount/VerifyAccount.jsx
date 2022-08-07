@@ -1,13 +1,13 @@
 import { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 
 import 'pages/home/Home.scss';
 import './VerifyAccount.scss';
-import { VerifyForm } from './VerifyForm';
+import { VerifyModal } from './VerifyModal';
 import Header from 'layout/header';
-import Home from '../../../pages/home/Home';
-import { verifyAccount, reset } from 'features/auth/authSlice';
+import { Home } from 'pages/home/Home';
+import { updateUser } from 'features/auth/authSlice';
 import { useVerifyAccountMutation } from '../authApiSlice';
 
 export const VerifyAccount = () => {
@@ -15,50 +15,38 @@ export const VerifyAccount = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const activationToken = searchParams.get('activationToken');
-  const { user } = useSelector(state => state.auth);
+  console.log('in VerifyAccount');
 
-  const [verifyAccount, { isLoading, error }] = useVerifyAccountMutation();
+  const verificationToken = searchParams.get('verificationToken');
+
+  const [verifyAccount, { isLoading, isSuccess, error, data }] = useVerifyAccountMutation();
+
+  const successMessage = data?.message; //Not a good message. Just for demonstartion using data prop from mutation. Could be geeric string instead
 
   useEffect(() => {
-    if (!activationToken) {
+    console.log('in useEffect');
+    if (!verificationToken) {
       navigate('/login');
     }
+
+    const verify = async () => {
+      try {
+        await verifyAccount(verificationToken).unwrap();
+        dispatch(updateUser({ verified: 'true' }));
+      } catch (error) {
+        console.log(error);
+      }
+      setTimeout(() => {
+        navigate('/');
+      }, 6000);
+    };
+
     verify();
-  }, [activationToken, navigate]);
-
-  const verify = async () => {
-    try {
-      const data = await dispatch(verifyAccount(activationToken)).unwrap();
-      console.log('past dispatch data: ', data);
-      localStorage.setItem('user', JSON.stringify({ ...user, verified: true }));
-      setTimeout(() => {
-        reset();
-        navigate('/');
-      }, 3000);
-    } catch (error) {
-      console.log('error in activate', error);
-      setTimeout(() => {
-        navigate('/');
-      }, 3000);
-    }
-  };
-
-  const registerSubmitHandler = async e => {
-    console.log('in registerSubmitHandler');
-    try {
-      const userData = await register(formData).unwrap();
-      dispatch(setCredentials({ ...userData }));
-      setFormData(initialFormData);
-      navigate('/');
-    } catch (error) {
-      console.log('error', error);
-    }
-  };
+  }, [verificationToken, navigate, dispatch, verifyAccount]);
 
   return (
     <>
-      <VerifyForm />
+      <VerifyModal {...{ isLoading, isSuccess, error, successMessage }} />
       <Header />
       <Home />
     </>

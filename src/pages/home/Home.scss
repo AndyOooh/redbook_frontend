@@ -27,6 +27,7 @@
     grid-template-columns: auto 2.5fr 1fr;
   }
 
+
   .left_home .left_link span,
   .left_home .left_link .col,
   .shortcut,
@@ -46,6 +47,12 @@
     place-items: center;
   }
 
+  .shortcut {
+    .heading {
+      display: none;
+    }
+  }
+
   .contact_circle {
     width: 2rem;
   }
@@ -57,7 +64,7 @@
   }
 
   .home {
-    grid-template-columns: 2.5fr 1fr;
+    // grid-template-columns: 2.5fr 1fr;
   }
 }
 
@@ -78,14 +85,20 @@
   }
 
   .home {
-    grid-template-columns: 1fr;
+    // grid-template-columns: auto 1fr;
+    grid-template-columns: max-content 1fr;
   }
 }
 
 @media (max-width: 620px) {
-  .left_home {
-    display: none;
+
+  .home {
+    grid-template-columns: 1fr;
   }
+
+  // .left_home {
+  //   display: none;
+  // }
 
   .stories .white_circle {
     display: none;

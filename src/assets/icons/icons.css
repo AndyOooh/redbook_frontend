@@ -501,25 +501,27 @@
   height: 24px;
   width: 24px;
   background-image: url('../../../public/icons/icons7.png');
-  background-position: rem -257px;
+  background-position: 0px -257px;
   background-size: auto;
   background-repeat: no-repeat;
   display: inline-block;
 }
+
 .maps_icon {
   height: 24px;
   width: 24px;
   background-image: url('../../../public/icons/icons8.png');
-  background-position: rem -225px;
+  background-position: 0px -225px;
   background-size: auto;
   background-repeat: no-repeat;
   display: inline-block;
 }
+
 .microphone_icon {
   height: 24px;
   width: 24px;
   background-image: url('../../../public/icons/icons9.png');
-  background-position: rem -10rem;
+  background-position: 0px -100px;
   background-size: auto;
   background-repeat: no-repeat;
   display: inline-block;

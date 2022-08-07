@@ -20,7 +20,6 @@
   }
 
   .contacts_wrap {
-
     .contacts_header {
       display: flex;
       align-items: center;
@@ -32,7 +31,6 @@
       display: flex;
       align-items: center;
       gap: 6px;
-      
     }
     .contact_circle {
       width: 35px;
@@ -43,11 +41,9 @@
       justify-content: center;
       cursor: pointer;
     }
-   
 
     .contacts_list {
       // padding: 5px;
-
 
       .contact {
         display: flex;
@@ -74,7 +70,12 @@
         }
       }
     }
-    
-    
+  }
+}
+
+
+@media (max-width: 715px) {
+  .right_home {
+    display: none;
   }
 }

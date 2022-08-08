@@ -2,7 +2,7 @@ import { useSelector } from 'react-redux';
 import { useSearchParams } from 'react-router-dom';
 import { useEffect } from 'react';
 
-import CreatePost from 'features/createPost';
+import CreatePost from 'features/posts';
 import Header from 'layout/header';
 import LeftHome from './left';
 import { RightHome } from './right';

@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-export const BackgroundPicker = ({ changeBackground }) => {
+export const BackgroundSelector = ({ changeBackground }) => {
   const [backgroundsVisible, setBackgroundsVisible] = useState(false);
 
   const postBackgrounds = [

@@ -8,7 +8,7 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 2rem;
+    // gap: 2rem;
   }
 
   //   --------- Top part ---------
@@ -19,7 +19,7 @@
     align-items: center;
     justify-content: space-between;
 
-    padding: 2rem 2rem 0 2rem;
+    padding: 1rem 1rem 0 1rem;
 
     .invisible {
       hidden: true;
@@ -33,6 +33,9 @@
 
   .vert_line {
     width: 100%;
+
+    margin-top: 1.5rem;
+    margin-bottom: 1rem;
   }
 
   //   ------------ Bottom  part --------------------------------------------------
@@ -124,15 +127,27 @@
     .push_up {
       transform: translate(-1rem, -3rem);
     }
-   
   }
   // --------------------- Emoji Picker --------------------------------------------------
   // https://github.com/missive/emoji-mart/blob/main/packages/emoji-mart-website/example-custom-styles.html
-  em-emoji-picker {
-    max-height: 20vh;
+
+  .emojis_top {
     position: absolute;
     left: 30rem;
     bottom: 18rem;
+  }
+
+  .emojis_bot {
+    position: absolute;
+    left: 30rem;
+    bottom: 11rem;
+  }
+  em-emoji-picker {
+    z-index: 10;
+    max-height: 20vh;
+    // position: absolute;
+    // left: 30rem;
+    // bottom: 18rem;
     margin-right: 2rem;
     --category-icon-size: 1.8rem;
     --font-size: 1.2rem;
@@ -161,6 +176,9 @@
 
     .add_text {
       width: 50%;
+
+      font-size: 1.5rem;
+      font-weight: 600;
     }
 
     .post_header_right:hover {
@@ -169,11 +187,160 @@
   }
 
   // --------------------- image picker --------------------------------------------------
+
   .image_picker {
     border: 1px solid gray;
+    border-radius: 1rem;
     width: 100%;
-    padding: 2rem;
-    height: 20rem;
+    padding: 0.8rem;
+    height: 26rem;
+
+    .add_image_desktop {
+      background: var(--bg-secondary);
+      border-radius: 1rem;
+
+      height: 18rem; //should be 19 and 5.6
+
+      margin-bottom: 1rem;
+
+      .top {
+        display: flex;
+        align-items: center;
+        justify-content: end;
+
+        padding: 1rem;
+
+        .small_circle {
+          width: 2.8rem;
+          height: 2.8rem;
+          background: #fff;
+          // border-radius: 50%;
+          // border: 1px solid var(--bg-secondary);
+        }
+      }
+
+      .bottom {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        // gap: 0.5rem;
+
+        & span:first-child {
+          color: var(--color-primary);
+          font-size: 1.7;
+          font-weight: 600;
+        }
+
+        & span:last-child {
+          // color: navy;
+          font-size: 1.2rem;
+        }
+      }
+    }
+
+    .add_image_mobile {
+      background: var(--bg-secondary);
+      border-radius: 1rem;
+      height: 5rem;
+
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      padding: 1rem;
+
+      .mobile_left {
+        display: flex;
+        align-items: center;
+        // justify-content: space-between;
+        gap: 1rem;
+
+        .mobile_text {
+          font-size: 1.3rem;
+        }
+      }
+
+      .addphone_btn {
+        background: var(--bg-third);
+        font-weight: 600;
+        padding: 1rem 1.5rem;
+        border-radius: 1rem;
+        font-size: 1.4rem;
+        cursor: pointer;
+      }
+    }
+
+    .image_preview {
+      width: 100%;
+      height: 100%;
+      background: rgba(137, 43, 226, 0.278);
+
+      position: relative;
+
+      .preview_menu {
+        position: absolute;
+        padding: 1rem;
+
+        background-color: rgba(255, 192, 203, 0.359);
+
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        width: 100%;
+      }
+
+      .preview_buttons {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1rem;
+
+        button {
+          position: relative;
+          height: 3.6rem;
+
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          gap: 1rem;
+
+          padding: 1rem;
+          border-radius: 1rem;
+        }
+      }
+
+      &:hover .preview_buttons {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1rem;
+      }
+
+      .small_circle {
+        // position: absolute;
+        position: relative;
+      }
+
+      img {
+        width: 100%;
+      }
+    }
+
+    .image_grid {
+      max-height: 30rem;
+    }
+  }
+
+  .has_images {
+    height: auto;
+  }
+
+  .overflow_a {
+    max-height: 30rem;
+    overflow-y: auto;
+    overflow-x: hidden;
   }
 }
 

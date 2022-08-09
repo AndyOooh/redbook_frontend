@@ -24,14 +24,15 @@ export const PostTextarea = ({ imagePickerVisible, bgRef, post, setPost }) => {
     <>
       <label htmlFor='post_text' />
       <textarea
-        style={{ fontSize: fontSize }}
         ref={bgRef}
-        name='post_text'
         id='post_text'
-        rows={numRows}
+        name='post_text'
         value={post}
-        onChange={handlePostInput}
+        rows={numRows}
         placeholder={textareaPlaceholder}
+        style={{ fontSize: fontSize }}
+        spellCheck='false'
+        onChange={handlePostInput}
       />
     </>
   );

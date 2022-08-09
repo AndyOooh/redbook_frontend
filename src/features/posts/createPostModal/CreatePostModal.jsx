@@ -20,16 +20,16 @@ export const CreatePostModal = ({ setVisible }) => {
 
   const dispatch = useDispatch();
 
-  const [post, setPost] = useState(''); // Set post here ------------------
-  const [background, setBackground] = useState(null);
-  const [images, setImages] = useState([]);
+  const [postText, setPostText] = useState(''); // Set post here ------------------
+  const [postBackground, setPostBackground] = useState(null);
+  const [postImages, setPostImages] = useState([]);
   const [imagePickerVisible, setImagePickerVisible] = useState(false);
 
   const [createPost, { isLoading, error }] = useCreatePostMutation();
 
-  console.log('post', post);
-  console.log('background', background);
-  console.log('images', images);
+  console.log('text', postText);
+  console.log('background', postBackground);
+  console.log('images', postImages);
 
   const postBackgrounds = [
     'images/postBackgrounds/1.jpg',
@@ -49,7 +49,7 @@ export const CreatePostModal = ({ setVisible }) => {
 
   const changeBackgroundHandler = i => {
     bgRef.current.style.backgroundImage = `url(${postBackgrounds[i]})`;
-    setBackground(postBackgrounds[i]);
+    setPostBackground(postBackgrounds[i]);
     bgRef.current.classList.add('bgHandler');
   };
 
@@ -62,11 +62,10 @@ export const CreatePostModal = ({ setVisible }) => {
     //   return dataURItoBlob(image);
     // });
 
-    postData.append('post', post);
-    postData.append('background', background);
-    // postData.append('images', images);
-    for (let i = 0; i < images.length; i++) {
-      postData.append('images', images[i]);
+    postData.append('text', postText);
+    postData.append('background', postBackground);
+    for (let i = 0; i < postImages.length; i++) {
+      postData.append('images', postImages[i]);
     }
 
     // log formData
@@ -102,20 +101,22 @@ export const CreatePostModal = ({ setVisible }) => {
               // setImagePickerVisible={setImagePickerVisible}
               imagePickerVisible={imagePickerVisible}
               bgRef={bgRef}
-              post={post}
-              setPost={setPost}
+              post={postText}
+              setPost={setPostText}
             />
             {/* INssrt bg emoji picker component OR NOT */}
             <BgAndEmojiSelectors
               imagePickerVisible={imagePickerVisible}
               postBackgrounds={postBackgrounds}
-              post={post}
-              setPost={setPost}
+              post={postText}
+              setPost={setPostText}
               // handleEmojiInput={handleEmojiInput}
               // showEmojiPicker={showEmojiPicker}
               changeBackgroundHandler={changeBackgroundHandler}
             />
-            {imagePickerVisible && <ImagePicker images={images} setImages={setImages} />}
+            {imagePickerVisible && (
+              <ImagePicker setImages={setPostImages} setVisible={setImagePickerVisible} />
+            )}
             <AddToPost setVisible={setImagePickerVisible} />
 
             <button

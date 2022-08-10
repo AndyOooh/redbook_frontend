@@ -6,7 +6,8 @@ import { PulseLoader } from 'react-spinners';
 
 import './CreatePostModal.scss';
 import { AddToPost } from './AddToPost';
-import { ImagePicker } from './ImagePicker';
+// import { ImagePicker } from './ImagePicker';
+import { ImagePicker } from './ImagePicker copy';
 import { PostModalheader } from './PostModalheader';
 import { PostTextarea } from './PostTextarea';
 import { PostModalUser } from './PostModalUser';
@@ -14,6 +15,9 @@ import { BgAndEmojiSelectors } from './bgAndEmoji/BgAndEmojiSelectors';
 import { addPost } from '../postSlice';
 import { useCreatePostMutation } from '../postsApiSlice';
 
+
+// TODO:
+// Add Yup validation and error messages. Text shuod be required. Use the yup formIsvalid from elsewhere <-- use to enable/disable submit button.
 export const CreatePostModal = ({ setVisible }) => {
   const { user } = useSelector(state => state.auth);
   const bgRef = useRef();
@@ -58,10 +62,6 @@ export const CreatePostModal = ({ setVisible }) => {
 
     let postData = new FormData();
 
-    // let postImages = images.map(image => {
-    //   return dataURItoBlob(image);
-    // });
-
     postData.append('text', postText);
     postData.append('background', postBackground);
     for (let i = 0; i < postImages.length; i++) {
@@ -77,22 +77,22 @@ export const CreatePostModal = ({ setVisible }) => {
     console.log('postData', postData);
 
     try {
-      // const data = await fetch('http://httpbin.org/anything', {
-      // const data = await fetch('http://localhost:8000/api/posts', {
-      //   method: 'POST',
-      //   body: postData,
-      // });
       const { data } = await createPost(postData).unwrap();
       console.log('data', data);
     } catch (error) {
       console.log('error', error);
     }
+
+    setPostText('');
+    setPostBackground(null);
+    setPostImages([]);
+    setVisible(false);
   };
 
   return (
     <>
       <Modal styles='create_post_modal'>
-        <form className='modal_wrapper' onSubmit={submitPostHandler} encType='multipart/form-data'>
+        <form className='modal_wrapper' onSubmit={submitPostHandler}>
           <PostModalheader setModalVisiable={setVisible} />
           <div className='vert_line'></div>
           <div className='modal_bottom'>
@@ -119,14 +119,8 @@ export const CreatePostModal = ({ setVisible }) => {
             )}
             <AddToPost setVisible={setImagePickerVisible} />
 
-            <button
-              className='btn post_submit'
-              type='submit'
-              // onClick={submitPostHandler}
-              // disabled={isLoading}
-            >
-              Post
-              {/* {isLoading ? <PulseLoader color='#fff' size={5} /> : 'Post'} */}
+            <button className='btn red_btn post_submit' type='submit' disabled={isLoading}>
+              {isLoading ? <PulseLoader color='#fff' size={5} /> : 'Post'}
             </button>
           </div>
         </form>

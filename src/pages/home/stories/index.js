@@ -20,20 +20,34 @@ export default function Stories() {
   });
   const max = query885px ? 5 : query96rem ? 4 : query103rem ? 5 : query1175px ? 4 : stories.length;
   return (
-    <div className='stories'>
-      <div className='create_story_card'>
-        <img src='../../../images/default_pic.png' alt='' className='create_story_img' />
-        <div className='plus_story'>
-          <Plus color='#fff' />
-        </div>
-        <div className='story_create_text'>Create Story</div>
+    <section className='home_media home_card'>
+      <div className='media_options'>
+        <button className='media_option' type='button'>
+          Stories
+        </button>
+        <button className='media_option' type='button'>
+          Reels
+        </button>
+        <button className='media_option' type='button'>
+          Rooms
+        </button>
       </div>
-      {stories.slice(0, max).map((story, i) => (
-        <Story story={story} key={story.profile_name} />
-      ))}
-      {/* <div className='white_circle'>
+      <div className='vert_line'></div>
+      <div className='stories media_grid'>
+        <div className='create_story_card'>
+          <img src='../../../images/default_pic.png' alt='' className='create_story_img' />
+          <div className='plus_story'>
+            <Plus color='#fff' />
+          </div>
+          <div className='story_create_text'>Create Story</div>
+        </div>
+        {stories.slice(0, max).map((story, i) => (
+          <Story story={story} key={story.profile_name} />
+        ))}
+        {/* <div className='white_circle'>
         <ArrowRight color='#65676b' />
       </div> */}
-    </div>
+      </div>
+    </section>
   );
 }

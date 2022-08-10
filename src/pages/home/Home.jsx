@@ -10,6 +10,7 @@ import Stories from './stories';
 import { ResendVerification } from 'features';
 import { VerifyModal } from 'features';
 import './Home.scss';
+import { Posts } from 'features/posts/components/Posts';
 
 export const Home = () => {
   console.log('in Home');
@@ -35,6 +36,7 @@ export const Home = () => {
           <Stories />
           {!verified && <ResendVerification />}
           <CreatePost />
+          <Posts />
         </div>
         <RightHome />
       </div>

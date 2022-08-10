@@ -10,12 +10,15 @@ const postsApiSlice = apiSlice.injectEndpoints({
         body: postData,
       }),
     }),
+    getPosts: builder.query({
+      // The URL for the request is '/fakeApi/posts'
+      query: () => '/posts',
+    }),
 
-    // getPosts: builder.get('/posts'),
     // getPost: builder.get('/posts/:id'),
     // updatePost: builder.put('/posts/:id'),
     // deletePost: builder.delete('/posts/:id'),
   }),
 });
 
-export const { useCreatePostMutation } = postsApiSlice;
+export const { useCreatePostMutation, useGetPostsQuery } = postsApiSlice;

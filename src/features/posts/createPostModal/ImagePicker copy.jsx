@@ -1,20 +1,54 @@
-import { useRef, useState } from 'react';
+import { useCallback, useRef, useState } from 'react';
 import { useDropzone, Dropzone } from 'react-dropzone';
 
 export const ImagePicker = ({ setImages, setVisible }) => {
-  const imageInputRef = useRef(null);
+  console.log('imagePicker rendered');
+  // const imageInputRef = useRef(null);
   const [previewImages, setPreviewImages] = useState([]);
 
   const [error, setError] = useState(null);
 
   // Handle Input Change ------------------------------------------------------------
-  const handleImageInput = e => {
-    console.log('e', e);
-    e.stopPropagation();
-    let files = Array.from(e.target.files);
+  // const handleImageInput = e => {
+  //   console.log('e', e);
+  //   e.stopPropagation();
+  //   let files = Array.from(e.target.files);
+
+  //   //  Create preview versions of images
+  //   files.forEach(img => {
+  //     if (
+  //       img.type !== 'image/jpeg' &&
+  //       img.type !== 'image/png' &&
+  //       img.type !== 'image/webp' &&
+  //       img.type !== 'image/gif'
+  //     ) {
+  //       setError(`${img.name} format is unsupported. Only Jpeg, Png, Webp, Gif are allowed.`);
+  //       files = files.filter(item => item.name !== img.name);
+  //       return;
+  //     } else if (img.size > 1024 * 1024) {
+  //       setError(`${img.name} size is too large max 5mb allowed.`);
+  //       files = files.filter(item => item.name !== img.name);
+  //       return;
+  //     } else {
+  //       const reader = new FileReader();
+  //       reader.readAsDataURL(img);
+  //       reader.onload = readerEvent => {
+  //         //might have to be .onloadend
+  //         setPreviewImages(prev => [...prev, readerEvent.target.result]); //could use reader.result? in case we wont need readerEvent
+  //       };
+  //     }
+  //   });
+  //   setImages(prev => [...prev, ...files]);
+  // };
+
+  // const handleImageInput = useCallback(e => {
+  const onDrop = useCallback(files => {
+    console.log('in handleImageInput');
+    console.log('e', files);
+    let filesArray = Array.from(files);
 
     //  Create preview versions of images
-    files.forEach(img => {
+    filesArray.forEach(img => {
       if (
         img.type !== 'image/jpeg' &&
         img.type !== 'image/png' &&
@@ -22,11 +56,11 @@ export const ImagePicker = ({ setImages, setVisible }) => {
         img.type !== 'image/gif'
       ) {
         setError(`${img.name} format is unsupported. Only Jpeg, Png, Webp, Gif are allowed.`);
-        files = files.filter(item => item.name !== img.name);
+        filesArray = filesArray.filter(item => item.name !== img.name);
         return;
       } else if (img.size > 1024 * 1024) {
         setError(`${img.name} size is too large max 5mb allowed.`);
-        files = files.filter(item => item.name !== img.name);
+        filesArray = filesArray.filter(item => item.name !== img.name);
         return;
       } else {
         const reader = new FileReader();
@@ -37,10 +71,16 @@ export const ImagePicker = ({ setImages, setVisible }) => {
         };
       }
     });
-    setImages(prev => [...prev, ...files]);
-  };
+    setImages(prev => [...prev, ...filesArray]);
+    // inputRef.current;
+  }, []);
 
-  const { getRootProps, getInputProps, rootRef, inputRef, isDragActive } = useDropzone(handleImageInput);
+  // const { getRootProps, getInputProps, isDragActive } = useDropzone({
+  //   handleImageInput,
+  // });
+
+  const { getRootProps, getInputProps, inputRef, rootRef, open } = useDropzone({ onDrop });
+  // const { getInputProps, inputRef } = useDropzone({ noDragEventsBubbling: true });
 
   console.log('prevImages', previewImages);
 
@@ -54,8 +94,8 @@ export const ImagePicker = ({ setImages, setVisible }) => {
     // <div className={classNames} >
     // <div {...getRootProps({ refKey: rootRef, className: classNames })}>
     // <Dropzone ref= {imageInputRef} {...getRootProps({ refKey: rootRef, className: classNames })}>
-    <div {...getRootProps({  className: classNames })}>
-      <label htmlFor='post_image' />
+    <div {...getRootProps({ onClick: e => e.stopPropagation(), className: classNames })}>
+      {/* <label htmlFor='post_image' onClick={e => e.preventDefault()} /> */}
       {/* <input
         {...getInputProps()}
         ref={imageInputRef}
@@ -80,7 +120,7 @@ export const ImagePicker = ({ setImages, setVisible }) => {
           accept: 'image/jpeg,image/png,image/webp,image/gif',
           multiple: true,
           hidden: true,
-          onChange: handleImageInput,
+          // onChange: handleImageInput,
         })}
       />
 
@@ -138,10 +178,11 @@ export const ImagePicker = ({ setImages, setVisible }) => {
             </div>
             <div
               className='bottom'
-              onClick={() => {
-                // imageInputRef.current.click();
-                inputRef.current.click();
-              }}>
+              role='button'
+              // onClick={() => {
+              //   inputRef.current.click();
+              // }}>
+              onClick={open}>
               <div className='small_circle'>
                 <i className='addPhoto_icon'></i>
               </div>

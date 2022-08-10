@@ -8,15 +8,15 @@ import { CreatePostHeader } from './CreatePostHeader';
 import { CreatePostBody } from './CreatePostBody';
 
 export default function CreatePost() {
-  const [modalVisible, setModalVisible] = useState(true);
+  const [modalVisible, setModalVisible] = useState(false);
 
   return (
     <>
       {modalVisible && <CreatePostModal setVisible={setModalVisible} />}
       <section className='createPost'>
-        <CreatePostHeader setModalVisible={setModalVisible} />
+        <CreatePostHeader setVisible={setModalVisible} />
         <div className='vert_line'></div>
-        <CreatePostBody />
+        <CreatePostBody setVisible={setModalVisible}/>
       </section>
     </>
   );

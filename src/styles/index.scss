@@ -11,6 +11,7 @@ html {
 body {
   font-family: 'Segoe UI', Helvetica, Arial, sans-serif;
   font-size: 1.6rem;
+  color: var(--color-primary);
 }
 
 a {
@@ -69,9 +70,10 @@ a {
   --light-blue-color: #e7f3ff;
   --light-red-color: #ffe7e7;
   --border-color: #ccced2;
-  --shadow-1: rgba(0, 0, 0, 0.2);
-  --shadow-2: rgba(0, 0, 0, 0.1);
+  --shadow-1: rgba(0, 0, 0, 0.1);
+  --shadow-2: rgba(0, 0, 0, 0.2);
   --shadow-3: rgba(0, 0, 0, 0.3);
+  --shadow-4: rgba(0, 0, 0, 0.4);
   --shadow-inset: rgba(255, 255, 255, 0.5);
 }
 
@@ -129,16 +131,14 @@ a {
   background: var(--bg-third);
 }
 
-// My stuff -------------------------------------------------------
-
 .home_card {
-  border: 1px solid red;
-
+  border-radius: 1rem;
   padding: 1rem 0;
-  background: #fff;
-
-  border-radius: 5%;
+  background: var(--bg-primary);
+  box-shadow: 0 1px 2px var(--shadow-1);
 }
+
+// My stuff END -------------------------------------------------------
 
 .blur {
   position: fixed;

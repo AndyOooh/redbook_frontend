@@ -1,5 +1,5 @@
 .home {
-  min-height: calc(100vh - 7.5rem); // - headr height and padding
+  min-height: calc(100vh - 7.5rem); // - header height and padding
   background: var(--bg-secondary);
   display: grid;
   grid-template-columns: 1fr minmax(55%, auto) minmax(25rem, 1fr);
@@ -34,7 +34,7 @@
   .shortcut_item span,
   .splitter,
   .fb_copyright {
-    display: none;
+    // display: none;
   }
 
   .left_link {
@@ -58,15 +58,7 @@
   }
 }
 
-@media (max-width: 890px) {
-  .left_home {
-    display: none;
-  }
 
-  .home {
-    // grid-template-columns: 2.5fr 1fr;
-  }
-}
 
 @media (max-width: 805px) {
   .story_profile_name,

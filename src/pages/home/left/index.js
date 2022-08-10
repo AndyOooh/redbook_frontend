@@ -12,7 +12,7 @@ export default function LeftHome() {
   const [visible, setVisible] = useState(false);
   const { user } = useSelector(state => state.auth);
   return (
-    <div className='left_home scrollbar'>
+    <section className='left_home scrollbar'>
       <Link to='/profile' className='left_link hover1'>
         <img src={user?.picture} alt='' />
         <span>
@@ -79,6 +79,6 @@ export default function LeftHome() {
         <br />
         Reta © 2022
       </div>
-    </div>
+    </section>
   );
 }

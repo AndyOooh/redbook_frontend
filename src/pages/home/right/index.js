@@ -8,7 +8,7 @@ export const RightHome = () => {
   const color = '#65676b';
 
   return (
-    <div className='right_home'>
+    <section className='right_home'>
       <div className='heading'>Sponsored</div>
       <div className="vert_line"></div>
       <div className='contacts_wrap'>
@@ -30,6 +30,6 @@ export const RightHome = () => {
           <Contact user={user} />
         </div>
       </div>
-    </div>
+    </section>
   );
 };

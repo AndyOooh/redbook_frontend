@@ -33,5 +33,5 @@ export const ResendVerification = () => {
     );
   }
 
-  return content;
+  return <section className='home_card'>{content}</section>;
 };

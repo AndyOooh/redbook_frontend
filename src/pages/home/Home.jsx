@@ -2,11 +2,11 @@ import { useSelector } from 'react-redux';
 import { useSearchParams } from 'react-router-dom';
 import { useEffect } from 'react';
 
-import CreatePost from 'features/posts';
+import { CreatePost } from 'features/posts/CreatePost';
 import Header from 'layout/header';
 import LeftHome from './left';
 import { RightHome } from './right';
-import Stories from './stories';
+import Stories from './top/Top';
 import { ResendVerification } from 'features';
 import { VerifyModal } from 'features';
 import './Home.scss';
@@ -32,12 +32,12 @@ export const Home = () => {
       <Header />
       <div className='home'>
         <LeftHome />
-        <div className='home_middle'>
+        <main className='home_middle'>
           <Stories />
           {!verified && <ResendVerification />}
           <CreatePost />
           <Posts />
-        </div>
+        </main>
         <RightHome />
       </div>
     </>

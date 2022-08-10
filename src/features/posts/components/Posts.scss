@@ -1,0 +1,75 @@
+// @use 'styles/mixins';
+
+@use '../../../styles/mixins';
+
+.post_item {
+  margin-bottom: 1rem;
+}
+
+.post_header {
+  @include mixins.flex-center(row, space-between);
+
+  //   background: rgba(128, 0, 128, 0.374);
+
+  padding: 0 1rem;
+
+  .header_left {
+    img {
+      @include mixins.circle(4rem);
+    }
+  }
+}
+
+.post_content {
+  //   max-height: calc(100rem / 3 * 2);
+  width: 100%;
+  //   overflow: hidden;
+
+  .text {
+  }
+
+  .background {
+    background-size: cover;
+    // set randomly
+    height: 30rem;
+  }
+
+  .post_images_grid {
+    display: grid;
+    // grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    // grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+
+    max-height: calc(100rem / 3 * 2);
+    width: 100%;
+    overflow: hidden;
+
+    img {
+      width: 100%;
+      // height: 100%;
+    }
+
+    & :first-child {
+      grid-row: span 2;
+    }
+  }
+
+  .grid_1 {
+  }
+
+  .grid_2 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .grid_3 {
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+    // grid-template-columns: repeat(1fr);
+  }
+
+  .grid_4 {
+  }
+  .grid_5 {
+  }
+  .grid_6 {
+  }
+}

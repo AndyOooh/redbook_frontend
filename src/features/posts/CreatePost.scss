@@ -1,26 +1,18 @@
 .createPost {
   background: var(--bg-primary);
-  border-radius: 1rem;
-  box-shadow: 0 1px 2px var(--shadow-1);
-  width: 100%;
-  cursor: pointer;
+  // width: 100%;
+  // cursor: pointer;
 
   display: flex;
   flex-direction: column;
-  // align-items: center;
-  // justify-content: center;
   gap: 1rem;
-
 
   padding: 1rem 1.5rem;
 }
 .createPost_header {
   display: flex;
-  // align-items: center;
-  gap: 8px;
-
+  gap: 0.8rem;
   width: 100%;
-  // padding: 1rem 17px 5px 15px;
 }
 .createPost_header img {
   width: 4rem;
@@ -40,6 +32,8 @@
   display: flex;
   align-items: center;
   padding-left: 1rem;
+
+  cursor: pointer;
 }
 
 .createPost_body {
@@ -56,6 +50,8 @@
   color: var(--color-secondary);
   border-radius: 1rem;
   font-size: 14px;
+
+  cursor: pointer;
 }
 
 @media screen and (max-width: 475px) {

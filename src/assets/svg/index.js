@@ -17,7 +17,7 @@ import LiveVideo from "./liveVideo";
 import Photo from "./photo";
 import Feeling from "./feeling";
 import Dots from "./dots";
-import Public from "./public";
+import Public from "./public2";
 import NewRoom from "./newRoom";
 import Home from "./home";
 import FriendsActive from "./friendsActive";

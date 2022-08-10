@@ -3,9 +3,16 @@ import { useMediaQuery } from 'react-responsive';
 import { ArrowRight, Plus } from 'assets/svg';
 import { stories } from '../homeData';
 import Story from './Story';
-import './style.scss';
+import './Top.scss';
+import { useState } from 'react';
 
 export default function Stories() {
+  const [activeMedia, setActiveMedia] = useState('stories');
+
+  const handleMediaChange = media => {
+    setActiveMedia(media);
+  };
+
   const query1175px = useMediaQuery({
     query: '(max-width: 1175px)',
   });
@@ -19,22 +26,32 @@ export default function Stories() {
     query: '(max-width: 885px)',
   });
   const max = query885px ? 5 : query96rem ? 4 : query103rem ? 5 : query1175px ? 4 : stories.length;
+
+  // const buttonClasses = 
+
   return (
     <section className='home_media home_card'>
       <div className='media_options'>
-        <button className='media_option' type='button'>
-          Stories
-        </button>
-        <button className='media_option' type='button'>
-          Reels
-        </button>
-        <button className='media_option' type='button'>
-          Rooms
-        </button>
+        {/* Change buttons to Navlink to use active class?  */}
+        <div className='button_wrap active'>
+          <button className='media_option ' type='button'>
+            Stories
+          </button>
+        </div>
+        <div className='button_wrap'>
+          <button className='media_option' type='button'>
+            Reels
+          </button>
+        </div>
+        <div className='button_wrap'>
+          <button className='media_option' type='button'>
+            Rooms
+          </button>
+        </div>
       </div>
       <div className='vert_line'></div>
-      <div className='stories media_grid'>
-        <div className='create_story_card'>
+      <div className=' media_grid'>
+        <div className=' media_card create_story_card'>
           <img src='../../../images/default_pic.png' alt='' className='create_story_img' />
           <div className='plus_story'>
             <Plus color='#fff' />

@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
 
-import './index.scss'; // should be first local import
+import './styles/index.scss'; // should be first local import
 // import './assets/icons/icons.scss';
 import './assets/icons/icons.css';
 import App from './App';

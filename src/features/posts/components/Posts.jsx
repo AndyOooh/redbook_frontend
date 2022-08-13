@@ -16,7 +16,7 @@ export const Posts = () => {
       {/* <section className='home_card'> */}
       <section>
         {posts.map(post => {
-          return <PostItem post={post} />;
+          return <PostItem key={post._id} post={post}  />;
         })}
       </section>
     </>

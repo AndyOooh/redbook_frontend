@@ -13,7 +13,7 @@ export const PostTextarea = ({ imagePickerVisible, bgRef, post, setPost }) => {
   let numRows;
 
   if (imagePickerVisible) {
-    fontSize = '1.2rem';
+    fontSize = '1.6rem';
     numRows = '2';
   } else {
     fontSize = '2.4rem';

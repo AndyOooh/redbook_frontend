@@ -1,16 +1,68 @@
-.home {
-  min-height: calc(100vh - 7.5rem); // - header height and padding
-  background: var(--bg-secondary);
+@use '../../styles/mixins';
+
+.home_layout {
+  height: 100vh;
+  // height: calc(100vh - 7.5rem); // - header height and padding
   display: grid;
-  grid-template-columns: 1fr minmax(55%, auto) minmax(25rem, 1fr);
-  // grid-template-columns: minmax(1fr, 36rem) minmax(55%, auto) minmax(1fr, 36rem);
-  margin-top: var(--header-height);
-  padding-top: 2rem;
-  gap: 4rem;
+  grid-template-columns: auto minmax(1fr, 80%)  auto; // Need to fix this somehow, to give middle a max and prevent sides from expamding - at spme points the gap/space between should expand
+  /* grid-template-columns: 1fr; */
+  grid-template-rows: var(--header-height) 1fr;
+  // gap: 1rem;
+  // margin: 0 5rem;
+  grid-template-areas:
+    'header header header'
+    'left main right';
+  // 'footer footer footer';
+  /* 'header'
+    'main'
+    'footer'; */
+
+  & > *:not(:first-child) {
+    padding-top: 2.5rem;
+    background: var(--bg-secondary);
+    // width: 100%;
+  }
+
+  .header {
+    grid-area: header;
+    grid-column: 1/4;
+    grid-area: header;
+
+   
+
+    
+  }
+
+  .left_home {
+    grid-area: left;
+    @include mixins.hideScrollbar;
+    @include mixins.flex-column();
+
+    width: 100%;
+    user-select: none;
+
+    // height: 100%;
+    // overflow: auto !important;
+  }
+
+  .main {
+    grid-area: main;
+    @include mixins.hideScrollbar;
+
+    height: 100%;
+  }
+
+  .right_home {
+    grid-area: right;
+    width: 100%;
+  }
 }
 
+
+
 .home_middle {
-  padding: 0 3.2rem;
+  padding-right: 3.2rem;
+  padding-left: 3.2rem;
   display: flex;
   flex-direction: column;
   gap: 1.1rem;
@@ -27,38 +79,26 @@
     grid-template-columns: auto 2.5fr 1fr;
   }
 
-
   .left_home .left_link span,
   .left_home .left_link .col,
   .shortcut,
+  .shortcut .heading,
   .shortcut_item span,
   .splitter,
   .fb_copyright {
-    // display: none;
+    display: none;
   }
 
-  .left_link {
-    background: var(--bg-third);
-    width: 5.5rem;
-    height: 5.5rem;
-    // height: 55px;
-    border-radius: 50%;
-    display: grid;
-    place-items: center;
-  }
-
-  .shortcut {
-    .heading {
-      display: none;
-    }
-  }
+  // .shortcut {
+  //   .heading {
+  //     display: none;
+  //   }
+  // }
 
   .contact_circle {
     width: 2rem;
   }
 }
-
-
 
 @media (max-width: 805px) {
   .story_profile_name,
@@ -83,14 +123,9 @@
 }
 
 @media (max-width: 620px) {
-
   .home {
     grid-template-columns: 1fr;
   }
-
-  // .left_home {
-  //   display: none;
-  // }
 
   .stories .white_circle {
     display: none;

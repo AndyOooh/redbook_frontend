@@ -154,6 +154,7 @@ a {
 /*-----Hovers-----*/
 .hover1:hover {
   background: var(--bg-secondary);
+  cursor: pointer;
 }
 .hover2:hover {
   background: var(--bg-third);
@@ -181,7 +182,7 @@ a {
 
 /*---Circles------*/
 .small_circle {
-  position: relative;
+  // position: relative;
   height: 36px;
   width: 36px;
   border-radius: 50%;

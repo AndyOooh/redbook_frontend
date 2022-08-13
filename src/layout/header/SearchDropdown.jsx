@@ -2,34 +2,24 @@ import { useEffect, useRef, useState } from 'react';
 import { Return, Search } from 'assets/svg';
 import { useClickOutside } from 'hooks/useClickOutside';
 
-export default function SearchMenu({ color, setShowSearchMenu }) {
+export default function SearchDropdown({ color, setVisible }) {
   const [iconVisible, setIconVisible] = useState(true);
   const menu = useRef(null);
   const input = useRef(null);
 
   useClickOutside(menu, () => {
-    setShowSearchMenu(false);
+    setVisible(false);
   });
   useEffect(() => {
     input.current.focus();
   }, []);
   return (
-    <div className='header_left search_area scrollbar' ref={menu}>
-      <div className='search_wrap'>
-        <div className='header_logo'>
-          <div
-            className='circle hover1'
-            onClick={() => {
-              setShowSearchMenu(false);
-            }}>
-            <Return color={color} />
-          </div>
+    <div className='search_dropdown ' ref={menu}>
+      <div className='dropdown_header'>
+        <div className='circle hover1' onClick={() => setVisible(false)}>
+          <Return color={color} />
         </div>
-        <div
-          className='search'
-          onClick={() => {
-            input.current.focus();
-          }}>
+        <div className='search' onClick={() => input.current.focus()}>
           {iconVisible && (
             <div>
               <Search color={color} />
@@ -39,12 +29,8 @@ export default function SearchMenu({ color, setShowSearchMenu }) {
             type='text'
             placeholder='Search Redbook'
             ref={input}
-            onFocus={() => {
-              setIconVisible(false);
-            }}
-            onBlur={() => {
-              setIconVisible(true);
-            }}
+            onFocus={() => setIconVisible(false)}
+            onBlur={() => setIconVisible(true)}
           />
         </div>
       </div>

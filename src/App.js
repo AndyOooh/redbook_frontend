@@ -7,6 +7,7 @@ import { PublicRoutes } from 'routes/PublicRoutes';
 import { VerifyAccount } from 'features/auth/verifyAccount/VerifyAccount';
 import { ResetPassword } from 'pages/resetPassword';
 import { PrivateRoutes } from 'routes/PrivateRoutes';
+import { Developing } from 'pages/Developing';
 
 console.log('in App.js');
 
@@ -17,6 +18,12 @@ const App = () => {
         <Route exact path='/login' element={<Login />} />
       </Route>
       <Route element={<PrivateRoutes />}>
+        {/* Not developed */}
+        <Route path='/groups' element={<Developing />} />
+        <Route path='/watch' element={<Developing />} />
+        <Route path='/marketplace' element={<Developing />} />
+        <Route path='/gaming' element={<Developing />} />
+        {/* Developed */}
         <Route path='/verify' element={<VerifyAccount />} />
         <Route exact path='/profile' element={<Profile />} />
         <Route exact path='/' element={<Home />} />

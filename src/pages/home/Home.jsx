@@ -1,43 +1,27 @@
-import { useSelector } from 'react-redux';
-import { useSearchParams } from 'react-router-dom';
-import { useEffect } from 'react';
-
-import { CreatePost } from 'features/posts/CreatePost';
-import Header from 'layout/header';
+import {Header} from 'layout/header';
 import LeftHome from './left';
 import { RightHome } from './right';
-import Stories from './top/Top';
-import { ResendVerification } from 'features';
-import { VerifyModal } from 'features';
+
 import './Home.scss';
-import { Posts } from 'features/posts/components/Posts';
+import { Main } from './Main/Main';
 
 export const Home = () => {
   console.log('in Home');
-  const [searchParams, setSearchParams] = useSearchParams();
-  const verified = useSelector(state => state.auth.user?.verified);
-  // const { verified } = useSelector(selectCurrentUser); //might be bad to have state in such a high level component. Verified shouldn't change often though
-
-  const verificationToken = searchParams.get('verificationToken');
-
-  useEffect(() => {
-    if (verificationToken) {
-      searchParams.delete('verificationToken');
-    }
-  }, [verificationToken, searchParams]);
 
   return (
     <>
-      {verificationToken && <VerifyModal />}
-      <Header />
-      <div className='home'>
+      <div className='home_layout'>
+        <Header />
         <LeftHome />
-        <main className='home_middle'>
+        <Main />
+        {/* <main className='home'>
+        <div className='home_middle scrollbar'>
           <Stories />
           {!verified && <ResendVerification />}
           <CreatePost />
           <Posts />
-        </main>
+        </div>
+      </main> */}
         <RightHome />
       </div>
     </>

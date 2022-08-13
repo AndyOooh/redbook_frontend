@@ -1,17 +1,19 @@
-import React from 'react';
 import { Link } from 'react-router-dom';
 import Moment from 'react-moment';
 
 import { Dots, Public } from 'assets/svg';
+import { memo, useCallback, useState } from 'react';
+import { ReactionsPopup } from './ReactionsPopup';
+import { useHoverHandler } from 'hooks/useHoverHandler';
+import { PostComments } from '../PostComments';
 
-export const PostItem = ({ post }) => {
-  const [showMenu, setShowMenu] = React.useState(false);
-
-  console.log('post', post);
+export const PostItem = memo(({ post }) => {
+  const [showMenu, setShowMenu] = useState(false);
+  const [showReactionsPopup, setShowReactionsPopup] = useState(false);
+  const [showComments, setShowComments] = useState(true);
+  const hoverHandler = useHoverHandler();
 
   const { user, images } = post;
-
-  console.log('post.background truthy', post.background ? true : false);
 
   const updatedText =
     post.type === 'profilePicture'
@@ -32,14 +34,8 @@ export const PostItem = ({ post }) => {
     case 3:
       gridClass = 'grid_3';
       break;
-    case 4:
-      gridClass = 'grid_4';
-      break;
-    case 5:
-      gridClass = 'grid_5';
-      break;
     default:
-      gridClass = 'grid_6';
+      gridClass = 'grid_4';
       break;
   }
 
@@ -58,8 +54,9 @@ export const PostItem = ({ post }) => {
               </div>
               <div className='privacy_date'>
                 <Moment fromNow interval={30}>
-                  {post.createdAt}.
+                  {post.createdAt}
                 </Moment>
+                &middot;
                 <Public color='#828387' />
               </div>
             </div>
@@ -76,41 +73,68 @@ export const PostItem = ({ post }) => {
         {/* POST START ----------------- */}
         <div className='post_content'>
           <div
-            className={post.background ? 'background text' : 'text'}
+            className={post.background ? 'background' : 'no_background'}
             style={post.background && { backgroundImage: `url(${post.background})` }}>
             {post.text}
           </div>
           {post.images && post.images.length > 0 && (
             <div className={`post_images_grid ${gridClass}`}>
-              {post.images.slice(0, 5).map(image => (
-                <img src={image.url} key={image.id} alt='' className='grid_item' />
+              {post.images.slice(0, 4).map((image, index) => (
+                <div
+                  style={
+                    index === 3
+                      ? {
+                          backgroundImage:
+                            `url(${image.url})` +
+                            `, linear-gradient(rgba(0, 94, 255, 0.5), rgba(0, 94, 255, 0.5))`,
+                        }
+                      : { backgroundImage: `url(${image.url})` }
+                  }
+                  key={image.id}
+                  alt=''
+                  className={`grid_item image${index + 1}`}>
+                  {index === 3 && `+${images.length - 2}`}
+                </div>
               ))}
-              {post.images.length > 5 && (
-                <div className='more-pics-shadow'>+{post.images.length - 5} </div>
-              )}
             </div>
           )}
         </div>
         {/* POST END ----------------- */}
 
         <div className='post_interactions'>
-          <div className='reactions'></div>
-          <div className='comments_count'></div>
-        </div>
-        <div className='post_actions'>
-          <div className='like'></div>
-          <div className='comment'></div>
-        </div>
-        <div className='post_comments'>
-          <div className='comments_settings'></div>
-          <div className='comments'></div>
-          <div className='like_reply'></div>
-          <div className='comment_row'>
-            <div className='profile_image'></div>
-            <div className='comment_text'></div>
+          <div className='reactions'>
+            <div className='reactions'>emojis</div>
+            <div className='num_reactions'> 64k</div>
+          </div>
+          <div className='shares_comments'>
+            <div className='num_shares'>1 share</div>
+            <div className='num_comments'>14 comments</div>
           </div>
         </div>
+
+        <div className='post_actions'>
+          <ReactionsPopup visible={showReactionsPopup} setVisible={setShowReactionsPopup} />
+          <div
+            className='like hover1'
+            onMouseOver={() => hoverHandler(setShowReactionsPopup)}
+            onMouseLeave={() => hoverHandler(setShowReactionsPopup, false)}>
+            <i className='like_icon'></i>
+            <span>Like</span>
+          </div>
+
+          <div className='comment hover1' onClick={() => setShowComments(prev => !prev)}>
+            {/* <div className='comment hover1' onClick={setShowComments(!showComments)}> */}
+            <i className='comment_icon'></i>
+            <span>Comment</span>
+          </div>
+          <div className='share hover1'>
+            <i className='share_icon'></i>
+            <span>Share</span>
+          </div>
+        </div>
+
+        <PostComments visible={showComments} setVisible={setShowComments} />
       </div>
     </>
   );
-};
+});

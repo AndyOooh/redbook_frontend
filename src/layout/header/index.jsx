@@ -1,31 +1,33 @@
-import { Link } from 'react-router-dom';
-import { BsGrid3X3GapFill } from 'react-icons/bs';
+import { useCallback, useRef, useState } from 'react';
+import { Link, NavLink } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import { useRef, useState } from 'react';
+
+import { BsGrid3X3GapFill } from 'react-icons/bs';
 
 import './index.scss';
-import SearchMenu from './SearchMenu';
+import SearchDropdown from './SearchDropdown';
 import AllMenu from './AllMenu';
 import { useClickOutside } from 'hooks/useClickOutside';
 import { UserMenu } from './userMenu';
-// import { getUser } from 'features/auth/authSlice';
 import RbLogo from 'assets/icons/icon-redbook.png';
 import {
-  ArrowDown,
   Friends,
   Gaming,
   HomeActive,
-  // Logo,
   Market,
-  Menu,
+  Watch,
   Messenger,
   Notifications,
   Search,
-  Watch,
 } from 'assets/svg';
+import { ProfileImage } from 'components/ProfileImage';
+import { useHoverHandler } from 'hooks/useHoverHandler';
+import { NavBar } from './NavBar';
 
-export default function Header() {
+export const Header = () => {
   const { user } = useSelector(state => state.auth);
+  const [showTitleBox, setShowTitleBox] = useState(null);
+  const hoverHandler = useHoverHandler();
 
   const color = '#65676b';
   const [showSearchMenu, setShowSearchMenu] = useState(false);
@@ -37,62 +39,31 @@ export default function Header() {
   useClickOutside(allmenu, () => {
     setShowAllMenu(false);
   });
-  
+
   useClickOutside(usermenu, () => {
     setShowUserMenu(false);
   });
+
   return (
-    <header>
+    <header className='header'>
       <div className='header_left'>
-        <Link to='/'>
-          <div className='circle'>
-            <img src={RbLogo} alt='logo' />
-            {/* <Logo /> */}
-          </div>
+        {showSearchMenu && <SearchDropdown color={color} setVisible={setShowSearchMenu} />}
+        <Link to='/' className='logo'>
+          <img src={RbLogo} alt='logo' />
         </Link>
-        <div
-          className='search search1'
-          onClick={() => {
-            setShowSearchMenu(true);
-          }}>
+        <div className='search search1' onClick={() => setShowSearchMenu(true)}>
           <Search color={color} />
           <input type='text' placeholder='Search Redbook' className='hide_input' />
         </div>
       </div>
-      {showSearchMenu && <SearchMenu color={color} setShowSearchMenu={setShowSearchMenu} />}
-      <div className='header_middle'>
-        <Link to='/' className='middle_icon active'>
-          <HomeActive />
-        </Link>
-        <Link to='/' className='middle_icon hover1'>
-          <Friends color={color} />
-        </Link>
-        <Link to='/' className='middle_icon hover1'>
-          <Watch color={color} />
-          <div className='middle_notification'>9+</div>
-        </Link>
-        <Link to='/' className='middle_icon hover1'>
-          <Market color={color} />
-        </Link>
-        <Link to='/' className='middle_icon hover1 '>
-          <Gaming color={color} />
-        </Link>
-      </div>
+
+      <NavBar />
+
       <div className='header_right'>
-        {/* <Link to='/profile' className='profile_link hover1'>
-          <img src={user?.picture} alt='' />
-          <span>{user?.first_name}</span>
-        </Link> */}
-        <Link to='/profile' className='profile_link hover1'>
-          <img src={user?.picture} alt='' />
-          <span>{user?.first_name}</span>
-        </Link>
         <div
           className='circle_icon hover1'
           ref={allmenu}
-          onClick={() => {
-            setShowAllMenu(prev => !prev);
-          }}>
+          onClick={() => setShowAllMenu(prev => !prev)}>
           <BsGrid3X3GapFill />
           {/* <Menu /> */}
           {showAllMenu && <AllMenu />}
@@ -104,17 +75,23 @@ export default function Header() {
           <Notifications />
           <div className='right_notification'>5</div>
         </div>
+        {/* <ProfileImage className='circle_icon' /> */}
         <div
-          className='circle_icon hover1'
+          // className='header_profile hover1'
           ref={usermenu}
-          onClick={() => {
-            setShowUserMenu(prev => !prev);
-          }}>
-          <ArrowDown />
-
+          onClick={() => setShowUserMenu(prev => !prev)}>
+          {/* <img src={user?.picture} alt='' /> */}
+          <ProfileImage className='hover1' size='4rem' />
           {showUserMenu && <UserMenu />}
         </div>
+        {/* <div
+          className='circle_icon hover1'
+          ref={usermenu}
+          onClick={() => setShowUserMenu(prev => !prev)}>
+          <ArrowDown />
+          {showUserMenu && <UserMenu />}
+        </div> */}
       </div>
     </header>
   );
-}
+};

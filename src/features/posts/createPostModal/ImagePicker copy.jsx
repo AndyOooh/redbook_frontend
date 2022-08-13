@@ -108,6 +108,7 @@ export const ImagePicker = ({ setImages, setVisible }) => {
         onChange={handleImageInput}
       /> */}
 
+      <label htmlFor='post_image' />
       <input
         {...getInputProps({
           // ref: imageInputRef,

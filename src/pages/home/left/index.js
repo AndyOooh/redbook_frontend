@@ -51,7 +51,7 @@ export default function LeftHome() {
           </div>
         </div>
       )}
-      <div className='splitter'></div>
+      <div className='vert_line'></div>
       <div className='shortcut'>
         <div className='heading'>Your Shortcuts</div>
         <div className='edit_shortcut'>Edit</div>

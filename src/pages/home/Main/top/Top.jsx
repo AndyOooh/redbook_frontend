@@ -1,7 +1,7 @@
 import { useMediaQuery } from 'react-responsive';
 
 import { ArrowRight, Plus } from 'assets/svg';
-import { stories } from '../homeData';
+import { stories } from '../../homeData';
 import Story from './Story';
 import './Top.scss';
 import { useState } from 'react';

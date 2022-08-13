@@ -1,9 +1,21 @@
-// import data from '@emoji-mart/data';
 import Picker from '@emoji-mart/react';
+import data from '@emoji-mart/data';
 
-export const EmojiSelector = ({ setEmojiPickerVisible, handleEmojiInput, imagePickerVisible }) => {
+export const EmojiSelector = ({ setVisible, handleInput, bottom = 0, right = 0 }) => {
+  const styles = `em-emoji-picker {
+    position: absolute;
+    z-index: 200;
+    max-height: 20vh;
+    bottom: ${bottom};
+    right: ${right};
+    --category-icon-size: 1.8rem;
+    --font-size: 1.2rem;
+
+  }`;
+
   return (
-    <div className={imagePickerVisible ? 'emojis_bot' : 'emojis_top'}>
+    <>
+      <style>{styles}</style>
       <Picker
         navPosition='bottom'
         previewPosition='none'
@@ -13,19 +25,15 @@ export const EmojiSelector = ({ setEmojiPickerVisible, handleEmojiInput, imagePi
         emojiButtonRadius={'10%'}
         emojiButtonSize={'36'}
         emojiSize={'30'}
-        // categories={['nature', 'foods', 'people', 'flags']}
-        // data={data}
-        onClickOutside={() => setEmojiPickerVisible(false)}
-        onEmojiSelect={handleEmojiInput}
+        onClickOutside={() => {
+          console.log('clicked outside');
+          setVisible(false);
+        }}
+        // onClickOutside={() => setVisible(false)}
+        onEmojiSelect={handleInput}
         icons='outline'
-        style={{ position: 'absolute', bottom: '200px', right: '-20px' }}
-
-        // set={['facebook']}
-        // set='facebook'
-        // set={'twitter'}
-        // emojiButtonColors={['#ffb6c1', '#ffb6c1', '#ffb6c1']}
-        // noCountryFlags={false}
+        theme='light'
       />
-    </div>
+    </>
   );
 };

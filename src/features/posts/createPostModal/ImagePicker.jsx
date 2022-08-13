@@ -1,10 +1,18 @@
-import { useCallback, useState } from 'react';
+import React, { Children, useCallback, useState } from 'react';
 import { useDropzone } from 'react-dropzone';
 
-export const ImagePicker = ({ setImages, setVisible }) => {
+export const ImagePicker = ({
+  // Children,
+  setImages,
+  setVisible,
+  usePreviews,
+  previewImages,
+  setPreviewImages,
+}) => {
   console.log('imagePicker rendered');
-  const [previewImages, setPreviewImages] = useState([]);
 
+  // console.log('children', children);
+  console.log('children', Children);
   const [error, setError] = useState(null);
 
   const handleImageInput = useCallback(files => {
@@ -13,21 +21,25 @@ export const ImagePicker = ({ setImages, setVisible }) => {
     let filesArray = Array.from(files);
 
     //  Create preview versions of images
+    const mimeTypes = ['image/jpeg', 'image/png', 'image/webp', 'image/gif'];
+    const maxFileSizeMb = 5;
+
+    console.log('usePreviews', usePreviews);
+
     filesArray.forEach(img => {
-      if (
-        img.type !== 'image/jpeg' &&
-        img.type !== 'image/png' &&
-        img.type !== 'image/webp' &&
-        img.type !== 'image/gif'
-      ) {
-        setError(`${img.name} format is unsupported. Only Jpeg, Png, Webp, Gif are allowed.`);
+      console.log('in forEach..................!!!');
+      if (!mimeTypes.includes(img.type)) {
+        console.log('memetype error', img.type);
+        setError(`${img.name} format is unsupported. Only ${mimeTypes.join(', ')} are allowed.`);
         filesArray = filesArray.filter(item => item.name !== img.name);
         return;
-      } else if (img.size > 1024 * 1024) {
-        setError(`${img.name} size is too large max 5mb allowed.`);
+      } else if (img.size > maxFileSizeMb * 1024 * 1024) {
+        console.log('file too big................!!!!!!!!!');
+        setError(`${img.name} size is too large max ${maxFileSizeMb} allowed.`);
         filesArray = filesArray.filter(item => item.name !== img.name);
         return;
-      } else {
+      } else if (usePreviews) {
+        console.log('usePreviews.....................!!!!!!!!!');
         const reader = new FileReader();
         reader.readAsDataURL(img);
         reader.onload = readerEvent => {
@@ -38,7 +50,9 @@ export const ImagePicker = ({ setImages, setVisible }) => {
     setImages(prev => [...prev, ...filesArray]);
   }, []);
 
-  const { getRootProps, getInputProps, inputRef, rootRef, open } = useDropzone({ onDrop: handleImageInput });
+  const { getRootProps, getInputProps, inputRef, rootRef, open } = useDropzone({
+    onDrop: handleImageInput,
+  });
   console.log('prevImages', previewImages);
 
   const classNames =
@@ -60,83 +74,8 @@ export const ImagePicker = ({ setImages, setVisible }) => {
           // onChange: handleImageInput,
         })}
       />
-
-      {previewImages && previewImages.length > 0 ? (
-        <>
-          <div className='image_preview'>
-            <div className='preview_menu'>
-              <div className='preview_buttons'>
-                <button className='hover1' type='button'>
-                  <i className='edit_icon'></i>
-                  Edit
-                </button>
-                <button
-                  className='hover1'
-                  type='button' // otherwise it will trigger onSubmit
-                  onClick={() => {
-                    // imageInputRef.current.click();
-                    inputRef.current.click();
-                  }}>
-                  <i className='addPhoto_icon'></i>
-                  Add Photos/Videos
-                </button>
-              </div>
-              <div
-                className='small_circle'
-                onClick={() => {
-                  setPreviewImages([]);
-                  setImages([]);
-                  setVisible(false);
-                }}>
-                <i className='exit_icon'></i>
-              </div>
-            </div>
-            <div className='image_grid'>
-              {previewImages.map((img, i) => (
-                <img src={img} key={i} alt='' />
-              ))}
-            </div>
-          </div>
-        </>
-      ) : (
-        <>
-          <div className='add_image_desktop'>
-            <div className='top'>
-              <div
-                className='small_circle'
-                onClick={() => {
-                  setPreviewImages([]);
-                  setImages([]);
-                  setVisible(false);
-                }}>
-                <i className='exit_icon'></i>
-              </div>
-            </div>
-            <div
-              className='bottom'
-              role='button'
-              // onClick={() => {
-              //   inputRef.current.click();
-              // }}>
-              onClick={open}>
-              <div className='small_circle'>
-                <i className='addPhoto_icon'></i>
-              </div>
-              <span>Add Photos/Videos</span>
-              <span>or drag and drop</span>
-            </div>
-          </div>
-          <div className='add_image_mobile'>
-            <div className='mobile_left'>
-              <div className='small_circle'>
-                <i className='phone_icon'></i>
-              </div>
-              <div className='mobile_text'>Add photos from your mobile device.</div>
-            </div>
-            <span className='addphone_btn'>Add</span>
-          </div>
-        </>
-      )}
+      {/* {children(inputRef, open)} */}
+      {React.cloneElement(Children, { inputRef: inputRef, open: open })}
     </div>
   );
 };

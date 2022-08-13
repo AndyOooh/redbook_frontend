@@ -1,20 +1,19 @@
-import { useRef, useState } from 'react';
-import { useDropzone, Dropzone } from 'react-dropzone';
+import { useCallback, useState } from 'react';
+import { useDropzone } from 'react-dropzone';
 
 export const ImagePicker = ({ setImages, setVisible }) => {
-  const imageInputRef = useRef(null);
+  console.log('imagePicker rendered');
   const [previewImages, setPreviewImages] = useState([]);
 
   const [error, setError] = useState(null);
 
-  // Handle Input Change ------------------------------------------------------------
-  const handleImageInput = e => {
-    console.log('e', e);
-    e.stopPropagation();
-    let files = Array.from(e.target.files);
+  const handleImageInput = useCallback(files => {
+    console.log('in handleImageInput');
+    console.log('e', files);
+    let filesArray = Array.from(files);
 
     //  Create preview versions of images
-    files.forEach(img => {
+    filesArray.forEach(img => {
       if (
         img.type !== 'image/jpeg' &&
         img.type !== 'image/png' &&
@@ -22,26 +21,24 @@ export const ImagePicker = ({ setImages, setVisible }) => {
         img.type !== 'image/gif'
       ) {
         setError(`${img.name} format is unsupported. Only Jpeg, Png, Webp, Gif are allowed.`);
-        files = files.filter(item => item.name !== img.name);
+        filesArray = filesArray.filter(item => item.name !== img.name);
         return;
       } else if (img.size > 1024 * 1024) {
         setError(`${img.name} size is too large max 5mb allowed.`);
-        files = files.filter(item => item.name !== img.name);
+        filesArray = filesArray.filter(item => item.name !== img.name);
         return;
       } else {
         const reader = new FileReader();
         reader.readAsDataURL(img);
         reader.onload = readerEvent => {
-          //might have to be .onloadend
           setPreviewImages(prev => [...prev, readerEvent.target.result]); //could use reader.result? in case we wont need readerEvent
         };
       }
     });
-    setImages(prev => [...prev, ...files]);
-  };
+    setImages(prev => [...prev, ...filesArray]);
+  }, []);
 
-  const { getRootProps, getInputProps, rootRef, inputRef, isDragActive } = useDropzone(handleImageInput);
-
+  const { getRootProps, getInputProps, inputRef, rootRef, open } = useDropzone({ onDrop: handleImageInput });
   console.log('prevImages', previewImages);
 
   const classNames =
@@ -50,42 +47,21 @@ export const ImagePicker = ({ setImages, setVisible }) => {
       : 'image_picker';
 
   return (
-    // <div className='image_picker' style={{ height: !images || (images.length === 0 && '26rem') }}>
-    // <div className={classNames} >
-    // <div {...getRootProps({ refKey: rootRef, className: classNames })}>
-    // <Dropzone ref= {imageInputRef} {...getRootProps({ refKey: rootRef, className: classNames })}>
-    <div {...getRootProps({  className: classNames })}>
+    <div {...getRootProps({ onClick: e => e.stopPropagation(), className: classNames })}>
       <label htmlFor='post_image' />
-      {/* <input
-        {...getInputProps()}
-        ref={imageInputRef}
-        id='post_image'
-        name='images'
-        type='file'
-        accept='image/jpeg,image/png,image/webp,image/gif'
-        multiple
-        hidden
-        onChange={handleImageInput}
-      /> */}
-
       <input
         {...getInputProps({
-          // ref: imageInputRef,
-          // refKey: imageInputRef,
-          // refKey: inputRef,
-
           id: 'post_image',
           name: 'images',
           type: 'file',
           accept: 'image/jpeg,image/png,image/webp,image/gif',
           multiple: true,
           hidden: true,
-          onChange: handleImageInput,
+          // onChange: handleImageInput,
         })}
       />
 
       {previewImages && previewImages.length > 0 ? (
-        // change classsname to top1 ?
         <>
           <div className='image_preview'>
             <div className='preview_menu'>
@@ -138,10 +114,11 @@ export const ImagePicker = ({ setImages, setVisible }) => {
             </div>
             <div
               className='bottom'
-              onClick={() => {
-                // imageInputRef.current.click();
-                inputRef.current.click();
-              }}>
+              role='button'
+              // onClick={() => {
+              //   inputRef.current.click();
+              // }}>
+              onClick={open}>
               <div className='small_circle'>
                 <i className='addPhoto_icon'></i>
               </div>

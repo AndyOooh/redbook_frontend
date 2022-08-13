@@ -2,7 +2,7 @@ import { ProfileImage } from 'components/ProfileImage';
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { EmojiSelector } from './createPostModal/bgAndEmoji/EmojiSelector';
-import { ImagePicker } from './createPostModal/ImagePicker copy';
+import { ImagePicker } from './createPostModal/ImagePicker';
 
 export const PostComments = ({ visible, setVisible }) => {
   const { user } = useSelector(state => state.auth);
@@ -53,12 +53,7 @@ export const PostComments = ({ visible, setVisible }) => {
           <ImagePicker setImages={setPostImages} setVisible={setImagePickerVisible} />
         )}
 
-        <div
-          className='comment_circle_icon hover2'
-          // onClick={() => setEmojiSelectorVisible(prev => !prev)}>
-          // onClick={() => setEmojiSelectorVisible(true)}>
-          onClick={showEmojiPicker}>
-          {/* onClick={() => setEmojiSelectorVisible(!emojiSelectorVisible)}> */}
+        <div className='comment_circle_icon hover2' onClick={showEmojiPicker}>
           <i className='emoji_icon'></i>
         </div>
 

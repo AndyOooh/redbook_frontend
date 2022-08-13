@@ -1,35 +1,35 @@
 import { Modal } from 'components';
 import { useRef, useState } from 'react';
 
-import { useDispatch, useSelector } from 'react-redux';
+// import { useDispatch, useSelector } from 'react-redux';
 import { PulseLoader } from 'react-spinners';
 
 import './CreatePostModal.scss';
 import { AddToPost } from './AddToPost';
 // import { ImagePicker } from './ImagePicker';
-import { ImagePicker } from './ImagePicker copy';
+import { ImagePicker } from './ImagePicker';
 import { PostModalheader } from './PostModalheader';
 import { PostTextarea } from './PostTextarea';
 import { PostModalUser } from './PostModalUser';
 import { BgAndEmojiSelectors } from './bgAndEmoji/BgAndEmojiSelectors';
-import { addPost } from '../postSlice';
+// import { addPost } from '../postSlice';
 import { useCreatePostMutation } from '../postsApiSlice';
 
 
 // TODO:
 // Add Yup validation and error messages. Text shuod be required. Use the yup formIsvalid from elsewhere <-- use to enable/disable submit button.
 export const CreatePostModal = ({ setVisible }) => {
-  const { user } = useSelector(state => state.auth);
+  // const { user } = useSelector(state => state.auth);
   const bgRef = useRef();
 
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
 
   const [postText, setPostText] = useState(''); // Set post here ------------------
   const [postBackground, setPostBackground] = useState(null);
   const [postImages, setPostImages] = useState([]);
   const [imagePickerVisible, setImagePickerVisible] = useState(false);
 
-  const [createPost, { isLoading, error }] = useCreatePostMutation();
+  const [createPost, { isLoading }] = useCreatePostMutation();
 
   console.log('text', postText);
   console.log('background', postBackground);

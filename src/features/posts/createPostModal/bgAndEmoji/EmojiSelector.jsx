@@ -1,5 +1,4 @@
 import Picker from '@emoji-mart/react';
-import data from '@emoji-mart/data';
 
 export const EmojiSelector = ({ setVisible, handleInput, bottom = 0, right = 0 }) => {
   const styles = `em-emoji-picker {

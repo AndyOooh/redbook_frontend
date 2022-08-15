@@ -24,6 +24,8 @@ export const PostComments = ({ visible, setVisible }) => {
     }, 0);
   };
 
+
+
   return visible ? (
     <section className='post_comments'>
       <div className='sorting'></div>
@@ -46,9 +48,11 @@ export const PostComments = ({ visible, setVisible }) => {
             setVisible={setEmojiSelectorVisible}
             handleInput={handleEmojiInput}
             bottom='5rem'
-            left='38.3rem'
+            right='-20%'
+            // left='38.3rem'
           />
         )}
+       
         {imagePickerVisible && (
           <ImagePicker setImages={setPostImages} setVisible={setImagePickerVisible} />
         )}

@@ -3,13 +3,13 @@ import { useState } from 'react';
 // import UserMenu from "layout/header/userMenu";
 import './CreatePost.scss';
 
-// import { CreatePostModal } from './createPostModal/CreatePostModal';
-import { CreatePostModal } from './createPostModal/CreatePostModal copy';
+import { CreatePostModal } from './createPostModal/CreatePostModal';
+// import { CreatePostModal } from './createPostModal/CreatePostModal copy';
 import { CreatePostHeader } from './CreatePostHeader';
 import { CreatePostBody } from './CreatePostBody';
 
 export const CreatePost = () => {
-  const [modalVisible, setModalVisible] = useState(false);
+  const [modalVisible, setModalVisible] = useState(true);
 
   return (
     <>

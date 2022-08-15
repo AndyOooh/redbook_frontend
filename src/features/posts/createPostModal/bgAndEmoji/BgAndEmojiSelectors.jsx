@@ -11,7 +11,7 @@ export const BgAndEmojiSelectors = ({ imagePickerVisible, setPost, post }) => {
   };
 
   const showEmojiPicker = () => {
-    // without the timeout, clockoutsideHandler will trigger whule emojiPickerVisible is true
+    // without the timeout, clockoutsideHandler will trigger while emojiPickerVisible is true
     setTimeout(() => {
       setEmojiSelectorVisible(!emojiSelectorVisible);
     }, 0);
@@ -32,13 +32,14 @@ export const BgAndEmojiSelectors = ({ imagePickerVisible, setPost, post }) => {
     <>
       <div className={wrapperClasses}>
         <BackgroundSelector />
-        <div className='emoji_opener push_up' onClick={showEmojiPicker}>
+        <div
+          className='emoji_opener push_up'
+          onClick={showEmojiPicker}>
           <VscSmiley />
         </div>
         {emojiSelectorVisible && (
           <EmojiSelector
-            // setVisible={setEmojiSelectorVisible}
-            setVisible={showEmojiPicker}
+            setVisible={setEmojiSelectorVisible}
             handleInput={handleEmojiInput}
             imagePickerVisible={imagePickerVisible}
             {...emojiSelectorPosition}

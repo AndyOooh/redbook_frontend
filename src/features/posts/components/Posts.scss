@@ -181,6 +181,7 @@
     .create_comment {
       @include mixins.flex-row(0.8rem);
       position: relative;
+      z-index: 200;
 
       .comment_text {
         // @include mixins.flex-center();

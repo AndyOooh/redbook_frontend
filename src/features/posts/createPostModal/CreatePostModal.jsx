@@ -27,13 +27,14 @@ export const CreatePostModal = ({ setVisible }) => {
   const [postBackground, setPostBackground] = useState(null);
   const [postImages, setPostImages] = useState([]);
   const [previewImages, setPreviewImages] = useState([]);
-  const [imagePickerVisible, setImagePickerVisible] = useState(false);
+  const [imagePickerVisible, setImagePickerVisible] = useState(true);
 
   const [createPost, { isLoading }] = useCreatePostMutation();
 
   console.log('text', postText);
   console.log('background', postBackground);
   console.log('images', postImages);
+  console.log('previewImages', previewImages);
 
   const postBackgrounds = [
     'images/postBackgrounds/1.jpg',
@@ -89,6 +90,11 @@ export const CreatePostModal = ({ setVisible }) => {
     setVisible(false);
   };
 
+  const imagePickerClasses =
+    previewImages && previewImages.length > 0
+      ? 'image_picker has_images overflow_a scrollbar'
+      : 'image_picker';
+
   return (
     <>
       <Modal styles='create_post_modal'>
@@ -116,91 +122,89 @@ export const CreatePostModal = ({ setVisible }) => {
             />
             {imagePickerVisible && (
               <ImagePicker
+                className={imagePickerClasses}
                 setImages={setPostImages}
-                setVisible={setImagePickerVisible}
-                setPreviewImages={setPreviewImages}
-                usePreviews>
-                {previewImages && previewImages.length > 0
-                  ? 
-                  (inputRef, open) => (
-                      <>
-                        <div className='image_preview'>
-                          <div className='preview_menu'>
-                            <div className='preview_buttons'>
-                              <button className='hover1' type='button'>
-                                <i className='edit_icon'></i>
-                                Edit
-                              </button>
-                              <button
-                                className='hover1'
-                                type='button' // otherwise it will trigger onSubmit
-                                onClick={() => {
-                                  // imageInputRef.current.click();
-                                  inputRef.current.click();
-                                }}>
-                                <i className='addPhoto_icon'></i>
-                                Add Photos/Videos
-                              </button>
-                            </div>
-                            <div
-                              className='small_circle'
-                              onClick={() => {
-                                setPreviewImages([]);
-                                setPostImages([]);
-                                setImagePickerVisible(false);
-                              }}>
-                              <i className='exit_icon'></i>
-                            </div>
-                          </div>
-                          <div className='image_grid'>
-                            {previewImages.map((img, i) => (
-                              <img src={img} key={i} alt='' />
-                            ))}
-                          </div>
-                        </div>
-                      </>
-                    )
-                  : 
-                  (inputRef, open) => (
-                      <>
-                        <div className='add_image_desktop'>
-                          <div className='top'>
-                            <div
-                              className='small_circle'
-                              onClick={() => {
-                                setPreviewImages([]);
-                                setPostImages([]);
-                                setImagePickerVisible(false);
-                              }}>
-                              <i className='exit_icon'></i>
-                            </div>
+                setPreviewImages={setPreviewImages}>
+                {props =>
+                  previewImages && previewImages.length > 0 ? (
+                    <>
+                      <div className='image_preview'>
+                        <div className='preview_menu'>
+                          <div className='preview_buttons'>
+                            <button className='hover1' type='button'>
+                              <i className='edit_icon'></i>
+                              Edit
+                            </button>
+                            <button
+                              className='hover1'
+                              type='button' // otherwise it will trigger onSubmit
+                              // onClick={() => {
+                              // imageInputRef.current.click();
+                              // inputRef.current.click();
+                              // }}
+                              onClick={props.open}>
+                              <i className='addPhoto_icon'></i>
+                              Add Photos/Videos
+                              <span> {props.globals}</span>
+                            </button>
                           </div>
                           <div
-                            className='bottom'
-                            role='button'
-                            // onClick={() => {
-                            //   inputRef.current.click();
-                            // }}>
-                            onClick={open}>
-                            <div className='small_circle'>
-                              <i className='addPhoto_icon'></i>
-                            </div>
-                            <span>Add Photos/Videos</span>
-                            <span>or drag and drop</span>
+                            className='small_circle'
+                            onClick={() => {
+                              setPreviewImages([]);
+                              setPostImages([]);
+                              setImagePickerVisible(false);
+                            }}>
+                            <i className='exit_icon'></i>
                           </div>
                         </div>
-                        <div className='add_image_mobile'>
-                          <div className='mobile_left'>
-                            <div className='small_circle'>
-                              <i className='phone_icon'></i>
-                            </div>
-                            <div className='mobile_text'>Add photos from your mobile device.</div>
-                          </div>
-                          <span className='addphone_btn'>Add</span>
+                        <div className='image_grid'>
+                          {previewImages.map((img, i) => (
+                            <img src={img} key={i} alt='' />
+                          ))}
                         </div>
-                      </>
-                    )
-                    }
+                      </div>
+                    </>
+                  ) : (
+                    <>
+                      <div className='add_image_desktop'>
+                        <div className='top'>
+                          <div
+                            className='small_circle'
+                            onClick={() => {
+                              setPreviewImages([]);
+                              setPostImages([]);
+                              setImagePickerVisible(false);
+                            }}>
+                            <i className='exit_icon'></i>
+                          </div>
+                        </div>
+                        <div
+                          className='bottom'
+                          role='button'
+                          // onClick={() => {
+                          //   inputRef.current.click();
+                          // }}>
+                          onClick={props.open}>
+                          <div className='small_circle'>
+                            <i className='addPhoto_icon'></i>
+                          </div>
+                          <span>Add Photos/Videos</span>
+                          <span>or drag and drop</span>
+                        </div>
+                      </div>
+                      <div className='add_image_mobile'>
+                        <div className='mobile_left'>
+                          <div className='small_circle'>
+                            <i className='phone_icon'></i>
+                          </div>
+                          <div className='mobile_text'>Add photos from your mobile device.</div>
+                        </div>
+                        <span className='addphone_btn'>Add</span>
+                      </div>
+                    </>
+                  )
+                }
               </ImagePicker>
             )}
             <AddToPost setVisible={setImagePickerVisible} />

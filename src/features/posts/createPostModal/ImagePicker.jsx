@@ -1,30 +1,24 @@
-import React, { Children, useCallback, useState } from 'react';
+import React, { Children, cloneElement, useCallback, useState } from 'react';
 import { useDropzone } from 'react-dropzone';
 
 export const ImagePicker = ({
   // Children,
+  children,
+  className,
   setImages,
-  setVisible,
-  usePreviews,
-  previewImages,
   setPreviewImages,
+  mimeTypes = ['image/jpeg', 'image/png', 'image/webp', 'image/gif'],
+  maxFileSizeMb = 5,
 }) => {
   console.log('imagePicker rendered');
 
-  // console.log('children', children);
-  console.log('children', Children);
   const [error, setError] = useState(null);
 
+  // Handle Input ------------------------------------------------------------
   const handleImageInput = useCallback(files => {
     console.log('in handleImageInput');
     console.log('e', files);
     let filesArray = Array.from(files);
-
-    //  Create preview versions of images
-    const mimeTypes = ['image/jpeg', 'image/png', 'image/webp', 'image/gif'];
-    const maxFileSizeMb = 5;
-
-    console.log('usePreviews', usePreviews);
 
     filesArray.forEach(img => {
       console.log('in forEach..................!!!');
@@ -38,8 +32,8 @@ export const ImagePicker = ({
         setError(`${img.name} size is too large max ${maxFileSizeMb} allowed.`);
         filesArray = filesArray.filter(item => item.name !== img.name);
         return;
-      } else if (usePreviews) {
-        console.log('usePreviews.....................!!!!!!!!!');
+      } else if (setPreviewImages) {
+        //  Create preview versions of images
         const reader = new FileReader();
         reader.readAsDataURL(img);
         reader.onload = readerEvent => {
@@ -50,18 +44,20 @@ export const ImagePicker = ({
     setImages(prev => [...prev, ...filesArray]);
   }, []);
 
+  const handle2 = files => {
+    console.log('in handle2');
+    console.log('e', files);
+  };
+
+  console.log('past handleImageInput');
+
   const { getRootProps, getInputProps, inputRef, rootRef, open } = useDropzone({
     onDrop: handleImageInput,
+    // handleImageInput,
   });
-  console.log('prevImages', previewImages);
-
-  const classNames =
-    previewImages && previewImages.length > 0
-      ? 'image_picker has_images overflow_a scrollbar'
-      : 'image_picker';
 
   return (
-    <div {...getRootProps({ onClick: e => e.stopPropagation(), className: classNames })}>
+    <div {...getRootProps({ onClick: e => e.stopPropagation(), className: className })}>
       <label htmlFor='post_image' />
       <input
         {...getInputProps({
@@ -71,11 +67,12 @@ export const ImagePicker = ({
           accept: 'image/jpeg,image/png,image/webp,image/gif',
           multiple: true,
           hidden: true,
-          // onChange: handleImageInput,
+          // onInput: () => alert('onInput'),
+          onChange: () => alert('onChange'),
         })}
       />
-      {/* {children(inputRef, open)} */}
-      {React.cloneElement(Children, { inputRef: inputRef, open: open })}
+
+      {children({ open })}
     </div>
   );
 };

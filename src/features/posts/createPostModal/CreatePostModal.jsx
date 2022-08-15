@@ -1,27 +1,21 @@
 import { Modal } from 'components';
 import { useRef, useState } from 'react';
-
-// import { useDispatch, useSelector } from 'react-redux';
 import { PulseLoader } from 'react-spinners';
 
 import './CreatePostModal.scss';
 import { AddToPost } from './AddToPost';
-// import { ImagePicker } from './ImagePicker';
 import { ImagePicker } from './ImagePicker';
 import { PostModalheader } from './PostModalheader';
 import { PostTextarea } from './PostTextarea';
 import { PostModalUser } from './PostModalUser';
 import { BgAndEmojiSelectors } from './bgAndEmoji/BgAndEmojiSelectors';
-// import { addPost } from '../postSlice';
 import { useCreatePostMutation } from '../postsApiSlice';
+import { ImagePickerUI } from './ImagePickerUI';
 
 // TODO:
 // Add Yup validation and error messages. Text shuod be required. Use the yup formIsvalid from elsewhere <-- use to enable/disable submit button.
 export const CreatePostModal = ({ setVisible }) => {
-  // const { user } = useSelector(state => state.auth);
   const bgRef = useRef();
-
-  // const dispatch = useDispatch();
 
   const [postText, setPostText] = useState(''); // Set post here ------------------
   const [postBackground, setPostBackground] = useState(null);
@@ -47,10 +41,12 @@ export const CreatePostModal = ({ setVisible }) => {
     'images/postBackgrounds/8.jpg',
     'images/postBackgrounds/9.jpg',
   ];
-
-  // const handleEmojiInput = emoji => {
-  //   setPost(post + emoji.native);
-  // };
+  
+  const resetImagePicker = () => {
+    setPreviewImages([]);
+    setPostImages([]);
+    setImagePickerVisible(false);
+  };
 
   const changeBackgroundHandler = i => {
     bgRef.current.style.backgroundImage = `url(${postBackgrounds[i]})`;
@@ -75,8 +71,6 @@ export const CreatePostModal = ({ setVisible }) => {
       console.log('from iterator:', pair[0] + ', ' + pair[1]);
     }
 
-    console.log('postData', postData);
-
     try {
       const { data } = await createPost(postData).unwrap();
       console.log('data', data);
@@ -87,13 +81,10 @@ export const CreatePostModal = ({ setVisible }) => {
     setPostText('');
     setPostBackground(null);
     setPostImages([]);
+    setPreviewImages([]);
     setVisible(false);
   };
 
-  const imagePickerClasses =
-    previewImages && previewImages.length > 0
-      ? 'image_picker has_images overflow_a scrollbar'
-      : 'image_picker';
 
   return (
     <>
@@ -121,90 +112,14 @@ export const CreatePostModal = ({ setVisible }) => {
               changeBackgroundHandler={changeBackgroundHandler}
             />
             {imagePickerVisible && (
-              <ImagePicker
-                className={imagePickerClasses}
-                setImages={setPostImages}
-                setPreviewImages={setPreviewImages}>
-                {props =>
-                  previewImages && previewImages.length > 0 ? (
-                    <>
-                      <div className='image_preview'>
-                        <div className='preview_menu'>
-                          <div className='preview_buttons'>
-                            <button className='hover1' type='button'>
-                              <i className='edit_icon'></i>
-                              Edit
-                            </button>
-                            <button
-                              className='hover1'
-                              type='button' // otherwise it will trigger onSubmit
-                              // onClick={() => {
-                              // imageInputRef.current.click();
-                              // inputRef.current.click();
-                              // }}
-                              onClick={props.open}>
-                              <i className='addPhoto_icon'></i>
-                              Add Photos/Videos
-                              <span> {props.globals}</span>
-                            </button>
-                          </div>
-                          <div
-                            className='small_circle'
-                            onClick={() => {
-                              setPreviewImages([]);
-                              setPostImages([]);
-                              setImagePickerVisible(false);
-                            }}>
-                            <i className='exit_icon'></i>
-                          </div>
-                        </div>
-                        <div className='image_grid'>
-                          {previewImages.map((img, i) => (
-                            <img src={img} key={i} alt='' />
-                          ))}
-                        </div>
-                      </div>
-                    </>
-                  ) : (
-                    <>
-                      <div className='add_image_desktop'>
-                        <div className='top'>
-                          <div
-                            className='small_circle'
-                            onClick={() => {
-                              setPreviewImages([]);
-                              setPostImages([]);
-                              setImagePickerVisible(false);
-                            }}>
-                            <i className='exit_icon'></i>
-                          </div>
-                        </div>
-                        <div
-                          className='bottom'
-                          role='button'
-                          // onClick={() => {
-                          //   inputRef.current.click();
-                          // }}>
-                          onClick={props.open}>
-                          <div className='small_circle'>
-                            <i className='addPhoto_icon'></i>
-                          </div>
-                          <span>Add Photos/Videos</span>
-                          <span>or drag and drop</span>
-                        </div>
-                      </div>
-                      <div className='add_image_mobile'>
-                        <div className='mobile_left'>
-                          <div className='small_circle'>
-                            <i className='phone_icon'></i>
-                          </div>
-                          <div className='mobile_text'>Add photos from your mobile device.</div>
-                        </div>
-                        <span className='addphone_btn'>Add</span>
-                      </div>
-                    </>
-                  )
-                }
+              <ImagePicker setImages={setPostImages} setPreviewImages={setPreviewImages}>
+                {props => (
+                  <ImagePickerUI
+                    previewImages={previewImages}
+                    openSystemUi={props.open}
+                    resetImagePicker={resetImagePicker}
+                  />
+                )}
               </ImagePicker>
             )}
             <AddToPost setVisible={setImagePickerVisible} />

@@ -32,7 +32,7 @@
     margin: 0;
 
     .no_background {
-      padding: 0 1.6rem; // should be more than 0 vertically
+      padding: 1rem 1.6rem; 
     }
 
     .background {
@@ -202,6 +202,7 @@
         background: var(--bg-forth); // DELETE THIS LINE
         flex-grow: 1;
         border-radius: 3rem;
+        padding: 0 2rem;
 
         .comment_text_wrapper {
           width: 100%;
@@ -216,8 +217,6 @@
         width: 100%;
 
         font-size: 1.4rem;
-
-        padding: 1rem;
 
         font-family: inherit;
         color: var(--color-secondary);

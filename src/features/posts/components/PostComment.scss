@@ -1,0 +1,49 @@
+@use '../../../styles/mixins';
+
+.comment_item {
+  // @include mixins.flex-row(1rem, space-between);
+  padding: 0.5rem 0;
+
+  .comment_row {
+    @include mixins.flex-row(1.2rem, start);
+
+    .profile_pic {
+      @include mixins.circle(2.4rem);
+    }
+  }
+
+  .comment_box {
+    @include mixins.flex-column(0, space-between);
+    background: var(--bg-forth);
+    padding: 1rem 2rem;
+    border-radius: 2rem;
+    width: 90%;
+
+    .user_names {
+      font-size: 1.2rem;
+      font-weight: 700;
+    }
+
+    .comment {
+      font-size: 1.7rem;
+    }
+  }
+}
+
+.images_row {
+  // width: 100%;
+  // background-color: pink;
+  // height: 5rem;
+  margin-top: 1rem;
+
+  .comment_images {
+    width: 100%;
+    height: 15rem;
+
+    img {
+    //   width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+  }
+}

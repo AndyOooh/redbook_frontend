@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-export const BackgroundSelector = ({ changeBackground }) => {
+export const BackgroundSelector = ({ handleInput }) => {
   const [backgroundsVisible, setBackgroundsVisible] = useState(false);
 
   const postBackgrounds = [
@@ -29,7 +29,7 @@ export const BackgroundSelector = ({ changeBackground }) => {
             key={i}
             alt=''
             onClick={() => {
-              changeBackground(i);
+              handleInput(i);
             }}
           />
         ))}

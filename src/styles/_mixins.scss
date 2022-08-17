@@ -1,7 +1,7 @@
-@mixin flex-row($gap: 0, $justify: start) {
+@mixin flex-row($gap: 0, $justify: start, $align: center) {
   display: flex;
   justify-content: $justify;
-  align-items: center;
+  align-items: $align;
   gap: $gap;
 }
 

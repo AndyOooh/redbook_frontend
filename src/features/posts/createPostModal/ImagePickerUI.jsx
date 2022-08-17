@@ -3,7 +3,8 @@ import React from 'react';
 export const ImagePickerUI = ({ previewImages, openSystemUi, resetImagePicker }) => {
   const imagePickerClasses =
     previewImages && previewImages.length > 0
-      ? 'image_picker has_images overflow_a scrollbar'
+      // ? 'image_picker has_images overflow_a scrollbar'
+      ? 'image_picker overflow_a scrollbar'
       : 'image_picker';
 
   return (
@@ -30,8 +31,8 @@ export const ImagePickerUI = ({ previewImages, openSystemUi, resetImagePicker })
               </div>
             </div>
             <div className='image_grid'>
-              {previewImages.map((img, i) => (
-                <img src={img} key={i} alt='' />
+              {previewImages.map(img => (
+                <img src={img.base64} key={img.id} alt='' />
               ))}
             </div>
           </div>

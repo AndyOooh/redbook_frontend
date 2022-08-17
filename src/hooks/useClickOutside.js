@@ -6,7 +6,10 @@ export const useClickOutside = (ref, func) => {
       if (!ref.current || ref.current.contains(e.target)) {
         return;
       }
-      func();
+      // This seems like a hack. Ask somewhere about two listeners on the same event. be specific about the case.
+      setTimeout(() => {
+        func();
+      }, 200);
     };
     document.addEventListener('mousedown', listener);
     document.addEventListener('touchstart', listener);

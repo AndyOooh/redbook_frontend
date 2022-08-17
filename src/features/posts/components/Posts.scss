@@ -3,10 +3,10 @@
 @use '../../../styles/mixins';
 
 .post_item {
+  position: relative;
   margin-bottom: 1rem;
 
   & > *:not(:nth-child(2)) {
-    // padding: 0 1.6rem
     margin: 0 1.6rem;
   }
 
@@ -29,6 +29,7 @@
 
   .post_content {
     width: 100%;
+    margin: 0;
 
     .no_background {
       padding: 0 1.6rem; // should be more than 0 vertically
@@ -48,6 +49,7 @@
     .post_images_grid {
       display: grid;
       gap: 0.2rem;
+
       // grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
       // grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
 
@@ -62,9 +64,9 @@
         background-position: center;
       }
 
-      & :first-child {
-        grid-row: span 2;
-      }
+      // & :first-child {
+      //   grid-row: span 2;
+      // }
     }
 
     .grid_1 {
@@ -84,9 +86,12 @@
         'image1 imag1'
         'image2 imag3';
 
+    
+
       .image1 {
         grid-area: image1;
         grid-column: 1/3;
+        grid-row: span 2;
       }
     }
 
@@ -102,6 +107,7 @@
         grid-area: image1;
         grid-column: 1/4;
         width: 100%;
+        grid-row: span 2;
       }
 
       .image4 {
@@ -173,7 +179,13 @@
   }
 
   .post_comments {
-    padding: 1rem 0;
+    // @include mixins.flex-column(1rem);
+    // padding: 1rem 0;
+
+    .comment_form {
+      @include mixins.flex-column(1rem);
+      padding: 1rem 0;
+    }
 
     .sorting {
     }
@@ -183,21 +195,29 @@
       position: relative;
       z-index: 200;
 
-      .comment_text {
-        // @include mixins.flex-center();
-        background: var(--bg-forth); // DELETE THIS LINE
-        max-width: 100%;
-        border: none;
-        resize: none;
-        outline: none;
+      width: 100%;
 
+      .input_wrap {
+        @include mixins.flex-row(0.8rem, space-between);
+        background: var(--bg-forth); // DELETE THIS LINE
+        flex-grow: 1;
         border-radius: 3rem;
+
+        .comment_text_wrapper {
+          width: 100%;
+        }
+      }
+
+      .comment_text {
+        // max-width: 100%;
+        background: transparent; // DELETE THIS LINE
+        border: none;
+        outline: none;
+        width: 100%;
 
         font-size: 1.4rem;
 
         padding: 1rem;
-
-        flex-grow: 1;
 
         font-family: inherit;
         color: var(--color-secondary);
@@ -205,7 +225,10 @@
         &::placeholder {
           color: var(--color-input);
         }
+      }
 
+      .emoji_wrapper {
+        @include mixins.flex-row(0.8rem, space-between);
       }
 
       .comment_circle_icon {
@@ -213,6 +236,53 @@
         display: grid;
         place-items: center;
         cursor: pointer;
+      }
+    }
+
+    .comment_image_preview {
+      @include mixins.flex-row(0.5rem, space-between, start);
+      width: 100%;
+      // height: 8rem;
+
+      border: 1px solid orange;
+
+      // overflow: hidden;
+
+      .image_grid {
+        padding: 1.2rem 0;
+        display: grid;
+        gap: 0.5rem;
+        // grid-template-columns: repeat(6, minmax(1fr, 12rem));
+        grid-template-columns: repeat(6, 1fr);
+        grid-auto-flow: column;
+
+        .image_wrapper {
+          position: relative;
+
+          height: 12rem;
+
+          img {
+            // width: 100%;
+            border-radius: 5%;
+            // width: 10rem;
+            width: 100%;
+            height: 100%;
+            // height: 8rem;
+            object-fit: cover;
+          }
+
+          .small_circle {
+            position: absolute;
+            top: -1rem;
+            right: -1rem;
+
+            transform: scale(0.8);
+          }
+        }
+      }
+
+      .small_circle {
+        @include mixins.circle(2.5rem);
       }
     }
   }

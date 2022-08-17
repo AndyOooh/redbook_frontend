@@ -1,5 +1,6 @@
 import React, { Children, cloneElement, useCallback, useState } from 'react';
 import { useDropzone } from 'react-dropzone';
+import { v4 as uuidv4 } from 'uuid';
 
 export const ImagePicker = ({
   children,
@@ -28,10 +29,12 @@ export const ImagePicker = ({
         return;
       } else if (setPreviewImages) {
         //  Create preview versions of images
+        // img.id = uuidv4();
+        img.id = Math.random();
         const reader = new FileReader();
         reader.readAsDataURL(img);
         reader.onload = readerEvent => {
-          setPreviewImages(prev => [...prev, readerEvent.target.result]); //could use reader.result? in case we wont need readerEvent
+          setPreviewImages(prev => [...prev, {base64: readerEvent.target.result, id: 'preview' + img.id}]); //could use reader.result? in case we wont need readerEvent
         };
       }
     });
@@ -43,8 +46,18 @@ export const ImagePicker = ({
   });
 
   return (
-    <div {...getRootProps({ onClick: e => e.stopPropagation() })}>
-      <label htmlFor='post_image' />
+    <>
+      {/* <div {...getRootProps({ onClick: e => e.stopPropagation() })}> */}
+      {/* <div {...getRootProps({ onClick: e => e.stopPropagation(), style: {color: 'black'} })}> */}
+
+      {/* <label htmlFor='post_image' /> */}
+      <label
+        {...getRootProps({
+          onClick: e => e.stopPropagation(),
+          htmlFor: 'post_image',
+          style: { color: 'yellow' },
+        })}
+      />
       <input
         {...getInputProps({
           id: 'post_image',
@@ -57,7 +70,9 @@ export const ImagePicker = ({
           onChange: () => alert('onChange'),
         })}
       />
-      {children({ open })}
-    </div>
+
+      {children && children({ open })}
+    </>
+    // </div>
   );
 };

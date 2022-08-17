@@ -4,17 +4,17 @@ const postSlice = createSlice({
   name: 'posts',
   initialState: {},
   reducers: {
-    reset: state => {
-      state = [];
-    },
-    addPost: (state, action) => {
-      // use old state?
-      state.push(action.payload);
-    },
+    // reset: state => {
+    //   state = [];
+    // },
+    // addPost: (state, action) => {
+    //   // use old state?
+    //   state.push(action.payload);
+    // },
   },
 });
 
-export const { reset, addPost } = postSlice.actions;
+// export const { reset, addPost } = postSlice.actions;
 
 export default postSlice.reducer;
 

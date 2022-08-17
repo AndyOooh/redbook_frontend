@@ -3,7 +3,7 @@ import { VscSmiley } from 'react-icons/vsc';
 import { BackgroundSelector } from './BackgroundSelector';
 import { EmojiSelector } from './EmojiSelector';
 
-export const BgAndEmojiSelectors = ({ imagePickerVisible, setPost, post }) => {
+export const BgAndEmojiSelectors = ({ imagePickerVisible, setPost, post, changeBackground }) => {
   const [emojiSelectorVisible, setEmojiSelectorVisible] = useState(false);
 
   const handleEmojiInput = emoji => {
@@ -31,7 +31,7 @@ export const BgAndEmojiSelectors = ({ imagePickerVisible, setPost, post }) => {
   return (
     <>
       <div className={wrapperClasses}>
-        <BackgroundSelector />
+        <BackgroundSelector handleInput={changeBackground} />
         <div
           className='emoji_opener push_up'
           onClick={showEmojiPicker}>

@@ -21,7 +21,7 @@ export const CreatePostModal = ({ setVisible }) => {
   const [postBackground, setPostBackground] = useState(null);
   const [postImages, setPostImages] = useState([]);
   const [previewImages, setPreviewImages] = useState([]);
-  const [imagePickerVisible, setImagePickerVisible] = useState(true);
+  const [imagePickerVisible, setImagePickerVisible] = useState(false);
 
   const [createPost, { isLoading }] = useCreatePostMutation();
 
@@ -109,7 +109,7 @@ export const CreatePostModal = ({ setVisible }) => {
               setPost={setPostText}
               // handleEmojiInput={handleEmojiInput}
               // showEmojiPicker={showEmojiPicker}
-              changeBackgroundHandler={changeBackgroundHandler}
+              changeBackground={changeBackgroundHandler}
             />
             {imagePickerVisible && (
               <ImagePicker setImages={setPostImages} setPreviewImages={setPreviewImages}>

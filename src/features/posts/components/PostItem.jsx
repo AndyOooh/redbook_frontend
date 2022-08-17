@@ -5,7 +5,9 @@ import { Dots, Public } from 'assets/svg';
 import { memo, useCallback, useState } from 'react';
 import { ReactionsPopup } from './ReactionsPopup';
 import { useHoverHandler } from 'hooks/useHoverHandler';
-import { PostComments } from '../PostComments';
+import { CreateComment } from './CreateComment';
+import { PostMenu } from './PostMenu';
+import { PostComment } from './PostComment';
 
 export const PostItem = memo(({ post }) => {
   const [showMenu, setShowMenu] = useState(false);
@@ -62,13 +64,22 @@ export const PostItem = memo(({ post }) => {
             </div>
           </div>
 
-          <div className='header_right'>
+          <div className='header_right' onClick={() => setShowMenu(prev => !prev)}>
+            {/* <div className='header_right' onClick={setTimeout(() => setShowMenu(prev => !prev), 0)}> */}
             {/* <div
             className='post_header_right hover1'
             onClick={() => setShowMenu(prev => !prev)}></div> */}
             <Dots color='#828387' />
           </div>
         </div>
+        {showMenu && (
+          <PostMenu
+            userId={user.id}
+            postUserId={post.user._id}
+            imagesLength={post?.images?.length}
+            setVisible={setShowMenu}
+          />
+        )}
 
         {/* POST START ----------------- */}
         <div className='post_content'>
@@ -81,6 +92,7 @@ export const PostItem = memo(({ post }) => {
             <div className={`post_images_grid ${gridClass}`}>
               {post.images.slice(0, 4).map((image, index) => (
                 <div
+                  key={image.id}
                   style={
                     index === 3
                       ? {
@@ -90,7 +102,6 @@ export const PostItem = memo(({ post }) => {
                         }
                       : { backgroundImage: `url(${image.url})` }
                   }
-                  key={image.id}
                   alt=''
                   className={`grid_item image${index + 1}`}>
                   {index === 3 && `+${images.length - 2}`}
@@ -108,7 +119,7 @@ export const PostItem = memo(({ post }) => {
           </div>
           <div className='shares_comments'>
             <div className='num_shares'>1 share</div>
-            <div className='num_comments'>14 comments</div>
+            <div className='num_comments'>{post.comments.length} comments</div>
           </div>
         </div>
 
@@ -133,7 +144,39 @@ export const PostItem = memo(({ post }) => {
           </div>
         </div>
 
-        <PostComments visible={showComments} setVisible={setShowComments} />
+        <CreateComment postId={post._id} visible={showComments} setVisible={setShowComments} />
+
+        {post.comments.length > 0 && (
+          <div className='comments'>
+            {post.comments.map(comment => (
+              <PostComment key={comment._id} comment={comment} />
+              
+            ))}
+          </div>
+        )}
+
+        {/* <div className='comment_header_right_top'>
+                        <Link to={`/profile/${comment.user.username}`} className=''>
+                          <span>{comment.user.first_name} {comment.user.last_name}</span>
+                        </Link>
+                        <Moment fromNow interval={30}>
+                          {comment.createdAt}
+                        </Moment>
+
+                        <div className='comment_header_right_bottom'>
+                          <div className='comment_header_right_bottom_left'>
+                            <i className='comment_icon'></i>
+                            <span>{comment.text}</span>
+
+                            <div className='comment_header_right_bottom_right'>
+                              <i className='like_icon'></i>
+                              <span>Like</span>
+
+                              <i className='comment_icon'></i>
+                              <span>Reply</span>
+
+                              <i className='share_icon'></i>
+                              <span>Share</span> */}
       </div>
     </>
   );

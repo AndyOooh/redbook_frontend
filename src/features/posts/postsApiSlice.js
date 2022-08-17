@@ -14,6 +14,20 @@ const postsApiSlice = apiSlice.injectEndpoints({
       // The URL for the request is '/fakeApi/posts'
       query: () => '/posts',
     }),
+    createComment: builder.mutation({
+      query: comment => {
+        console.log('lalaaaaa-----------------: ', comment);
+        const { commentData, postId } = comment;
+        console.log('commentData: ', commentData);
+        console.log('postId: ', postId);
+        // url: `/posts/${postId}`,
+        return {
+          url: '/posts/' + postId,
+          method: 'PUT',
+          body: commentData,
+        };
+      },
+    }),
 
     // getPost: builder.get('/posts/:id'),
     // updatePost: builder.put('/posts/:id'),
@@ -21,4 +35,4 @@ const postsApiSlice = apiSlice.injectEndpoints({
   }),
 });
 
-export const { useCreatePostMutation, useGetPostsQuery } = postsApiSlice;
+export const { useCreatePostMutation, useGetPostsQuery, useCreateCommentMutation } = postsApiSlice;

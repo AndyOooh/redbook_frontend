@@ -17,6 +17,8 @@ body {
 a {
   text-decoration: none;
   color: inherit;
+  // Is this standard to put in index.css? a is inline by default, sp doesn't effect layout vertically (gives probelems with padding eg)
+  display: inline-block;
 }
 
 .text_input {

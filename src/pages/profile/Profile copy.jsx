@@ -12,8 +12,8 @@ import { ProfileBottom } from './ProfileBottom';
 import { ProfileDetailsMenu, ProfileSectionsMenu } from './ProfileSectionsMenu';
 
 export const Profile = () => {
+  // const [showCoverMenu, setShowCoverMenu] = useState(false);
   const [showCoverMenu, setShowCoverMenu] = useState(false);
-  const [skip, setSkip] = useState(true);
 
   const profile = useSelector(state => state.auth.user);
   // const user = useSelector(state => state.auth.user);
@@ -21,41 +21,32 @@ export const Profile = () => {
   const { username } = useParams();
   const navigate = useNavigate();
 
-  useEffect(() => {
-    setSkip(username && username !== profile.username);
-  }, [username]);
+  console.log('username');
 
-  const {
-    data: otherUser,
-    isLoading,
-    isSuccess,
-  } = useGetUserQuery({ userId: username, type: 'profile' }, skip);
-
-  // const [getUser, { data: otherUser, isLoading }] = useLazyGetUserQuery();
+  const [getUser, { data: otherUser, isLoading }] = useLazyGetUserQuery();
   console.log('otherUser1111111', otherUser);
 
   console.log('usernameæææææææææææææææææ', username);
 
-  useEffect(() => {
-    if (isSuccess && !otherUser) {
-    // if (!otherUser) {
-      navigate('/');
-    }
-  }, [isSuccess, otherUser]);
-
+  // useEffect(() => {
+  //   if (!otherUser) {
+  //     navigate('/');
+  //   }
+  // }, [otherUser]);
+  
   console.log('otherUser', otherUser);
 
   let user;
   if (username && username !== profile.username) {
     console.log('in if---------------------');
     //GET user with mutation
-    // const getOtherUser = async () => {
-    //   const response = await getUser({ userId: username, type: 'profile' }).unwrap();
-    //   console.log('🚀 ~ file: Profile.jsx ~ line 37 ~ getOtherUser ~ response', response);
-    //   // console.log('data---------------------: ', data);
-    // };
-    // // const data = await getOtherUser();
-    // getOtherUser();
+    const getOtherUser = async () => {
+      const response = await getUser({ userId: username, type: 'profile' }).unwrap();
+      console.log('🚀 ~ file: Profile.jsx ~ line 37 ~ getOtherUser ~ response', response);
+      // console.log('data---------------------: ', data);
+    };
+    // const data = await getOtherUser();
+    getOtherUser();
     // const { data } = await getUser().unwrap();
     // console.log('data', data);
     console.log('otherUser', otherUser);
@@ -72,11 +63,13 @@ export const Profile = () => {
   console.log('user', user);
   console.log('profile', profile);
 
-  return isLoading ? (
-    <div>Loading...</div>
-  ) : (
+
+
+
+  return (
     <div className='profile'>
       <Header />
+
       <div className='profile_top'>
         {/* <h1>Prof top</h1> */}
         <div className='profile_container top_container'>

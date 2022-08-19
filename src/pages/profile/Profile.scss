@@ -1,0 +1,149 @@
+@use '../../styles/mixins';
+
+
+.profile {
+
+    .header {
+        position: sticky;
+        top: 0;
+    }
+}
+
+.profile_container {
+  width: 90%;
+  height: 100%;
+  max-width: 110rem;
+  margin: 0 auto;
+}
+
+.profile_card {
+  width: 100%;
+  padding: 1rem 1.5rem;
+  background: var(--bg-primary);
+
+  border-radius: 1rem;
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
+
+  .card_title {
+    font-size: 2rem;
+    font-weight: 700;
+  }
+}
+
+
+
+.profile_top {
+  background: linear-gradient(to bottom, #ff5b5b, white 50%);
+//   height: 90vh;
+  width: 100%;
+
+
+  box-shadow: 0 1rem 1rem -1rem rgba(0, 0, 0, 0.4);
+
+  .top_container {
+    // border: 1px solid orange;
+    background: white;
+
+    .cover_photo {
+      position: relative;
+      height: 40.5rem;
+
+      border: 1px solid orange;
+
+      .edit_cover_btn {
+        position: absolute;
+        right: 2rem;
+        bottom: 2rem;
+      }
+    }
+
+    .top_lower {
+      padding: 0 4rem;
+      //   background: pink;
+      //   height: 100%;
+
+      .name_row {
+        @include mixins.flex-row(1rem, space-between);
+        border-bottom: 1px solid var(--border-color);
+
+        .name_row_right {
+          @include mixins.flex-row(1rem);
+
+          .prof_image_wrap {
+            position: relative;
+            transform: translateY(-4rem);
+
+            .prof_icon_wrapper {
+              @include mixins.circle(4rem);
+              @include mixins.flex-center();
+              background-color: var(--bg-forth);
+              position: absolute;
+              right: 0;
+              bottom: 0;
+            }
+          }
+
+          .name_and_friends {
+            @include mixins.flex-column(0, space-between);
+
+            .friends_gallery {
+              @include mixins.flex-row(0);
+            }
+          }
+        }
+
+        .name_row_left {
+          @include mixins.flex-row(1rem);
+        }
+      }
+
+      .menu_row {
+        @include mixins.flex-row(0, space-between);
+
+        .meu_wrapper {
+          @include mixins.flex-row();
+
+          .menu_item {
+            //   background: pink;
+            font-weight: 600;
+
+            .link {
+              padding: 1.5rem;
+            }
+
+            .active_link {
+              border-bottom: 2px solid var(--red-color);
+              color: var(--red-color);
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+.profile_bottom {
+  background: var(--bg-forth);
+  width: 100%;
+
+  padding-top: 1.5rem;
+
+  .bottom_container {
+    // border: 1px solid orange;
+  }
+
+  .posts {
+    @include mixins.flex-row(2rem, $align: start);
+    // border: 1px solid orange;
+
+    & > * {
+      width: 100%;
+      @include mixins.flex-column(2rem, start);
+    }
+
+    .createPost {
+      border-radius: 1rem;
+      box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
+    }
+  }
+}

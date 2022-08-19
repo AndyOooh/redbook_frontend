@@ -1,6 +1,5 @@
-import { useCallback, useRef, useState } from 'react';
-import { Link, NavLink } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useRef, useState } from 'react';
+import { Link } from 'react-router-dom';
 
 import { BsGrid3X3GapFill } from 'react-icons/bs';
 
@@ -10,25 +9,11 @@ import AllMenu from './AllMenu';
 import { useClickOutside } from 'hooks/useClickOutside';
 import { UserMenu } from './userMenu';
 import RbLogo from 'assets/icons/icon-redbook.png';
-import {
-  Friends,
-  Gaming,
-  HomeActive,
-  Market,
-  Watch,
-  Messenger,
-  Notifications,
-  Search,
-} from 'assets/svg';
+import { Messenger, Notifications, Search } from 'assets/svg';
 import { ProfileImage } from 'components/ProfileImage';
-import { useHoverHandler } from 'hooks/useHoverHandler';
 import { NavBar } from './NavBar';
 
 export const Header = () => {
-  const { user } = useSelector(state => state.auth);
-  const [showTitleBox, setShowTitleBox] = useState(null);
-  const hoverHandler = useHoverHandler();
-
   const color = '#65676b';
   const [showSearchMenu, setShowSearchMenu] = useState(false);
   const [showAllMenu, setShowAllMenu] = useState(false);
@@ -75,22 +60,10 @@ export const Header = () => {
           <Notifications />
           <div className='right_notification'>5</div>
         </div>
-        {/* <ProfileImage className='circle_icon' /> */}
-        <div
-          // className='header_profile hover1'
-          ref={usermenu}
-          onClick={() => setShowUserMenu(prev => !prev)}>
-          {/* <img src={user?.picture} alt='' /> */}
-          <ProfileImage className='hover1' size='4rem' />
+        <div ref={usermenu} onClick={() => setShowUserMenu(prev => !prev)}>
+          <ProfileImage className='hover1' size='4rem' isHeader />
           {showUserMenu && <UserMenu />}
         </div>
-        {/* <div
-          className='circle_icon hover1'
-          ref={usermenu}
-          onClick={() => setShowUserMenu(prev => !prev)}>
-          <ArrowDown />
-          {showUserMenu && <UserMenu />}
-        </div> */}
       </div>
     </header>
   );

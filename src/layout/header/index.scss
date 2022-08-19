@@ -4,6 +4,9 @@ header {
   height: var(--header-height);
   width: 100%;
   @include mixins.flex-row(5rem, space-between);
+  position: sticky;
+  top: 0;
+  z-index: 999;
 
   background: var(--bg-primary);
   box-shadow: 1px 8px 15px -7px var(--shadow-2);
@@ -182,6 +185,7 @@ header {
       @include mixins.circle(4rem);
     }
   }
+
 }
 
 /*---Search All Menu-----*/

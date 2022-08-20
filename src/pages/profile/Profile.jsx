@@ -14,63 +14,46 @@ import { ProfileDetailsMenu, ProfileSectionsMenu } from './ProfileSectionsMenu';
 export const Profile = () => {
   const [showCoverMenu, setShowCoverMenu] = useState(false);
   const [skip, setSkip] = useState(true);
-
-  const profile = useSelector(state => state.auth.user);
-  // const user = useSelector(state => state.auth.user);
-
-  const { username } = useParams();
   const navigate = useNavigate();
 
-  useEffect(() => {
-    setSkip(username && username !== profile.username);
-  }, [username]);
+  // const [getUser, { data: otherUser, isLoading }] = useLazyGetUserQuery();
+  const currentUser = useSelector(state => state.auth.user);
+  const { username } = useParams();
 
   const {
     data: otherUser,
     isLoading,
     isSuccess,
-  } = useGetUserQuery({ userId: username, type: 'profile' }, skip);
-
-  // const [getUser, { data: otherUser, isLoading }] = useLazyGetUserQuery();
-  console.log('otherUser1111111', otherUser);
-
-  console.log('usernameæææææææææææææææææ', username);
-
-  useEffect(() => {
-    if (isSuccess && !otherUser) {
-    // if (!otherUser) {
-      navigate('/');
-    }
-  }, [isSuccess, otherUser]);
+    isError,
+  } = useGetUserQuery({ userId: username, type: 'profile' }, { skip });
 
   console.log('otherUser', otherUser);
 
-  let user;
-  if (username && username !== profile.username) {
-    console.log('in if---------------------');
-    //GET user with mutation
-    // const getOtherUser = async () => {
-    //   const response = await getUser({ userId: username, type: 'profile' }).unwrap();
-    //   console.log('🚀 ~ file: Profile.jsx ~ line 37 ~ getOtherUser ~ response', response);
-    //   // console.log('data---------------------: ', data);
-    // };
-    // // const data = await getOtherUser();
-    // getOtherUser();
-    // const { data } = await getUser().unwrap();
-    // console.log('data', data);
-    console.log('otherUser', otherUser);
-
-    if (!otherUser) {
-      console.log('not otherUser!!');
+  useEffect(() => {
+    console.log('useeffect ');
+    if (isSuccess || isError) {
+      console.log('useeffect isSuccess/isError');
+      setSkip(true);
+    } else if (isError) {
+      console.log('useeffect isError');
+      navigate('/');
     }
+  }, [isSuccess, isError, navigate]);
+
+  useEffect(() => {
+    console.log('useeffect 2');
+    if (username && username !== currentUser.username) {
+      console.log('useeffect 2 IF');
+      setSkip(false);
+    }
+  }, [username, currentUser.username]);
+
+  let user;
+  if (username && username !== currentUser.username) {
     user = { ...otherUser };
   } else {
-    console.log('in else ---------------------');
-    user = { ...profile };
+    user = { ...currentUser };
   }
-
-  console.log('user', user);
-  console.log('profile', profile);
 
   return isLoading ? (
     <div>Loading...</div>

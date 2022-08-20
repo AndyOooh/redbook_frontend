@@ -12,64 +12,61 @@ import { ProfileBottom } from './ProfileBottom';
 import { ProfileDetailsMenu, ProfileSectionsMenu } from './ProfileSectionsMenu';
 
 export const Profile = () => {
-  // const [showCoverMenu, setShowCoverMenu] = useState(false);
   const [showCoverMenu, setShowCoverMenu] = useState(false);
-
-  const profile = useSelector(state => state.auth.user);
-  // const user = useSelector(state => state.auth.user);
-
-  const { username } = useParams();
+  const [skip, setSkip] = useState(true);
   const navigate = useNavigate();
 
-  console.log('username');
+  const currentUser = useSelector(state => state.auth.user);
+  console.log("🚀 ~ file: Profile.jsx ~ line 20 ~ Profile ~ currentUser", currentUser)
+  const { username } = useParams();
+  console.log("🚀 ~ file: Profile.jsx ~ line 22 ~ Profile ~ username", username)
 
-  const [getUser, { data: otherUser, isLoading }] = useLazyGetUserQuery();
-  console.log('otherUser1111111', otherUser);
+  console.log('skip', skip)
 
-  console.log('usernameæææææææææææææææææ', username);
+  useEffect(() => {
+    // Only trigger query if skip is false. Skip is true if there us a user in params and it's different from logged in user.
+    if (username && username !== currentUser.username) {
+      console.log('in useeffect if...............')
+      setSkip(false);
+    }
+    // setSkip(username && username !== currentUser.username);
+  }, [username, currentUser.username]);
 
-  // useEffect(() => {
-  //   if (!otherUser) {
-  //     navigate('/');
-  //   }
-  // }, [otherUser]);
-  
-  console.log('otherUser', otherUser);
+  // passing a trigger as the second argument. If true, the query request will trigger.
+  const {
+    data: otherUser,
+    isLoading,
+    isSuccess,
+    isError,
+    error,
+  } = useGetUserQuery({ userId: username, type: 'profile' }, skip);
+
+  console.log('isLoading', isLoading);
+  console.log('isSuccess', isSuccess);
+  console.log('isError', isError, error);
+
+  // if (isError && !otherUser) {
+  //   // Got to homepage if query returns with no user.
+  //   navigate('/');
+  // }
 
   let user;
-  if (username && username !== profile.username) {
-    console.log('in if---------------------');
-    //GET user with mutation
-    const getOtherUser = async () => {
-      const response = await getUser({ userId: username, type: 'profile' }).unwrap();
-      console.log('🚀 ~ file: Profile.jsx ~ line 37 ~ getOtherUser ~ response', response);
-      // console.log('data---------------------: ', data);
-    };
-    // const data = await getOtherUser();
-    getOtherUser();
-    // const { data } = await getUser().unwrap();
-    // console.log('data', data);
-    console.log('otherUser', otherUser);
-
-    if (!otherUser) {
-      console.log('not otherUser!!');
-    }
+  if (username && username !== currentUser.username) {
     user = { ...otherUser };
   } else {
-    console.log('in else ---------------------');
-    user = { ...profile };
+    user = { ...currentUser };
   }
 
-  console.log('user', user);
-  console.log('profile', profile);
+  // let user = { ...currentUser };
+  // if (username && username !== currentUser.username) {
+  //   user = { ...otherUser };
+  // }
 
-
-
-
-  return (
+  return isLoading ? (
+    <div>Loading...</div>
+  ) : (
     <div className='profile'>
       <Header />
-
       <div className='profile_top'>
         {/* <h1>Prof top</h1> */}
         <div className='profile_container top_container'>

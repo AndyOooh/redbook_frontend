@@ -9,7 +9,7 @@ import { Link, useNavigate, useParams } from 'react-router-dom';
 
 import './Profile.scss';
 import { ProfileBottom } from './ProfileBottom';
-import { ProfileDetailsMenu, ProfileSectionsMenu } from './ProfileSectionsMenu';
+import { ProfileSectionsMenu } from './ProfileSectionsMenu';
 
 export const Profile = () => {
   const [showCoverMenu, setShowCoverMenu] = useState(false);
@@ -55,6 +55,8 @@ export const Profile = () => {
     user = { ...currentUser };
   }
 
+  console.log('user', user);
+
   return isLoading ? (
     <div>Loading...</div>
   ) : (
@@ -80,7 +82,10 @@ export const Profile = () => {
               <div className='name_row_right'>
                 <div className='prof_image_wrap'>
                   <ProfileImage size='16.8rem' />
-                  <div className='prof_icon_wrapper'>
+                  <div
+                    className='prof_icon_wrapper'
+                    // onClick={} HERE --------------------------------------------------------------
+                  >
                     <i className='camera_filled_icon'></i>
                   </div>
                 </div>
@@ -126,8 +131,8 @@ export const Profile = () => {
       </div>
 
       <div className='profile_bottom'>
-        <div className='profile_container bottom_container'>
-          <ProfileBottom />
+        <div className='profile_container '>
+          {user.id && <ProfileBottom user={user.id} />}
         </div>
       </div>
     </div>

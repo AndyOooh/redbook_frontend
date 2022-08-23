@@ -26,10 +26,10 @@ export const Main = () => {
       {/* <main className='main home'> */}
       <main className='main home_middle scrollbar'>
         {/* <div className='home_middle scrollbar'> */}
-          <Stories />
-          {!verified && <ResendVerification />}
-          <CreatePost />
-          <Posts />
+        <Stories />
+        {!verified && <ResendVerification />}
+        <CreatePost />
+        <Posts />
         {/* </div> */}
       </main>
     </>

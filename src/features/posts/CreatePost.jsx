@@ -12,7 +12,7 @@ export const CreatePost = () => {
   return (
     <>
       {modalVisible && <CreatePostModal setVisible={setModalVisible} />}
-      <section className='home_card createPost'>
+      <section className='card_main createPost'>
         <CreatePostHeader setVisible={setModalVisible} />
         <div className='vert_line'></div>
         <CreatePostBody setVisible={setModalVisible} />

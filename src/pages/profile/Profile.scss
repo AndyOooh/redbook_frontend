@@ -1,12 +1,10 @@
 @use '../../styles/mixins';
 
-
 .profile {
-
-    .header {
-        position: sticky;
-        top: 0;
-    }
+  .header {
+    position: sticky;
+    top: 0;
+  }
 }
 
 .profile_container {
@@ -16,27 +14,10 @@
   margin: 0 auto;
 }
 
-.profile_card {
-  width: 100%;
-  padding: 1rem 1.5rem;
-  background: var(--bg-primary);
-
-  border-radius: 1rem;
-  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
-
-  .card_title {
-    font-size: 2rem;
-    font-weight: 700;
-  }
-}
-
-
-
 .profile_top {
   background: linear-gradient(to bottom, #ff5b5b, white 50%);
-//   height: 90vh;
+  //   height: 90vh;
   width: 100%;
-
 
   box-shadow: 0 1rem 1rem -1rem rgba(0, 0, 0, 0.4);
 
@@ -76,21 +57,19 @@
             transform: translateY(-3rem);
 
             img {
-                // border: 0.4rem solid pink;
-                border: 0.4rem solid white;
+              // border: 0.4rem solid pink;
+              border: 0.4rem solid white;
             }
 
             .prof_icon_wrapper {
               @include mixins.circle(4rem);
               @include mixins.flex-center();
-              
+
               position: absolute;
               right: 1rem;
               bottom: 1rem;
 
               background: var(--bg-forth);
-              
-              
             }
           }
 
@@ -137,24 +116,30 @@
   background: var(--bg-forth);
   width: 100%;
 
-  padding-top: 1.5rem;
+  padding: 1.5rem 4rem;
 
-  .bottom_container {
-    // border: 1px solid orange;
-  }
+  
 
-  .posts {
-    @include mixins.flex-row(2rem, $align: start);
-    // border: 1px solid orange;
+  .profile_posts {
+    // @include mixins.flex-row(2rem, $align: start);
+    display: grid;
+    grid-template-columns: 1fr 1.4fr;
+    gap: 2rem;
 
     & > * {
-      width: 100%;
-      @include mixins.flex-column(2rem, start);
-    }
+      // width: 100%;
+      @include mixins.flex-column(0, start);
 
-    .createPost {
-      border-radius: 1rem;
-      box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
+      & > * {
+        width: 100%;
+      }
     }
+  }
+}
+
+@media screen and (max-width: 840px) {
+  .name_row,
+  .name_row_right {
+    flex-direction: column;
   }
 }

@@ -43,7 +43,7 @@ export const PostItem = memo(({ post }) => {
 
   return (
     <>
-      <div className='home_card post_item'>
+      <div className='card_main post_item'>
         <div className='post_header'>
           <div className='header_left'>
             <Link to={`/profile/${user.username}`} className=''>
@@ -150,7 +150,6 @@ export const PostItem = memo(({ post }) => {
           <div className='comments'>
             {post.comments.map(comment => (
               <PostComment key={comment._id} comment={comment} />
-              
             ))}
           </div>
         )}

@@ -27,10 +27,10 @@ export default function Stories() {
   });
   const max = query885px ? 5 : query96rem ? 4 : query103rem ? 5 : query1175px ? 4 : stories.length;
 
-  // const buttonClasses = 
+  // const buttonClasses =
 
   return (
-    <section className='home_media home_card'>
+    <section className='home_media card_main'>
       <div className='media_options'>
         {/* Change buttons to Navlink to use active class?  */}
         <div className='button_wrap active'>

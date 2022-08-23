@@ -11,8 +11,14 @@ const postsApiSlice = apiSlice.injectEndpoints({
       }),
     }),
     getPosts: builder.query({
-      // The URL for the request is '/fakeApi/posts'
-      query: () => '/posts',
+      // query: filter => `/posts?${filter}`,
+      query: filter => {
+        return {
+          url: '/posts',
+          params: { ...filter },
+          
+        };
+      },
     }),
     createComment: builder.mutation({
       query: comment => {

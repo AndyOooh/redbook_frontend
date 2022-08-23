@@ -1,70 +1,105 @@
-# Getting Started with Create React App
+<h1 align="center">The Redbook (Back-end)</h1>
+<h4 align="center">A full stack facebook imitation</h4>
+<p>
+  <img alt="Version" src="https://img.shields.io/badge/version-0.1.0-blue.svg?cacheSeconds=2592000" />
+  <a href="#" target="_blank">
+    <img alt="License: ISC" src="https://img.shields.io/badge/License-ISC-yellow.svg" />
+  </a>
+</p>
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+### :link: [Link to front-end](https://github.com/AndyOooh/redbook_frontend)
 
-## Available Scripts
+### :link: [Link to back-end](https://github.com/AndyOooh/redbook_backend)
 
-In the project directory, you can run:
+### :house: [www.theredbook.xyz](www.theredbook.xyz)
 
-### `npm start`
+- [Description](#description)
+- [Usage](#usage)
+- [Pages](#pages)
+- [Features](#features)
+- [Technologies](#technologies)
+- [Author](#author)
+  
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## Description
+This project is a part of my education to become a full stack developer. It is for showcasing my skills and knowledge. 
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+Looking for a project to put together all the skills I have learned so far, I began a Udemy course called [Build Facebook clone with REACT JS AND THE MERN STACK 2022](https://www.udemy.com/course/build-facebook-clone-and-master-react-js-mern-stack-2022/). It ticked many boxes, e.g. using Redux, MongoDb, Cloudinary, Google cloud and more. However, I quickly came to the relization that it was lacking in quality. The code wasn't DRY, not making use of the latest technologie (e.g. Redux Toolkit), and the project was not well structured. Instead of ditching the project I set out to do it my own way with better structure, newer technologies, and a more DRY approach.
 
-### `npm test`
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Usage
+There are two choices for usage: 
+1. **Go to the website and peak around.**
+   1. Log in with the dummy-user *Michal Scott:*  
+   Email: thatswhat@shesaid.com Password: 1234.
+   2. Or create a user with your own or a [throw-away email].(https://temp-mail.org/en/)
+2. **Clone the project to your machine. 
+NB: You will need to clone both the front-end and back-end repo.** 
+   Prerequisites for option 2:
+   - Node.js v15.x or higher.
+   - Fill out .env.sample with your own credentials. You will need:
+     - A Mongodb database.
+     - A Google Cloud Platform account.
+     - A Cloudinary account.
 
-### `npm run build`
+    Then (in both repos) run:
+  
+```sh
+ npm install
+```
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+```sh
+npm start
+```
+   
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## Pages
+- Home
+- Login
+- Profile
+  - Posts
+  - About
+  - Friends
+- Reset Password
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## Features
+- [x] Account creation & verification (email)
+- [x] Login & authentication with Refresh/Access tokens
+- [x] User posts
+- [x] Post comments, likes and emojis
+- [ ] Profile updates including profile/cover pictures with cropping and resizing
+- [ ] Connections (friends)
+- [ ] Notifications
+- [ ] Messaging
 
-### `npm run eject`
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+## Technologies
+**Back-end**
+- NodeJs/Express
+- MongoDb/Mongoose
+- NodeMailer & Google Cloud (mail)
+- Cloudinary 
+- Multer
+- jsonwebtoken
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+**Front-end**
+- React v18
+- Redux Toolkit/RTK Query
+- React router v6
+- SASS
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+**Deployment**
+- AWS EC2 (back-end)
+- Firebase (front-end)
+- NGINX as proxy with SSL
+- [git-secret](https://git-secret.io/) for handling env variables.
+- Github Actions CI/CD with firebase.
 
-## Learn More
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+## Author
 
-### Code Splitting
+👤 **AndyOooh**
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+* Website: [andyo.xyz](andyo.xyz)

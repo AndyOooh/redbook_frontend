@@ -7,7 +7,7 @@
   </a>
 </p>
 
-### :link: [Link to front-end](https://github.com/AndyOooh/redbook_frontend)
+<!-- ### :link: [Link to front-end](https://github.com/AndyOooh/redbook_frontend) -->
 
 ### :link: [Link to back-end](https://github.com/AndyOooh/redbook_backend)
 
@@ -63,14 +63,16 @@ npm start
 - Reset Password
 
 ## Features
-- [x] Account creation & verification (email)
-- [x] Login & authentication with Refresh/Access tokens
-- [x] User posts
-- [x] Post comments, likes and emojis
-- [ ] Profile updates including profile/cover pictures with cropping and resizing
-- [ ] Connections (friends)
-- [ ] Notifications
-- [ ] Messaging
+- [x] Account creation & verification (email).
+- [x] Login & authentication with Refresh/Access tokens.
+- [x] Password reset (OTP to email).
+- [x] Navigation (with protected routes).
+- [x] User posts.
+- [x] Post comments, likes and emojis.
+- [ ] Profile updates including profile/cover pictures with cropping and resizing.
+- [ ] Connections (friends).
+- [ ] Notifications.
+- [ ] Messaging.
 
 
 ## Technologies

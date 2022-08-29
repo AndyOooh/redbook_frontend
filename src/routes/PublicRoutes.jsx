@@ -3,7 +3,7 @@ import { Navigate, Outlet } from 'react-router-dom';
 
 export const PublicRoutes = () => {
   const { user } = useSelector(state => state.auth);
-  console.log('in PublucRoutes');
+  console.log('in PublicRoutes');
   return user ? <Navigate to='/' /> : <Outlet />;
 };
 

@@ -22,7 +22,7 @@ const postsApiSlice = apiSlice.injectEndpoints({
     }),
     createComment: builder.mutation({
       query: comment => {
-        console.log('lalaaaaa-----------------: ', comment);
+        console.log('in createComment: ', comment);
         const { commentData, postId } = comment;
         console.log('commentData: ', commentData);
         console.log('postId: ', postId);

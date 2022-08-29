@@ -49,6 +49,7 @@ export const ImagePicker = ({
       filesArray.forEach(img => {
         filesArray = validation(img, filesArray);
 
+        //  Create preview versions of images if setPreviewImage(s) is true
         if (
           (setPreviewImages || setPreviewImage) &&
           filesArray.some(item => item.name === img.name)

@@ -47,7 +47,7 @@ header {
 
     .search {
       @include mixins.flex-row(0.8rem, center);
-      background: var(--bg-forth);
+      background: var(--bg-fourth);
       padding: 1rem;
       border-radius: 5rem;
       cursor: text;
@@ -185,7 +185,6 @@ header {
       @include mixins.circle(4rem);
     }
   }
-
 }
 
 /*---Search All Menu-----*/

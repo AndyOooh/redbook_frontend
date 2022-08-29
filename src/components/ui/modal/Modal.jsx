@@ -1,19 +1,26 @@
+import { useClickOutside } from 'hooks/useClickOutside';
+import { useRef } from 'react';
 import { createPortal } from 'react-dom';
 
-import { BackDrop } from '../backdrop/Backdrop';
-import { Card } from '../card/Card';
+import './Modal.scss';
 
-export const Modal = props => {
+export const Modal = ({ children, visible, setVisible, className }) => {
+  const modalref = useRef(null);
+  useClickOutside(modalref, () => setVisible(false));
+
+  const classes = ['modal', className].join(' ');
+
   return (
-    <>
-      {createPortal(
-        <BackDrop onClickBackDrop={props.hideModal} />,
-        document.getElementById('backdrop-root')
-      )}
-      {createPortal(
-        <Card extraClasses={props.styles ? props.styles : null}>{props.children} </Card>,
-        document.getElementById('overlay-root')
-      )}
-    </>
+    visible && (
+      <>
+        {createPortal(<div className='backdrop'></div>, document.getElementById('backdrop-root'))}
+        {createPortal(
+          <section ref={modalref} className={classes}>
+            {children}
+          </section>,
+          document.getElementById('overlay-root')
+        )}
+      </>
+    )
   );
 };

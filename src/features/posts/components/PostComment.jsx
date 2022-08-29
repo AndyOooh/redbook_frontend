@@ -4,21 +4,19 @@ import { Link } from 'react-router-dom';
 import './PostComment.scss';
 
 export const PostComment = ({ comment }) => {
-  console.log('comment...................', comment);
-  const { data: user, isLoading, error } = useGetUserQuery(comment.commentBy);
+  const { data: user, isLoading, error } = useGetUserQuery({ userId: comment.commentBy });
 
   if (error) {
     console.log('error in useGetUserQuery: ', error);
   }
 
-  console.log('user in PostComment', user);
 
   return isLoading ? (
     <div>Loading....</div>
   ) : (
     <div className='comment_item' key={comment.id}>
       <div className='comment_row'>
-        <img  src={user?.picture} alt='' className='profile_pic' />
+        <img src={user?.picture} alt='' className='profile_pic' />
         <div className='comment_box'>
           <div>
             <Link to={`/profile/${user?._id}`} className=''>

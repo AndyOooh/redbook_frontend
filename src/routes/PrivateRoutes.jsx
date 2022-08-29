@@ -8,6 +8,7 @@ import { Outlet, useNavigate } from 'react-router-dom';
 export const PrivateRoutes = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  console.log('in PrivateRoutes');
 
   const { accessToken } = useSelector(state => state.auth);
 

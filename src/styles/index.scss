@@ -66,7 +66,7 @@ a {
 
 .blue_link {
   // color: blue;
-  color: var(--red-color);
+  color: var(--red-main);
 
   padding: 0.5rem 1rem;
 
@@ -80,9 +80,17 @@ a {
 :root {
   // mine
   --header-height: 5.6rem;
+
+  --red-main: #ff6060;
+  // Noyt in use yet
+  --red-dark: #c70000;
+
+  --white-main: #ffe0e0;
+
   --color-error-1: #1876f2;
   --color-input: #949ea8;
   --border-grey: #ccd0d5;
+
 
   --phone: 42rem;
   --tablet: 90rem;
@@ -92,7 +100,7 @@ a {
   --bg-primary: #fff;
   --bg-secondary: #f0f2f5;
   --bg-third: #e4e6eb;
-  --bg-forth: #f0f2f5;
+  --bg-fourth: #f0f2f5;
   --color-primary: #050505;
   --color-secondary: #65676b;
   --divider: #ced0d4;
@@ -102,7 +110,6 @@ a {
   --dark-color-primary: #242526;
   --dark-color-secondary: #b0b3b8;
   --blue-color: #1876f2;
-  --red-color: #ff6060;
   // --red-color2: #FF5757; //same as icon color but we will change icon instead i  canva.
   --green-color: #42b72a;
   --light-blue-color: #e7f3ff;
@@ -124,7 +131,7 @@ a {
   // padding: 8.5px 12px;
 }
 .red_btn {
-  background: var(--red-color);
+  background: var(--red-main);
   color: #fff;
   // padding: 0 1.6rem;
 }

@@ -89,7 +89,6 @@
     }
 
     textarea {
-      background: rgba(255, 192, 203, 0.268); // DELETE THIS LINE
       max-width: 100%;
       border: none;
       resize: none;
@@ -117,7 +116,6 @@
     color: var(--color-secondary);
 
     .wrap99 {
-
     }
 
     img {
@@ -169,12 +167,17 @@
     // --font-size: 1.2rem;
   }
 
+  .error {
+    color: var(--blue-color);
+    font-size: 1.2rem;
+  }
+
   .add_to_post {
     display: flex;
     align-items: center;
     justify-content: space-between;
     gap: 1rem;
-    border: 3px solid var(--bg-forth);
+    border: 3px solid var(--bg-fourth);
     border-radius: 1rem;
     padding: 1rem;
 

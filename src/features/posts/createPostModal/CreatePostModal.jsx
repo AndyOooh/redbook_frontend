@@ -14,7 +14,7 @@ import { ImagePickerUI } from './ImagePickerUI';
 
 // TODO:
 // Add Yup validation and error messages. Text shuod be required. Use the yup formIsvalid from elsewhere <-- use to enable/disable submit button.
-export const CreatePostModal = ({ setVisible }) => {
+export const CreatePostModal = ({ visible, setVisible }) => {
   const bgRef = useRef();
 
   const [postText, setPostText] = useState(''); // Set post here ------------------
@@ -41,7 +41,7 @@ export const CreatePostModal = ({ setVisible }) => {
     'images/postBackgrounds/8.jpg',
     'images/postBackgrounds/9.jpg',
   ];
-  
+
   const resetImagePicker = () => {
     setPreviewImages([]);
     setPostImages([]);
@@ -85,11 +85,10 @@ export const CreatePostModal = ({ setVisible }) => {
     setVisible(false);
   };
 
-
   return (
     <>
-      <Modal styles='create_post_modal'>
-        <form className='modal_wrapper' onSubmit={submitPostHandler}>
+      <Modal className='create_post_modal' visible={visible} setVisible={setVisible}>
+        <form className='card_main modal_wrapper' onSubmit={submitPostHandler}>
           <PostModalheader setModalVisiable={setVisible} />
           <div className='vert_line'></div>
           <div className='modal_bottom'>
@@ -116,8 +115,10 @@ export const CreatePostModal = ({ setVisible }) => {
                 {props => (
                   <ImagePickerUI
                     previewImages={previewImages}
-                    openSystemUi={props.open}
                     resetImagePicker={resetImagePicker}
+                    openSystemUi={props.open}
+                    error={props.error}
+                    setError={props.setError}
                   />
                 )}
               </ImagePicker>

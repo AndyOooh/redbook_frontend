@@ -33,6 +33,7 @@ export const PostTextarea = ({ imagePickerVisible, bgRef, post, setPost }) => {
         style={{ fontSize: fontSize }}
         spellCheck='false'
         onChange={handlePostInput}
+        autoFocus
       />
     </>
   );

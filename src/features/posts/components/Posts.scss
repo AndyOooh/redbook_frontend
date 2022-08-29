@@ -197,7 +197,7 @@
 
       .input_wrap {
         @include mixins.flex-row(0.8rem, space-between);
-        background: var(--bg-forth); // DELETE THIS LINE
+        background: var(--bg-fourth); // DELETE THIS LINE
         flex-grow: 1;
         border-radius: 3rem;
         padding: 0 2rem;

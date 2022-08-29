@@ -1,0 +1,141 @@
+@use '../../../styles/mixins';
+
+.change_profile_pic {
+  margin: 0 2rem;
+  width: 70rem;
+  // min-width: 0rem;
+  // max-width: 70rem;
+
+  button {
+    width: 100%;
+  }
+
+  .card_main {
+    @include mixins.flex-column(1rem);
+    padding: 0;
+
+    // & > * {
+    //     padding: 1rem 2rem;
+    // }
+
+    .topic_header {
+      font-size: 1.6rem;
+      font-weight: 600;
+    }
+
+    .top {
+      @include mixins.flex-center();
+      position: relative;
+      width: 100%;
+      border-bottom: 1px solid var(--border-color);
+      padding: 1.5rem;
+
+      //   .card_title {
+      //   }
+
+      .small_circle {
+        position: absolute;
+        right: 1.5rem;
+        bottom: 1rem;
+      }
+    }
+
+    .bottom {
+      @include mixins.flex-column(1.5rem);
+      width: 100%;
+      padding: 1.5rem;
+
+      .row_buttons {
+        @include mixins.flex-row(1rem, space-between);
+        // padding: 0 1rem;
+        width: 100%;
+
+        & button:first-of-type,
+        i {
+          // color: var(--red-dark);
+          color: var(--white-main);
+        }
+
+        button {
+          flex: 1;
+        }
+      }
+
+      .photo_section {
+        @include mixins.flex-column(1.5rem);
+
+        .photo_grid {
+          display: grid;
+          grid-template-columns: repeat(6, 1fr);
+          gap: 1rem;
+          width: 100%;
+          // padding: 0 1rem;
+
+          img {
+            width: 100%;
+            height: 100%;
+            aspect-ratio: 1/1;
+            object-fit: cover;
+          }
+        }
+      }
+
+      //   ChangeProfilePopup
+      .description {
+        width: 100%;
+
+        //   font-size: 1.2rem;
+        //   font-weight: 600;
+        //   color: var(--red-dark);
+
+        textarea {
+          width: 100%;
+          resize: none;
+          border-radius: 0.7rem;
+          border-color: var(--bg-third);
+          padding: 1.1rem;
+          font-size: 16px;
+          font-family: inherit;
+          //   height: 85px;
+          //   outline-offset: 5px;
+          // background: var(--bg-primary);
+          // color: var(--color-primary);
+
+          // margin-top: 10px;
+          // background: var(--bg-secondary) !important;
+
+          &:focus {
+            outline-color: var(--red-main);
+            outline-offset: 0.1rem;
+          }
+        }
+      }
+
+      .image_cropper {
+        position: relative;
+
+        width: 100%;
+        height: 40rem;
+        border: 1px solid orange;
+      }
+      .zoom_slider {
+        @include mixins.flex-row(0, space-around);
+        width: 100%;
+
+        input[type='range'] {
+          -webkit-appearance: none;
+          width: 55%;
+          height: 0.4rem;
+          background: #ced0d4;
+        }
+      }
+      .buttons {
+        @include mixins.flex-row(2rem, center);
+        width: 100%;
+        padding: 1.5rem;
+      }
+    }
+    //   ChangeProfilePopup End
+  }
+  // Bottom End
+}

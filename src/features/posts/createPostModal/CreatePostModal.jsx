@@ -4,13 +4,13 @@ import { PulseLoader } from 'react-spinners';
 
 import './CreatePostModal.scss';
 import { AddToPost } from './AddToPost';
-import { ImagePicker } from './ImagePicker';
+import { ImagePicker } from '../../../components/ui/inputs/ImagePicker';
 import { PostModalheader } from './PostModalheader';
 import { PostTextarea } from './PostTextarea';
 import { PostModalUser } from './PostModalUser';
 import { BgAndEmojiSelectors } from './bgAndEmoji/BgAndEmojiSelectors';
 import { useCreatePostMutation } from '../postsApiSlice';
-import { ImagePickerUI } from './ImagePickerUI';
+import { AddPhotoUi } from './AddPhotoUi';
 
 // TODO:
 // Add Yup validation and error messages. Text shuod be required. Use the yup formIsvalid from elsewhere <-- use to enable/disable submit button.
@@ -20,7 +20,6 @@ export const CreatePostModal = ({ visible, setVisible }) => {
   const [postText, setPostText] = useState(''); // Set post here ------------------
   const [postBackground, setPostBackground] = useState(null);
   const [postImages, setPostImages] = useState([]);
-  const [previewImages, setPreviewImages] = useState([]);
   const [imagePickerVisible, setImagePickerVisible] = useState(false);
 
   const [createPost, { isLoading }] = useCreatePostMutation();
@@ -28,7 +27,6 @@ export const CreatePostModal = ({ visible, setVisible }) => {
   console.log('text', postText);
   console.log('background', postBackground);
   console.log('images', postImages);
-  console.log('previewImages', previewImages);
 
   const postBackgrounds = [
     'images/postBackgrounds/1.jpg',
@@ -43,7 +41,6 @@ export const CreatePostModal = ({ visible, setVisible }) => {
   ];
 
   const resetImagePicker = () => {
-    setPreviewImages([]);
     setPostImages([]);
     setImagePickerVisible(false);
   };
@@ -54,6 +51,7 @@ export const CreatePostModal = ({ visible, setVisible }) => {
     bgRef.current.classList.add('bgHandler');
   };
 
+  // SUBMIT Handler ----------------------------------
   const submitPostHandler = async e => {
     e.preventDefault();
 
@@ -81,7 +79,6 @@ export const CreatePostModal = ({ visible, setVisible }) => {
     setPostText('');
     setPostBackground(null);
     setPostImages([]);
-    setPreviewImages([]);
     setVisible(false);
   };
 
@@ -94,31 +91,28 @@ export const CreatePostModal = ({ visible, setVisible }) => {
           <div className='modal_bottom'>
             <PostModalUser />
             <PostTextarea
-              // setImagePickerVisible={setImagePickerVisible}
               imagePickerVisible={imagePickerVisible}
               bgRef={bgRef}
               post={postText}
               setPost={setPostText}
             />
-            {/* INssrt bg emoji picker component OR NOT */}
             <BgAndEmojiSelectors
               imagePickerVisible={imagePickerVisible}
               postBackgrounds={postBackgrounds}
               post={postText}
               setPost={setPostText}
-              // handleEmojiInput={handleEmojiInput}
-              // showEmojiPicker={showEmojiPicker}
               changeBackground={changeBackgroundHandler}
             />
             {imagePickerVisible && (
-              <ImagePicker setImages={setPostImages} setPreviewImages={setPreviewImages}>
+              <ImagePicker setImages={setPostImages} preview>
                 {props => (
-                  <ImagePickerUI
-                    previewImages={previewImages}
+                  <AddPhotoUi
+                    images={postImages}
                     resetImagePicker={resetImagePicker}
                     openSystemUi={props.open}
                     error={props.error}
                     setError={props.setError}
+                    getRootProps={props.getRootProps}
                   />
                 )}
               </ImagePicker>

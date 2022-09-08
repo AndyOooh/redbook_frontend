@@ -1,31 +1,22 @@
 import { ProfileImage } from 'components/ProfileImage';
 import React, { useState } from 'react';
-import { useSelector } from 'react-redux';
+// import { useSelector } from 'react-redux';
 import { EmojiSelector } from '../createPostModal/bgAndEmoji/EmojiSelector';
-import { ImagePicker } from '../createPostModal/ImagePicker';
+import { ImagePicker } from '../../../components/ui/inputs/ImagePicker';
 import { useCreateCommentMutation, useUpdatePostMutation } from '../postsApiSlice';
 
 export const CreateComment = ({ postId, visible, setVisible }) => {
-  const { user } = useSelector(state => state.auth);
 
   const [commentText, setCommentText] = React.useState('');
   const [commentImages, setCommentImages] = useState([]);
-  const [previewImages, setPreviewImages] = useState([]);
 
   const [emojiSelectorVisible, setEmojiSelectorVisible] = React.useState(false);
-  const [imagePickerVisible, setImagePickerVisible] = useState(false);
 
-  // const [updatePost, { isLoading }] = useUpdatePostMutation();
   const [createComment, { isLoading: isLoadingComment }] = useCreateCommentMutation();
 
   const resetImages = () => {
-    setPreviewImages([]);
     setCommentImages([]);
   };
-
-  console.log('commentText', commentText);
-  console.log('commentImage', commentImages);
-  console.log('previewImages', previewImages);
 
   const handleEmojiInput = emoji => {
     setCommentText(commentText + emoji.native);
@@ -38,7 +29,7 @@ export const CreateComment = ({ postId, visible, setVisible }) => {
   };
 
   const removeThumbHandler = id => {
-    setPreviewImages(previewImages.filter(image => image.id !== id));
+    setCommentImages(commentImages.url.filter(image => image.id !== id));
   };
 
   // Submithandler --------------------------------------------------
@@ -54,7 +45,6 @@ export const CreateComment = ({ postId, visible, setVisible }) => {
     // postData.append('id', postId);
     commentData.append('text', commentText);
     if (commentImages.length > 0) {
-      console.log('inside if --------------------------------------------------');
       for (let i = 0; i < commentImages.length; i++) {
         commentData.append('images', commentImages[i]);
       }
@@ -78,7 +68,6 @@ export const CreateComment = ({ postId, visible, setVisible }) => {
 
     setCommentText('');
     setCommentImages([]);
-    setPreviewImages([]);
     setVisible(false);
   };
 
@@ -94,11 +83,13 @@ export const CreateComment = ({ postId, visible, setVisible }) => {
 
       {/* Create comment. CreateComment component? */}
       <form className='comment_form' onSubmit={submitCommentHandler}>
-        <ImagePicker setImages={setCommentImages} setPreviewImages={setPreviewImages}>
+        <ImagePicker
+          preview
+          setImages={setCommentImages}
+        >
           {props => (
             <>
               <div className='create_comment'>
-                {/* <img src={user?.picture} alt='' /> */}
                 <ProfileImage size='2.4rem' />
                 <div className='input_wrap'>
                   <div className='comment_text_wrapper'>
@@ -141,14 +132,14 @@ export const CreateComment = ({ postId, visible, setVisible }) => {
                   </div>
                 </div>
               </div>
-              {previewImages && previewImages.length > 0 && (
+              {commentImages && commentImages.length > 0 && (
                 <>
                   <div className='comment_image_preview'>
                     {' '}
                     <div className='image_grid'>
-                      {previewImages.slice(0, 6).map(img => (
+                      {commentImages.slice(0, 6).map(img => (
                         <div className='image_wrapper' key={img.id}>
-                          <img src={img.base64} alt='' />
+                          <img src={img.url} alt='' />
                           <div className='small_circle' onClick={() => removeThumbHandler(img.id)}>
                             <i className='exit_icon'></i>
                           </div>

@@ -2,26 +2,29 @@ import { Link } from 'react-router-dom';
 import Moment from 'react-moment';
 
 import { Dots, Public } from 'assets/svg';
-import { memo, useCallback, useState } from 'react';
+import { memo, useState } from 'react';
 import { ReactionsPopup } from './ReactionsPopup';
 import { useHoverHandler } from 'hooks/useHoverHandler';
 import { CreateComment } from './CreateComment';
 import { PostMenu } from './PostMenu';
 import { PostComment } from './PostComment';
+import { ProfileImage } from 'components/ProfileImage';
 
 export const PostItem = memo(({ post }) => {
+  console.log('🚀 ~ file: PostItem.jsx ~ line 14 ~ post', post);
   const [showMenu, setShowMenu] = useState(false);
   const [showReactionsPopup, setShowReactionsPopup] = useState(false);
   const [showComments, setShowComments] = useState(true);
   const hoverHandler = useHoverHandler();
 
   const { user, images } = post;
+  console.log('🚀 ~ file: PostItem.jsx ~ line 19 ~ PostItem ~ user', user);
 
   const updatedText =
-    post.type === 'profilePicture'
-      ? `updated ${user.gender === 'male' ? 'his' : 'her'} profile picture`
-      : post.type == 'cover'
-      ? `updated ${user.gender === 'male' ? 'his' : 'her'} cover picture`
+    post.type === 'profile'
+      ? `Updated ${user.gender === 'male' ? 'his' : 'her'} profile picture`
+      : post.type === 'cover'
+      ? `Updated ${user.gender === 'male' ? 'his' : 'her'} cover picture`
       : null;
 
   let gridClass;
@@ -47,7 +50,8 @@ export const PostItem = memo(({ post }) => {
         <div className='post_header'>
           <div className='header_left'>
             <Link to={`/profile/${user.username}`} className=''>
-              <img src={user.picture} alt='' />
+              <ProfileImage />
+              {/* <img src={user?.pictures[0]?.url} alt='' /> */}
             </Link>
             <div className='post_details'>
               <div className='profile_name'>
@@ -65,10 +69,6 @@ export const PostItem = memo(({ post }) => {
           </div>
 
           <div className='header_right' onClick={() => setShowMenu(prev => !prev)}>
-            {/* <div className='header_right' onClick={setTimeout(() => setShowMenu(prev => !prev), 0)}> */}
-            {/* <div
-            className='post_header_right hover1'
-            onClick={() => setShowMenu(prev => !prev)}></div> */}
             <Dots color='#828387' />
           </div>
         </div>
@@ -90,7 +90,7 @@ export const PostItem = memo(({ post }) => {
           </div>
           {post.images && post.images.length > 0 && (
             <div className={`post_images_grid ${gridClass}`}>
-              {post.images.slice(0, 4).map((image, index) => (
+              {post.images?.slice(0, 4).map((image, index) => (
                 <div
                   key={image.id}
                   style={

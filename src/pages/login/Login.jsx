@@ -11,17 +11,15 @@ import './Login.scss';
 export const Login = () => {
   const [registerVisible, setRegisterIsVisible] = useState(false);
 
-
-  console.log('in Login Page')
-
   return (
     <>
       <div className='login_wrapper'>
         <LoginWelcome />
-        <LoginForm setIsVisible={setRegisterIsVisible} />
+        <LoginForm setRegisterIsVisible={setRegisterIsVisible} />
       </div>
       <LoginFooter />
-      {registerVisible && <RegisterForm setIsVisible={setRegisterIsVisible} />}
+      {/* {registerVisible && <RegisterForm visible={registerVisible} setIsVisible={setRegisterIsVisible} />} */}
+      <RegisterForm visible={registerVisible} setIsVisible={setRegisterIsVisible} />
     </>
   );
 };

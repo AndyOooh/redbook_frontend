@@ -2,8 +2,6 @@ import { Routes, Route } from 'react-router-dom';
 import { menuItems } from './menuItems';
 
 export const ProfileBottom = props => {
-  console.log('🚀 ~ file: ProfileBottom.jsx ~ line 5 ~ ProfileBottom ~ props', props);
-  // console.log('ProfileBottom userId', userId);
   return (
     <>
       <Routes>

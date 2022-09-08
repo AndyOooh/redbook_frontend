@@ -19,7 +19,7 @@ export const ProfileImage = ({ size, isHeader }) => {
   };
 
   const activeStyles = {
-    border: '3px solid var(--red-color)',
+    border: '3px solid var(--red-main)',
   };
 
   if (onProfileRoute && isHeader) {
@@ -34,7 +34,7 @@ export const ProfileImage = ({ size, isHeader }) => {
   const { user } = useSelector(state => state.auth);
   return (
     <div style={wrapperStyles} className={wrapperClasses}>
-      <img src={user?.picture} alt='profile_image' style={imageStyles} />
+      <img src={user?.pictures[0]?.url} alt='profile_image' style={imageStyles} />
     </div>
   );
 };

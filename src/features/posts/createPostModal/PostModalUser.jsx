@@ -1,3 +1,4 @@
+import { ProfileImage } from 'components/ProfileImage';
 import { BsPersonFill } from 'react-icons/bs';
 import { useSelector } from 'react-redux';
 
@@ -7,7 +8,7 @@ export const PostModalUser = () => {
   return (
     <div className='modal_profile'>
       <div className='profile_image'>
-        <img src={user?.picture} alt='' />
+        <ProfileImage />
       </div>
       <div className='name_aud_wrapper'>
         <span className='profile_name'>

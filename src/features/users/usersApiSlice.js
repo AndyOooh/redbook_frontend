@@ -15,12 +15,12 @@ export const usersApiSlice = apiSlice.injectEndpoints({
     //     body: postData,
     //   }),
     // }),
-    updateProfilePhoto: builder.mutation({
+    updateProfileImages: builder.mutation({
       query: payload => {
         console.log('postData in usersApiSlice -----------------: ', payload);
-        const { postData, userId } = payload;
+        const { postData, userId, type } = payload;
         return {
-          url: `/users/${userId}/update`,
+          url: `/users/${userId}/update?type=${type}`,
           method: 'PUT',
           body: postData,
         };
@@ -29,5 +29,5 @@ export const usersApiSlice = apiSlice.injectEndpoints({
   }),
 });
 
-export const { useGetUserQuery, useLazyGetUserQuery, useUpdateProfilePhotoMutation } =
+export const { useGetUserQuery, useLazyGetUserQuery, useUpdateProfileImagesMutation } =
   usersApiSlice;

@@ -4,11 +4,14 @@ import { apiSlice } from 'app/api/apiSlice';
 const postsApiSlice = apiSlice.injectEndpoints({
   endpoints: builder => ({
     createPost: builder.mutation({
-      query: postData => ({
-        url: '/posts',
-        method: 'POST',
-        body: postData,
-      }),
+      query: payload => {
+        const { postData, type } = payload;
+        return {
+          url: `/posts?type=${type}`,
+          method: 'POST',
+          body: postData,
+        };
+      },
     }),
     getPosts: builder.query({
       // query: filter => `/posts?${filter}`,
@@ -16,7 +19,6 @@ const postsApiSlice = apiSlice.injectEndpoints({
         return {
           url: '/posts',
           params: { ...filter },
-          
         };
       },
     }),

@@ -29,9 +29,13 @@
       position: relative;
       height: 40.5rem;
 
-      border: 1px solid orange;
-
       background: pink;
+
+      img {
+        height: 100%;
+        width: 100%;
+        object-fit: cover;
+      }
 
       .edit_cover_btn {
         position: absolute;
@@ -102,8 +106,8 @@
             }
 
             .active_link {
-              border-bottom: 2px solid var(--red-color);
-              color: var(--red-color);
+              border-bottom: 2px solid var(--red-main);
+              color: var(--red-main);
             }
           }
         }
@@ -119,14 +123,14 @@
   padding: 1.5rem 4rem;
 
   .profile_posts {
-    // @include mixins.flex-row(2rem, $align: start);
+    // @include mixins.flex-row(2rem, $align: flex-start);
     display: grid;
     grid-template-columns: 1fr 1.4fr;
     gap: 2rem;
 
     & > * {
       // width: 100%;
-      @include mixins.flex-column(0, start);
+      @include mixins.flex-column(0, flex-start);
 
       & > * {
         width: 100%;

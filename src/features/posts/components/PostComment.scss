@@ -6,10 +6,6 @@
 
   .comment_row {
     @include mixins.flex-row(1.2rem, start);
-
-    .profile_pic {
-      @include mixins.circle(2.4rem);
-    }
   }
 
   .comment_box {

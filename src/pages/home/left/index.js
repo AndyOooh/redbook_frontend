@@ -7,6 +7,7 @@ import { ArrowDown1 } from 'assets/svg';
 import Shortcut from './Shortcut';
 import './styles.scss';
 import { useSelector } from 'react-redux';
+import { ProfileImage } from 'components/ProfileImage';
 
 export default function LeftHome() {
   const [visible, setVisible] = useState(false);
@@ -14,7 +15,7 @@ export default function LeftHome() {
   return (
     <section className='left_home scrollbar'>
       <Link to='/profile' className='left_link hover1'>
-        <img src={user?.picture} alt='' />
+        <ProfileImage />
         <span>
           {user?.first_name} {user?.last_name}
         </span>

@@ -65,7 +65,7 @@
     }
 
     .radio_row {
-      align-self: start;
+      align-self: flex-start;
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -76,7 +76,7 @@
     .row_left {
       display: flex;
       align-items: center;
-      justify-content: start;
+      justify-content: flex-start;
       gap: 1.5rem;
     }
 

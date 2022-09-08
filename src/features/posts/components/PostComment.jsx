@@ -1,3 +1,4 @@
+import { ProfileImage } from 'components/ProfileImage';
 import { useGetUserQuery } from 'features/users/usersApiSlice';
 import { Link } from 'react-router-dom';
 
@@ -10,13 +11,12 @@ export const PostComment = ({ comment }) => {
     console.log('error in useGetUserQuery: ', error);
   }
 
-
   return isLoading ? (
     <div>Loading....</div>
   ) : (
     <div className='comment_item' key={comment.id}>
       <div className='comment_row'>
-        <img src={user?.picture} alt='' className='profile_pic' />
+        <ProfileImage size='2.4rem' />
         <div className='comment_box'>
           <div>
             <Link to={`/profile/${user?._id}`} className=''>
@@ -30,7 +30,7 @@ export const PostComment = ({ comment }) => {
             {comment.images.length > 0 && (
               <div className='comment_images'>
                 {comment.images.map(image => (
-                  <img src={image.url} alt='' key={image.id} />
+                  <img src={image.url} alt='' key={image._id} />
                 ))}
               </div>
             )}

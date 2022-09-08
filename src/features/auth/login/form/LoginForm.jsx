@@ -10,7 +10,7 @@ import { loginvalidation } from './loginValidation';
 import { reset, setCredentials } from 'features/auth/authSlice';
 import { useLoginMutation } from 'features/auth/authApiSlice';
 
-export const LoginForm = ({ setIsVisible }) => {
+export const LoginForm = ({ setRegisterIsVisible }) => {
   const initialFormData = {
     email: '',
     password: '',
@@ -95,7 +95,7 @@ export const LoginForm = ({ setIsVisible }) => {
                 type='button'
                 className='btn red_btn create_account_btn'
                 onClick={() => {
-                  setIsVisible(true);
+                  setRegisterIsVisible(true);
                   dispatch(reset());
                 }}>
                 Create new account

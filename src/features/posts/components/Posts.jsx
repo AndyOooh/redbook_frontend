@@ -4,7 +4,7 @@ import { PostItem } from './PostItem';
 
 import './Posts.scss';
 
-export const Posts = ({filter}) => {
+export const Posts = ({ filter }) => {
   console.log('Posts filter', filter);
   const { data: posts = [], isLoading, error } = useGetPostsQuery(filter);
 

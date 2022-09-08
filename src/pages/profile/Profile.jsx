@@ -1,21 +1,18 @@
-import { Dots, Friends } from 'assets/svg';
-// import { Modal } from 'components';
-import { ProfileImage } from 'components/ProfileImage';
-import { ChangeProfilePicture } from 'features/users/changePicture/ChangeProfilePicture';
-import { useGetUserQuery, useLazyGetUserQuery } from 'features/users/usersApiSlice';
-import { Header } from 'layout/header';
-import { useEffect } from 'react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import {  useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 import './Profile.scss';
+import { Dots } from 'assets/svg';
+import { ProfileImage } from 'components/ProfileImage';
+import { ChangeImageModal } from 'features/users/changePicture/ChangeImageModal';
+import { useGetUserQuery, useLazyGetUserQuery } from 'features/users/usersApiSlice';
+import { Header } from 'layout/header';
 import { ProfileBottom } from './ProfileBottom';
 import { ProfileSectionsMenu } from './ProfileSectionsMenu';
 
 export const Profile = () => {
-  const [showCoverMenu, setShowCoverMenu] = useState(false);
-  const [showChangePictureModal, setShowChangePictureModal] = useState(true);
+  const [changeImageModal, setChangeImageModal] = useState('');
   const [skip, setSkip] = useState(true);
   const navigate = useNavigate();
 
@@ -29,8 +26,6 @@ export const Profile = () => {
     isSuccess,
     isError,
   } = useGetUserQuery({ userId: username, type: 'profile' }, { skip });
-
-  console.log('otherUser', otherUser);
 
   useEffect(() => {
     console.log('useeffect ');
@@ -58,17 +53,16 @@ export const Profile = () => {
     user = { ...currentUser };
   }
 
-  console.log('user', user);
-
   return isLoading ? (
     <div>Loading...</div>
   ) : (
     <>
-      {/* {showChangePictureModal && <ChangeProfilePicture />} */}
-      {showChangePictureModal && (
-        <ChangeProfilePicture
-          visible={showChangePictureModal}
-          setVisible={setShowChangePictureModal}
+      {changeImageModal && (
+        <ChangeImageModal
+          user={currentUser}
+          visible={changeImageModal}
+          setVisible={setChangeImageModal}
+          type={changeImageModal}
         />
       )}
       <div className='profile'>
@@ -77,14 +71,11 @@ export const Profile = () => {
           {/* <h1>Prof top</h1> */}
           <div className='profile_container top_container'>
             <div className='cover_photo'>
-              <img src={user.cover} alt='' />
+              <img src={user.covers[0].url} alt='' />
               <button
                 className='btn btn_grey edit_cover_btn'
-                // onClick={() => setShowCoverMenu(!showCoverMenu)}>
-                onClick={() => setShowCoverMenu(true)}>
-                {/* <div className='comment_circle_icon hover2' onClick={props.open}> */}
+                onClick={() => setChangeImageModal('cover')}>
                 <i className='camera_icon'></i>
-                {/* </div> */}
                 Edit cover Photo
               </button>
             </div>
@@ -95,7 +86,7 @@ export const Profile = () => {
                     <ProfileImage size='16.8rem' />
                     <div
                       className='prof_icon_wrapper'
-                      onClick={() => setShowChangePictureModal(true)}>
+                      onClick={() => setChangeImageModal('profile')}>
                       <i className='camera_filled_icon'></i>
                     </div>
                   </div>

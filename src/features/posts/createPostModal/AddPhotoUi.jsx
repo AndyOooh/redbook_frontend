@@ -1,24 +1,27 @@
 import React from 'react';
 
-export const ImagePickerUI = ({ previewImages, resetImagePicker, openSystemUi, error, setError }) => {
+export const AddPhotoUi = ({
+  images,
+  resetImagePicker,
+  openSystemUi,
+  error,
+  setError,
+  getRootProps,
+}) => {
   const imagePickerClasses =
-    previewImages && previewImages.length > 0
-      ? // ? 'image_picker has_images overflow_a scrollbar'
-        'image_picker overflow_a scrollbar'
-      : 'image_picker';
+    images && images.length > 0 ? 'image_picker overflow_a scrollbar' : 'image_picker';
 
   console.log('error in ImagePickerUI', error);
 
   const openHandler = () => {
-    console.log('openHandler ********************************************************');
     setError(null);
     openSystemUi();
-  }
+  };
 
   return (
     <>
       <div className={imagePickerClasses}>
-        {previewImages && previewImages.length > 0 ? (
+        {images && images.length > 0 ? (
           <>
             <div className='image_preview'>
               <div className='preview_menu'>
@@ -40,8 +43,8 @@ export const ImagePickerUI = ({ previewImages, resetImagePicker, openSystemUi, e
                 </div>
               </div>
               <div className='image_grid'>
-                {previewImages.map(img => (
-                  <img src={img.base64} key={img.id} alt='' />
+                {images.map(img => (
+                  <img src={img.url} key={img.id} alt='' />
                 ))}
               </div>
             </div>

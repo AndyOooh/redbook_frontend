@@ -135,9 +135,9 @@ header {
   }
 
   .active {
-    border-bottom: 3px solid var(--red-color);
+    border-bottom: 3px solid var(--red-main);
     border-radius: 0;
-    fill: var(--red-color);
+    fill: var(--red-main);
   }
 
   .middle_notification {

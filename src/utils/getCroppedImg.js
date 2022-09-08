@@ -3,7 +3,7 @@ export const createImage = url =>
     const image = new Image();
     image.addEventListener('load', () => resolve(image));
     image.addEventListener('error', error => reject(error));
-    // image.setAttribute('crossOrigin', 'anonymous'); // needed to avoid cross-origin issues on CodeSandbox
+    image.setAttribute('crossOrigin', 'anonymous'); // needed to avoid cross-origin issues on CodeSandbox
     image.src = url;
   });
 
@@ -26,16 +26,13 @@ export function rotateSize(width, height, rotation) {
 /**
  * This function was adapted from the one in the ReadMe of https://github.com/DominicTobias/react-image-crop
  */
-export default async function getCroppedImg(
+export const getCroppedImg = async (
   imageSrc,
   pixelCrop,
   rotation = 0,
   flip = { horizontal: false, vertical: false }
-) {
-  console.log('🚀 ~ file: getCroppedImg.js ~ line 35 ~ imageSrc', imageSrc);
-  console.log('🚀 ~ file: getCroppedImg.js ~ line 35 ~ pixelCrop', pixelCrop);
+) => {
   const image = await createImage(imageSrc);
-  // console.log('image', image);
   const canvas = document.createElement('canvas');
   const ctx = canvas.getContext('2d');
 
@@ -51,8 +48,6 @@ export default async function getCroppedImg(
   // set canvas size to match the bounding box
   canvas.width = bBoxWidth;
   canvas.height = bBoxHeight;
-  canvas.width = image.width;
-  canvas.height = image.height;
 
   // translate canvas context to a central location to allow rotating and flipping around the center
   ctx.translate(bBoxWidth / 2, bBoxHeight / 2);
@@ -75,43 +70,35 @@ export default async function getCroppedImg(
   ctx.putImageData(data, 0, 0);
 
   // As Base64 string
-  // return canvas.toDataURL('image/jpeg');
+  const croppedDataurl = canvas.toDataURL('image/jpeg');
 
-  // As a blob
-  // return new Promise((resolve, reject) => {
+  const croppedFileFromDataUrl = dataURLtoFile(croppedDataurl, 'croppedImage.jpeg');
+  croppedFileFromDataUrl.url = URL.createObjectURL(croppedFileFromDataUrl);
+
+  // As a blob (Keep)
+  // const croppedBlob = await new Promise((resolve, reject) => {
   //   canvas.toBlob(file => {
   //     resolve(URL.createObjectURL(file));
   //   }, 'image/jpeg');
   // });
+  // const croppedFileFromblob = new File([croppedBlob], '');
 
-  // return {
-  //   preview: canvas.toDataURL('image/jpeg'),
-  //   croppedImage: new Promise((resolve, reject) => {
-  //     canvas.toBlob(file => {
-  //       resolve(URL.createObjectURL(file));
-  //     }, 'image/jpeg');
-  //   }),
-  // };
+  return {
+    // croppedDataurl,
+    croppedFileFromDataUrl,
+    // croppedBlob,
+    // croppedFileFromblob,
+  };
+};
 
-  const preview = canvas.toDataURL('image/jpeg');
-  // console.log("🚀 ~ file: getCroppedImg.js ~ line 96 ~ preview", preview)
+export const dataURLtoFile = (dataurl, filename) => {
+  const arr = dataurl.split(',');
+  const mime = arr[0].match(/:(.*?);/)[1];
+  const bstr = atob(arr[1]);
+  let n = bstr.length;
+  const u8arr = new Uint8Array(n);
 
-  // const testImage = preview.atob();
-  // console.log("🚀 ~ file: getCroppedImg.js ~ line 98 ~ testImage", testImage)
+  while (n--) u8arr[n] = bstr.charCodeAt(n);
 
-  const croppedImage = await new Promise((resolve, reject) => {
-    canvas.toBlob(file => {
-      resolve(URL.createObjectURL(file));
-    }, 'image/jpeg');
-  });
-  console.log('🚀 ~ file: getCroppedImg.js ~ line 106 ~ croppedImage ~ croppedImage', croppedImage);
-
-  const filefromblob = new File([croppedImage], 'croppedImage987978977.jpeg', { type: 'image/jpeg' });
-  // const filefromblob = new File([croppedImage], '');
-  // console.log('🚀 ~ file: getCroppedImg.js ~ line 109 ~ filefromblob', filefromblob);
-
-  // return { preview, croppedImage };
-  return { preview, croppedImage, filefromblob };
-}
-
-
+  return new File([u8arr], filename, { type: mime });
+};

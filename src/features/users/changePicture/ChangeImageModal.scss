@@ -1,6 +1,7 @@
 @use '../../../styles/mixins';
 
 .change_profile_pic {
+  
   margin: 0 2rem;
   width: 70rem;
   // min-width: 0rem;
@@ -12,6 +13,8 @@
 
   .card_main {
     @include mixins.flex-column(1rem);
+    max-height: 90vh;
+    
     padding: 0;
 
     // & > * {
@@ -25,6 +28,7 @@
 
     .top {
       @include mixins.flex-center();
+      
       position: relative;
       width: 100%;
       border-bottom: 1px solid var(--border-color);
@@ -42,6 +46,9 @@
 
     .bottom {
       @include mixins.flex-column(1.5rem);
+
+      overflow-y: scroll;
+      
       width: 100%;
       padding: 1.5rem;
 
@@ -64,7 +71,7 @@
       .photo_section {
         @include mixins.flex-column(1.5rem);
 
-        .photo_grid {
+        .profile_photo_grid {
           display: grid;
           grid-template-columns: repeat(6, 1fr);
           gap: 1rem;
@@ -76,6 +83,32 @@
             height: 100%;
             aspect-ratio: 1/1;
             object-fit: cover;
+
+            &:hover {
+              cursor: pointer;
+              filter: brightness(110%);
+            }
+          }
+        }
+
+        .cover_photo_grid {
+          display: grid;
+          grid-template-columns: repeat(3, 1fr);
+          // grid-template-rows: repeat(2, 1fr);
+          gap: 1rem;
+          width: 100%;
+          // padding: 0 1rem;
+
+          img {
+            width: 100%;
+            // height: 100%;
+            aspect-ratio: 2.7/1;
+            object-fit: cover;
+
+            &:hover {
+              cursor: pointer;
+              filter: brightness(110%);
+            }
           }
         }
       }

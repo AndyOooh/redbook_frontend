@@ -8,7 +8,6 @@ import { VerifyAccount } from 'features/auth/verifyAccount/VerifyAccount';
 import { ResetPassword } from 'pages/resetPassword';
 import { PrivateRoutes } from 'routes/PrivateRoutes';
 import { Developing } from 'pages/Developing';
-import { ProfileBottom } from 'pages/profile/ProfileBottom';
 
 console.log('in App.js');
 

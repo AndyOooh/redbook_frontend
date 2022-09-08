@@ -11,6 +11,7 @@ import HelpSupport from './HelpSupport';
 import SettingsPrivacy from './SettingsPrivacy';
 import { useLogoutMutation } from 'features/auth/authApiSlice';
 import { reset } from 'features/auth/authSlice';
+import { ProfileImage } from 'components/ProfileImage';
 
 export const UserMenu = () => {
   const [visible, setVisible] = useState(0);
@@ -31,7 +32,7 @@ export const UserMenu = () => {
         <>
           <div className='header'>
             <Link to='/profile' className='header_link hover3'>
-              <img src={user?.picture} alt='' />
+              <ProfileImage />
               <span>
                 {user?.first_name} {user?.last_name}
               </span>

@@ -4,6 +4,8 @@ import { useGetUserQuery, useLazyGetUserQuery } from 'features/users/usersApiSli
 import { Header } from 'layout/header';
 import { useEffect } from 'react';
 import { useState } from 'react';
+import { BsFillPlusCircleFill } from 'react-icons/bs';
+import { MdModeEditOutline } from 'react-icons/md';
 import { useSelector } from 'react-redux';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 
@@ -17,16 +19,16 @@ export const Profile = () => {
   const navigate = useNavigate();
 
   const currentUser = useSelector(state => state.auth.user);
-  console.log("🚀 ~ file: Profile.jsx ~ line 20 ~ Profile ~ currentUser", currentUser)
+  console.log('🚀 ~ file: Profile.jsx ~ line 20 ~ Profile ~ currentUser', currentUser);
   const { username } = useParams();
-  console.log("🚀 ~ file: Profile.jsx ~ line 22 ~ Profile ~ username", username)
+  console.log('🚀 ~ file: Profile.jsx ~ line 22 ~ Profile ~ username', username);
 
-  console.log('skip', skip)
+  console.log('skip', skip);
 
   useEffect(() => {
     // Only trigger query if skip is false. Skip is true if there us a user in params and it's different from logged in user.
     if (username && username !== currentUser.username) {
-      console.log('in useeffect if...............')
+      console.log('in useeffect if...............');
       setSkip(false);
     }
     // setSkip(username && username !== currentUser.username);
@@ -73,7 +75,7 @@ export const Profile = () => {
           <div className='cover_photo'>
             <img src={user.cover} alt='' />
             <button
-              className='btn btn_grey edit_cover_btn'
+              className='btn gray_btn edit_cover_btn'
               // onClick={() => setShowCoverMenu(!showCoverMenu)}>
               onClick={() => setShowCoverMenu(true)}>
               {/* <div className='comment_circle_icon hover2' onClick={props.open}> */}
@@ -110,13 +112,13 @@ export const Profile = () => {
                 </div>
               </div>
               <div className='name_row_left'>
-                <button className='btn btn_grey'>
+                <button className='btn gray_btn'>
                   <div className='icon_wrapper'>
                     <i className='camera_icon'></i>
                   </div>
                   Add to story
                 </button>
-                <button className='btn btn_grey'>
+                <button className='btn gray_btn'>
                   <div className='icon_wrapper'>
                     <i className='camera_icon'></i>
                   </div>

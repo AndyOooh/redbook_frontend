@@ -77,7 +77,6 @@ export const RegisterForm = ({ visible, setIsVisible }) => {
     <>
       {/* <h1>Hello from register </h1> */}
       <Modal className='RegisterForm_wrapper' visible={visible} setIsVisible={setIsVisible}>
-        <h1>Hello from register </h1>
         <div className='header'>
           <div className='heading'>
             <h1>Sign Up </h1>

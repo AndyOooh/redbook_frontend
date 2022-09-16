@@ -1,6 +1,9 @@
-// @use 'styles/mixins';
-
 @use '../../../styles/mixins';
+
+.profile_name {
+  font-size: 1.5rem;
+  font-weight: 600;
+}
 
 .post_item {
   position: relative;
@@ -19,6 +22,15 @@
       img {
         @include mixins.circle(4rem);
         // padding: 0.5rem 0;
+      }
+
+      .post_details {
+        .profile_name {
+          span {
+            font-size: 1.4rem;
+            font-weight: 400;
+          }
+        }
       }
 
       .privacy_date {
@@ -44,6 +56,42 @@
       font-size: 2.25rem;
       font-weight: 600;
       color: whitesmoke;
+    }
+
+    .profile_post {
+      position: relative;
+      @include mixins.flex-center();
+
+      .profile_cover {
+        position: absolute;
+        top: 0;
+        height: 27rem;
+        width: 100%;
+        background-size: cover;
+        background-position: top;
+      }
+
+      .profile_image {
+        @include mixins.circle(85%);
+        z-index: 10;
+        margin: 3rem 0;
+      }
+    }
+
+    // .cover_post {
+    //   height: 20rem;
+    //   .cover_image {
+    //     background-size: contain;
+    //     width: 100%;
+    //     height: 100%;
+    //     background-position: top;
+    //     background-repeat: no-repeat;
+    //   }
+    // }
+
+    .cover_image {
+      width: 100%;
+      object-fit: contain;
     }
 
     .post_images_grid {

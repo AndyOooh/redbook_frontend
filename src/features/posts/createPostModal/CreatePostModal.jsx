@@ -70,7 +70,7 @@ export const CreatePostModal = ({ visible, setVisible }) => {
     }
 
     try {
-      const { data } = await createPost(postData).unwrap();
+      const { data } = await createPost({ postData, type: 'feed' }).unwrap();
       console.log('data', data);
     } catch (error) {
       console.log('error', error);

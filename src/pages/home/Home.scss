@@ -4,6 +4,7 @@
   // To use default scrollbar for main, I need to put it in same container as home_right probably.
 
   height: 100vh;
+  
   // height: calc(100vh - 7.5rem); // - header height and padding
   display: grid;
   grid-template-columns: auto minmax(1fr, 80%) auto; // Need to fix this somehow, to give middle a max and prevent sides from expamding - at spme points the gap/space between should expand

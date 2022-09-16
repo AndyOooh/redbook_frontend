@@ -108,7 +108,7 @@ export const ChangeImageModal = ({ user, visible, setVisible, type }) => {
                     );
                   })}
                 </div>
-                <button className='btn btn_grey'>See more</button>
+                <button className='btn gray_btn'>See more</button>
               </div>
               <div className='photo_section'>
                 <span className='topic_header'>{topic_header2} </span>
@@ -124,7 +124,7 @@ export const ChangeImageModal = ({ user, visible, setVisible, type }) => {
                     );
                   })}
                 </div>
-                <button className='btn btn_grey'>See more</button>
+                <button className='btn gray_btn'>See more</button>
               </div>
               <div className='photo_section'>
                 <span className='topic_header'>Post pictures</span>
@@ -134,7 +134,7 @@ export const ChangeImageModal = ({ user, visible, setVisible, type }) => {
                     <img src={photo} key={photo.id} alt='' />
                   ))}
                 </div>
-                <button className='btn btn_grey'>See more</button>
+                <button className='btn gray_btn'>See more</button>
               </div>
             </>
           )}

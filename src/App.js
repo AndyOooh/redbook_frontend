@@ -25,12 +25,8 @@ const App = () => {
         <Route path='/gaming' element={<Developing />} />
         {/* Developed */}
         <Route path='/verify' element={<VerifyAccount />} />
-        <Route exact path='/profile/*' element={<Profile />}>
-          {/* <Route exact path='/profile*' element={<Profile />}> */}
-        </Route>
-        {/* Needs to be profile of another user. Mauybe can be the same element or maybe have to split it in two */}
-        {/* <Route exact path='/:username' element={<Profile />} /> */}
-        <Route exact path='/:username/*' element={<Profile />} />
+        <Route exact path=':username/*' element={<Profile />} />
+        <Route exact path='profile/*' element={<Profile />}></Route>
         <Route exact path='/' element={<Home />} />
       </Route>
       <Route path='/reset' element={<ResetPassword />} />

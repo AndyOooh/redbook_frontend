@@ -87,7 +87,7 @@ export const ImageCropper = ({ image, setImage, setParentVisible, type }) => {
   return (
     <>
       <div className='text'>
-        <textarea placeholder='Text' value={text} onChange={e => setText(e.target.value)} />
+        <textarea placeholder='Description' value={text} onChange={e => setText(e.target.value)} />
       </div>
       <div className='image_cropper'>
         <Cropper

@@ -1,9 +1,12 @@
 import { useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 
-export const ProfileImage = ({ size, isHeader }) => {
+export const ProfileImage = ({ size, isHeader, image }) => {
+  const { user } = useSelector(state => state.auth);
   const location = useLocation();
   const onProfileRoute = location?.pathname === '/profile';
+
+  const src = image ? image : user?.pictures[0]?.url;
 
   const imageStyles = {
     // width: '100%',
@@ -31,10 +34,9 @@ export const ProfileImage = ({ size, isHeader }) => {
 
   const wrapperClasses = onProfileRoute ? 'wrapperStyle activeStyles' : 'wrapperStyle';
 
-  const { user } = useSelector(state => state.auth);
   return (
     <div style={wrapperStyles} className={wrapperClasses}>
-      <img src={user?.pictures[0]?.url} alt='profile_image' style={imageStyles} />
+      <img src={src} alt='profile_image' style={imageStyles} />
     </div>
   );
 };

@@ -50,8 +50,6 @@
     // align-items: center;
     // justify-content: center;
 
-    
-
     .modal_profile {
       display: flex;
       gap: 1rem;
@@ -197,26 +195,29 @@
 
   // --------------------- image picker --------------------------------------------------
 
-
   .dropArea {
-    border: 5px dashed blue;
+    // border: 5px dashed blue;
+    border: 1px solid gray;
+    border-radius: 1rem;
   }
 
   .focused {
-    border: 3px solid orange;
+    // border-color: orange;
   }
 
   .accepted {
-    border-color: green;
+    border: 2px solid var(--red-main);
+    // background: var(--red-main);
   }
 
   .rejected {
-    border-color: red;
+    border: 2px solid var(--blue-color);
+    // background: var(--blue-color);
   }
 
   .image_picker {
-    border: 1px solid gray;
-    border-radius: 1rem;
+    // border: 1px solid gray;
+    // border-radius: 1rem;
     width: 100%;
     padding: 0.8rem;
     height: 26rem;

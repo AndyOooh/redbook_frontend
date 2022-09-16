@@ -1,9 +1,10 @@
+import { memo, useState } from 'react';
 import { Link } from 'react-router-dom';
 import Moment from 'react-moment';
 
-import { Dots, Public } from 'assets/svg';
-import { memo, useState } from 'react';
+import './PostItem.scss';
 import { ReactionsPopup } from './ReactionsPopup';
+import { Dots, Public } from 'assets/svg';
 import { useHoverHandler } from 'hooks/useHoverHandler';
 import { CreateComment } from './CreateComment';
 import { PostMenu } from './PostMenu';
@@ -11,20 +12,19 @@ import { PostComment } from './PostComment';
 import { ProfileImage } from 'components/ProfileImage';
 
 export const PostItem = memo(({ post }) => {
-  console.log('🚀 ~ file: PostItem.jsx ~ line 14 ~ post', post);
   const [showMenu, setShowMenu] = useState(false);
   const [showReactionsPopup, setShowReactionsPopup] = useState(false);
   const [showComments, setShowComments] = useState(true);
   const hoverHandler = useHoverHandler();
 
-  const { user, images } = post;
+  const { user, images, type } = post;
   console.log('🚀 ~ file: PostItem.jsx ~ line 19 ~ PostItem ~ user', user);
 
   const updatedText =
-    post.type === 'profile'
-      ? `Updated ${user.gender === 'male' ? 'his' : 'her'} profile picture`
-      : post.type === 'cover'
-      ? `Updated ${user.gender === 'male' ? 'his' : 'her'} cover picture`
+    type === 'profile'
+      ? `updated ${user.gender === 'male' ? 'his' : 'her'} profile picture`
+      : type === 'cover'
+      ? `updated ${user.gender === 'male' ? 'his' : 'her'} cover picture`
       : null;
 
   let gridClass;
@@ -49,14 +49,16 @@ export const PostItem = memo(({ post }) => {
       <div className='card_main post_item'>
         <div className='post_header'>
           <div className='header_left'>
-            <Link to={`/profile/${user.username}`} className=''>
-              <ProfileImage />
-              {/* <img src={user?.pictures[0]?.url} alt='' /> */}
+            {/* <Link to={`/profile/${user.username}`} className=''> */}
+            <Link to={user.username} className=''>
+              <ProfileImage image={user.pictures[0].url} />
             </Link>
             <div className='post_details'>
               <div className='profile_name'>
-                {user.first_name} {user.last_name}
-                <div className='updated_text'>{updatedText}</div>
+                {/* <Link to={`/profile/${user.username}`} className=''> */}
+                <Link to={`/${user.username}`} className=''>
+                  {user.first_name} {user.last_name} <span>{updatedText}</span>
+                </Link>
               </div>
               <div className='privacy_date'>
                 <Moment fromNow interval={30}>
@@ -75,8 +77,8 @@ export const PostItem = memo(({ post }) => {
         {showMenu && (
           <PostMenu
             userId={user.id}
-            postUserId={post.user._id}
-            imagesLength={post?.images?.length}
+            postUserId={user._id}
+            imagesLength={images?.length}
             setVisible={setShowMenu}
           />
         )}
@@ -88,26 +90,42 @@ export const PostItem = memo(({ post }) => {
             style={post.background && { backgroundImage: `url(${post.background})` }}>
             {post.text}
           </div>
-          {post.images && post.images.length > 0 && (
-            <div className={`post_images_grid ${gridClass}`}>
-              {post.images?.slice(0, 4).map((image, index) => (
-                <div
-                  key={image.id}
-                  style={
-                    index === 3
-                      ? {
-                          backgroundImage:
-                            `url(${image.url})` +
-                            `, linear-gradient(rgba(0, 94, 255, 0.5), rgba(0, 94, 255, 0.5))`,
-                        }
-                      : { backgroundImage: `url(${image.url})` }
-                  }
-                  alt=''
-                  className={`grid_item image${index + 1}`}>
-                  {index === 3 && `+${images.length - 2}`}
-                </div>
-              ))}
+          {type === 'profile' ? (
+            <div className='profile_post'>
+              <div
+                className='profile_cover'
+                style={{ backgroundImage: `url(${user.covers[0].url})` }}></div>
+              <img className='profile_image' src={images[0].url} alt='' />
             </div>
+          ) : type === 'cover' ? (
+            // <div className='cover_post'>
+            //   <div
+            //     className='cover_image'
+            //     style={{ backgroundImage: `url(${user.covers[0].url})` }}></div>
+            // </div>
+            <img className='cover_image' src={user.covers[0].url} alt='' />
+          ) : (
+            images?.length > 0 && (
+              <div className={`post_images_grid ${gridClass}`}>
+                {images?.slice(0, 4).map((image, index) => (
+                  <div
+                    key={image.id}
+                    style={
+                      index === 3
+                        ? {
+                            backgroundImage:
+                              `url(${image.url})` +
+                              `, linear-gradient(rgba(0, 94, 255, 0.5), rgba(0, 94, 255, 0.5))`,
+                          }
+                        : { backgroundImage: `url(${image.url})` }
+                    }
+                    alt=''
+                    className={`grid_item image${index + 1}`}>
+                    {index === 3 && images.length > 4 && `+${images.length - 4}`}
+                  </div>
+                ))}
+              </div>
+            )
           )}
         </div>
         {/* POST END ----------------- */}
@@ -123,6 +141,7 @@ export const PostItem = memo(({ post }) => {
           </div>
         </div>
 
+        {/* not responsive */}
         <div className='post_actions'>
           <ReactionsPopup visible={showReactionsPopup} setVisible={setShowReactionsPopup} />
           <div
@@ -134,7 +153,6 @@ export const PostItem = memo(({ post }) => {
           </div>
 
           <div className='comment hover1' onClick={() => setShowComments(prev => !prev)}>
-            {/* <div className='comment hover1' onClick={setShowComments(!showComments)}> */}
             <i className='comment_icon'></i>
             <span>Comment</span>
           </div>
@@ -143,6 +161,7 @@ export const PostItem = memo(({ post }) => {
             <span>Share</span>
           </div>
         </div>
+        {/* not responsive */}
 
         <CreateComment postId={post._id} visible={showComments} setVisible={setShowComments} />
 

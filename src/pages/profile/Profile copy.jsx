@@ -1,7 +1,7 @@
 import { Dots, Friends } from 'assets/svg';
 import { ProfileImage } from 'components/ProfileImage';
 import { useGetUserQuery, useLazyGetUserQuery } from 'features/users/usersApiSlice';
-import { Header } from 'layout/header';
+import { Header } from 'layout/header/Header';
 import { useEffect } from 'react';
 import { useState } from 'react';
 import { BsFillPlusCircleFill } from 'react-icons/bs';

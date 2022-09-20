@@ -3,7 +3,13 @@
 header {
   height: var(--header-height);
   width: 100%;
-  @include mixins.flex-row(5rem, space-between);
+  // @include mixins.flex-row(5rem, space-between);
+  display: grid;
+  // grid-template-columns: minmax(1fr, auto) minmax(1fr, 80%) minmax(1fr, auto);
+  // grid-template-columns: minmax(auto, 1fr) minmax(1fr, 80%) minmax(auto, 1fr);
+  // grid-template-columns: minmax(1fr) minmax(1fr) minmax(1fr);
+  grid-template-columns: repeat(3, 1fr);
+
   position: sticky;
   top: 0;
   z-index: 999;
@@ -113,7 +119,7 @@ header {
   // @include mixins.flex-center(1.4rem);
   height: 100%;
   flex-grow: 1; //could use shorthand flex: 1;
-
+  max-width: 80rem;
   .nav_list {
     @include mixins.flex-row(1.4rem, space-around);
     height: 100%;

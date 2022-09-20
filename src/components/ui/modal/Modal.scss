@@ -22,3 +22,14 @@
   //   max-height: 82vh; //new, should be adjusted so it doesnt cover navbar for new projects
   //   border-radius: 1rem;
 }
+
+// add this to as many modals as possible
+.modal_type_1 {
+  background: var(--bg-primary);
+  box-shadow: 0 1px 2px var(--shadow-1);
+  max-width: 43.2rem;
+
+  margin: 1rem auto;
+  user-select: none;
+  border-radius: 1rem;
+}

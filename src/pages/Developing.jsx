@@ -1,4 +1,4 @@
-import { Header } from 'layout/header';
+import { Header } from 'layout/header/Header';
 import React from 'react';
 
 export const Developing = () => {

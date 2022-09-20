@@ -1,35 +1,49 @@
 @use '../../styles/mixins';
 
-.home_layout {
+.home_wrapper {
+  grid-template-rows: var(--header-height) 1fr;
+}
+
+.header {
+  // grid-area: header;
+  // grid-column: 1/4;
+  // grid-area: header;
+}
+
+.home_bottom_layout {
   // To use default scrollbar for main, I need to put it in same container as home_right probably.
 
   height: 100vh;
-  
+  max-width: 140rem;
+  margin: 0 auto;
+
   // height: calc(100vh - 7.5rem); // - header height and padding
   display: grid;
-  grid-template-columns: auto minmax(1fr, 80%) auto; // Need to fix this somehow, to give middle a max and prevent sides from expamding - at spme points the gap/space between should expand
+  // grid-template-columns: auto minmax(1fr, 80%) auto; // Need to fix this somehow, to give middle a max and prevent sides from expamding - at spme points the gap/space between should expand
+  // grid-template-columns: minmax(auto, 1fr) minmax(1fr, 80%) minmax(auto, 1fr);
+  grid-template-columns: minmax(1fr, auto) minmax(1fr, 80%) minmax(1fr, auto);
   /* grid-template-columns: 1fr; */
-  grid-template-rows: var(--header-height) 1fr;
+
   // gap: 1rem;
   // margin: 0 5rem;
   grid-template-areas:
-    'header header header'
+    // 'header header header'
     'left main right';
   // 'footer footer footer';
   /* 'header'
-    'main'
-    'footer'; */
+      'main'
+      'footer'; */
 
-  & > *:not(:first-child) {
+  // & > *:not(:first-child) {
+  //   padding-top: 2.5rem;
+  //   background: var(--bg-secondary);
+  //   // width: 100%;
+  // }
+
+  & > * {
     padding-top: 2.5rem;
     background: var(--bg-secondary);
     // width: 100%;
-  }
-
-  .header {
-    grid-area: header;
-    grid-column: 1/4;
-    grid-area: header;
   }
 
   .left_home {
@@ -42,7 +56,6 @@
 
     position: sticky;
     top: 0;
-
   }
 
   .main {
@@ -50,6 +63,8 @@
     grid-area: main;
     @include mixins.hideScrollbar;
     height: 100%;
+    // max-width is estimate and. nev is set to same but they're not in sync. how to do that?
+    max-width: 80rem;
   }
 
   .right_home {

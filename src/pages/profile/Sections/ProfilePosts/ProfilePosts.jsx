@@ -11,7 +11,7 @@ export const ProfilePosts = props => {
       <section className='profile_posts'>
         <div className='posts_left'>
           <div className='card_main intro'>
-            <Intro details={props.user.details} visitor={props.visitor} />
+            <Intro user={props.user} visitor={props.visitor} />
           </div>
 
           <div className='card_main photos'>

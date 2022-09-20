@@ -5,7 +5,7 @@ import { PulseLoader } from 'react-spinners';
 import './CreatePostModal.scss';
 import { AddToPost } from './AddToPost';
 import { ImagePicker } from '../../../components/ui/inputs/ImagePicker';
-import { PostModalheader } from './PostModalheader';
+import { Modalheader } from '../../../components/ui/modal/Modalheader';
 import { PostTextarea } from './PostTextarea';
 import { PostModalUser } from './PostModalUser';
 import { BgAndEmojiSelectors } from './bgAndEmoji/BgAndEmojiSelectors';
@@ -86,7 +86,7 @@ export const CreatePostModal = ({ visible, setVisible }) => {
     <>
       <Modal className='create_post_modal' visible={visible} setVisible={setVisible}>
         <form className='card_main modal_wrapper' onSubmit={submitPostHandler}>
-          <PostModalheader setModalVisiable={setVisible} />
+          <Modalheader setVisible={setVisible} headerText='Create Post' />
           <div className='vert_line'></div>
           <div className='modal_bottom'>
             <PostModalUser />

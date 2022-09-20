@@ -5,13 +5,14 @@ export const UpdateBio = ({
   // handleChange,
   // max,
   // setShowBio,
-  // updateDetails,
+  updateDetails,
   // placeholder,
-  // name,
+  name,
   // detail,
   // setShow,
   // rel,
   setVisible,
+  // details,
   updatedDetails,
   setUpdatedDetails,
   remainingChar,
@@ -21,10 +22,11 @@ export const UpdateBio = ({
     <>
       {/* <div className='add_bio_wrap'> */}
       {/* {rel ? ( */}
-      {updatedDetails.relationship ? (
+      {updatedDetails?.relationship ? (
         <select
           className='select_rel'
           // name={name}
+          name='relationship'
           value={updatedDetails.relationship}
           onChange={handleChange}>
           <option value='Single'>Single</option>
@@ -37,17 +39,16 @@ export const UpdateBio = ({
           // placeholder={placeholder}
           placeholder='Add bio'
           // name={name}
+          name='bio'
           // value={infos?.[name]}
-          maxLength={updatedDetails.bio ? 25 : 100}
+          maxLength={updatedDetails?.bio ? 25 : 100}
           className='textarea_blue details_input'
           onChange={handleChange}></textarea>
       )}
-      {!updatedDetails.bio && <div className='remaining'>{remainingChar} characters remaining</div>}
-      <div className='flex'>
-        <div className='flex flex_left'>
-          <i className='public_icon'></i>Public
-        </div>
-        <div className='flex flex_right'>
+      {!updatedDetails?.bio && <div className='remaining'>{remainingChar} characters remaining</div>}
+      <div className='actions'>
+        <i className='public_icon'></i>
+        <div className='action_buttons'>
           <button
             className='btn gray_btn'
             // onClick={() => (!updatedDetails.bio ? setShowBio(false) : setShow(false))}
@@ -57,7 +58,7 @@ export const UpdateBio = ({
           <button
             className='btn red_btn'
             onClick={() => {
-              // updateDetails();
+              updateDetails();
               // setShow(false);
             }}>
             Save

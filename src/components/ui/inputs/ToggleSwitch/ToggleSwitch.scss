@@ -1,0 +1,119 @@
+// @use '../../../../styles/mixins';
+@use '../../../../styles/mixins';
+
+// Colors
+$label-colour: #bbb;
+$disabled-colour: #ddd;
+$toggle-colour: var(--red-main);
+$white: #fff;
+$focus-color: #ff0;
+
+.toggle-switch {
+  width: 7.5rem;
+  display: inline-block;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  
+  // text-align: left;
+  // border: 1px solid hotpink;
+  // overflow: hidden;
+
+  &-checkbox {
+    display: none;
+  }
+
+  &-label {
+    @include mixins.flex-center();
+
+    overflow: hidden;
+    cursor: pointer;
+    // border: 0 solid $label-colour;
+    // border: 1px solid yellowgreen;
+    border-radius: 20px;
+    // border-radius: 25%;
+    height: 100%;
+    background: $label-colour;
+    &:focus {
+      outline: none;
+      > span {
+        box-shadow: 0 0 2px 5px $focus-color;
+      }
+    }
+    > span:focus {
+      outline: none;
+    }
+  }
+
+  // &-inner {
+  //   display: block;
+  //   width: 200%;
+  //   margin-left: -100%;
+  //   transition: margin 0.3s ease-in 0s;
+  //   &:before,
+  //   &:after {
+  //     display: block;
+  //     float: left;
+  //     width: 50%;
+  //     // height: 34px;
+  //     height: 100%;
+  //     padding: 0;
+  //     line-height: 34px;
+  //     font-size: 14px;
+  //     color: white;
+  //     font-weight: bold;
+  //     box-sizing: border-box;
+  //   }
+  //   &:before {
+  //     content: attr(data-yes);
+  //     text-transform: uppercase;
+  //     padding-left: 10px;
+  //     background-color: $toggle-colour;
+  //     color: $white;
+  //   }
+  // }
+  &-disabled {
+    background-color: $disabled-colour;
+    cursor: not-allowed;
+    &:before {
+      background-color: $disabled-colour;
+      cursor: not-allowed;
+    }
+  }
+  // &-inner:after {
+  //   content: attr(data-no);
+  //   text-transform: uppercase;
+  //   padding-right: 10px;
+  //   background-color: $label-colour;
+  //   color: $white;
+  //   text-align: right;
+  // }
+  &-switch {
+    // align-self: flex-start;
+    margin: 0.75rem;
+    background: $white;
+    aspect-ratio: 1/1;
+    border-radius: 50%;
+    height: 75%;
+    border: 0 solid $label-colour;
+    transition: all 0.3s ease-in 0s;
+  }
+  &-checkbox:checked + &-label {
+    .toggle-switch-inner {
+      margin-left: 0;
+    }
+    .toggle-switch-switch {
+      // right: 0px;
+    }
+  }
+
+  @media screen and (max-width: 991px) {
+    transform: scale(0.9);
+  }
+  @media screen and (max-width: 767px) {
+    transform: scale(0.825);
+  }
+  @media screen and (max-width: 575px) {
+    transform: scale(0.75);
+  }
+}

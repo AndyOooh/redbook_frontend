@@ -5,7 +5,7 @@ import { useNavigate, useSearchParams } from 'react-router-dom';
 import 'pages/home/Home.scss';
 import './VerifyAccount.scss';
 import { VerifyModal } from './VerifyModal';
-import { Header } from 'layout/header';
+import { Header } from 'layout/header/Header';
 import { Home } from 'pages/home/Home';
 import { updateUser } from 'features/auth/authSlice';
 import { useVerifyAccountMutation } from '../authApiSlice';

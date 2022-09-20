@@ -9,7 +9,7 @@ import { Dots } from 'assets/svg';
 import { ProfileImage } from 'components/ProfileImage';
 import { ChangeImageModal } from 'features/users/changePicture/ChangeImageModal';
 import { useGetUserQuery, useLazyGetUserQuery } from 'features/users/usersApiSlice';
-import { Header } from 'layout/header';
+import { Header } from 'layout/header/Header';
 import { ProfileBottom } from './ProfileBottom';
 import { ProfileSectionsMenu } from './ProfileSectionsMenu';
 import { RiMessengerFill } from 'react-icons/ri';
@@ -36,8 +36,8 @@ export const Profile = () => {
     if (visitor) {
       console.log('useeffect 2 setskip false');
       setSkip(false);
-    } else if(!visitor && username) {
-      console.log('🚀 ~ file: Profile.jsx ~ line 42 ~ else')
+    } else if (!visitor && username) {
+      console.log('🚀 ~ file: Profile.jsx ~ line 42 ~ else');
       navigate('/profile');
     }
   }, [visitor, navigate, username]);
@@ -73,7 +73,7 @@ export const Profile = () => {
 
   console.log('user', user);
   return isLoading ? (
-  // return !user ? (
+    // return !user ? (
     <div>Loading...</div>
   ) : (
     <>
@@ -167,9 +167,9 @@ export const Profile = () => {
           </div>
         </div>
 
-        <div className='profile_bottom'>
-          {/* <div className='profile_container '>{user.id && <ProfileBottom user={user.id} />}</div> */}
-          <div className='profile_container '>
+        {/* <div className='profile_container '>{user.id && <ProfileBottom user={user.id} />}</div> */}
+        <div className='profile_container '>
+          <div className='profile_bottom'>
             {user.id && <ProfileBottom user={user} visitor={visitor} />}
           </div>
         </div>

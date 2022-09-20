@@ -9,3 +9,5 @@ export { Modal } from './modal/Modal';
 export { TextInput } from './inputs/TextInput';
 
 export { ImagePicker } from './inputs/ImagePicker';
+
+export { ToggleSwitch } from './inputs/ToggleSwitch/ToggleSwitch';

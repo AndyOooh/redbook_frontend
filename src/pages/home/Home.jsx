@@ -1,4 +1,4 @@
-import {Header} from 'layout/header';
+import { Header } from 'layout/header/Header';
 import LeftHome from './left';
 import { RightHome } from './right';
 
@@ -10,11 +10,12 @@ export const Home = () => {
 
   return (
     <>
-      <div className='home_layout'>
+      <div className='home_wrapper'>
         <Header />
-        <LeftHome />
-        <Main />
-        {/* <main className='home'>
+        <div className='home_bottom_layout'>
+          <LeftHome />
+          <Main />
+          {/* <main className='home'>
         <div className='home_middle scrollbar'>
           <Stories />
           {!verified && <ResendVerification />}
@@ -22,7 +23,8 @@ export const Home = () => {
           <Posts />
         </div>
       </main> */}
-        <RightHome />
+          <RightHome />
+        </div>
       </div>
     </>
   );

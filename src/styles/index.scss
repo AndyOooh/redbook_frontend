@@ -14,6 +14,7 @@ body {
   font-family: 'Segoe UI', Helvetica, Arial, sans-serif;
   font-size: 1.6rem;
   color: var(--color-primary);
+  background: var(--bg-secondary);
 }
 
 a {
@@ -90,7 +91,6 @@ a {
   --color-error-1: #1876f2;
   --color-input: #949ea8;
   --border-grey: #ccd0d5;
-
 
   --phone: 42rem;
   --tablet: 90rem;

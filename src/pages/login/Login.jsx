@@ -19,7 +19,7 @@ export const Login = () => {
       </div>
       <LoginFooter />
       {/* {registerVisible && <RegisterForm visible={registerVisible} setIsVisible={setRegisterIsVisible} />} */}
-      <RegisterForm visible={registerVisible} setIsVisible={setRegisterIsVisible} />
+      <RegisterForm visible={registerVisible} setVisible={setRegisterIsVisible} />
     </>
   );
 };

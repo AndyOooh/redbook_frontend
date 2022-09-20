@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 
 import { BsGrid3X3GapFill } from 'react-icons/bs';
 
-import './index.scss';
+import './Header.scss';
 import SearchDropdown from './SearchDropdown';
 import AllMenu from './AllMenu';
 import { useClickOutside } from 'hooks/useClickOutside';

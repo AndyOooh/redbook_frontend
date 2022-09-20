@@ -13,7 +13,7 @@ import { useDispatch } from 'react-redux';
 import { useRegisterMutation } from 'features/auth/authApiSlice';
 import { setCredentials } from 'features/auth/authSlice';
 
-export const RegisterForm = ({ visible, setIsVisible }) => {
+export const RegisterForm = ({ visible, setVisible }) => {
   console.log('in RegisterForm');
   const initialFormData = {
     first_name: '',
@@ -76,11 +76,11 @@ export const RegisterForm = ({ visible, setIsVisible }) => {
   return (
     <>
       {/* <h1>Hello from register </h1> */}
-      <Modal className='RegisterForm_wrapper' visible={visible} setIsVisible={setIsVisible}>
+      <Modal className='modal_type_1 register_form' visible={visible} setIsVisible={setVisible}>
         <div className='header'>
           <div className='heading'>
             <h1>Sign Up </h1>
-            <i className='exit_icon' onClick={() => setIsVisible(false)}></i>
+            <i className='exit_icon' onClick={() => setVisible(false)}></i>
           </div>
 
           <span>It’s quick and easy.</span>

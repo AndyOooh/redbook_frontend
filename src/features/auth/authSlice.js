@@ -16,9 +16,13 @@ const authSlice = createSlice({
     },
     updateUser: (state, action) => {
       // Can only update one property at a time!!
-      const [key] = Object.keys(action.payload);
-      const [value] = Object.values(action.payload);
-      state.user[key] = value;
+      for (const [key, value] of Object.entries(action.payload)) {
+        console.log('🚀 ~ file: authSlice.js ~ line 20 ~ value', value)
+        console.log('🚀 ~ file: authSlice.js ~ line 20 ~ key', key)
+        // const [key] = Object.keys(action.payload);
+        // const [value] = Object.values(action.payload);
+        state.user[key] = value;
+      }
     },
   },
 });
@@ -28,4 +32,4 @@ export const { reset, setCredentials, logout, updateUser } = authSlice.actions;
 export default authSlice.reducer;
 
 export const selectCurrentUser = state => state.auth.user;
-export const selectCurrentToken = (state) => state.auth.token
+export const selectCurrentToken = state => state.auth.token;

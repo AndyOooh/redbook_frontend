@@ -1,12 +1,4 @@
-.RegisterForm_wrapper {
-  background: var(--bg-primary);
-  box-shadow: 0 1px 2px var(--shadow-1);
-  max-width: 43.2rem;
-
-  margin: 1rem auto;
-  user-select: none;
-  border-radius: 1rem;
-
+.register_form {
   .header {
     //   position: relative;
     display: flex;
@@ -217,4 +209,3 @@
     }
   }
 }
-

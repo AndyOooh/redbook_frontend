@@ -20,7 +20,7 @@ export const ResetHeader = () => {
       <Link to='/profile'>
         <img src={user.picture} alt='' />
       </Link>
-      <button className='blue_btn' onClick={logoutHandler}>
+      <button className=' btn red_btn' onClick={logoutHandler}>
         Logout
       </button>
     </div>
@@ -29,14 +29,15 @@ export const ResetHeader = () => {
       {/* <Link to='/'>Back to Home</Link>
       <Link to='/profile'>Back to Profile</Link> */}
       <Link to='/login' className='right_header'>
-        <button className='btn blue_btn'>Login</button>
+        <button className='btn red_btn'>Login</button>
       </Link>
     </>
   );
 
   return (
     <header className='header'>
-      <img src='../../../icons/facebook.svg' alt='' />
+      {/* <img src='../../../icons/facebook.svg' alt='' /> */}
+      <h1 className='welcome_header'>Redbook</h1>
       <div className='right_header'>{rightHeader}</div>
     </header>
   );

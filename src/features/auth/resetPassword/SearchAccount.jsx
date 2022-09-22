@@ -41,7 +41,7 @@ export const SearchAccount = ({ setUserData, setContent }) => {
             <Link to='/login' className='btn gray_btn'>
               Cancel
             </Link>
-            <button type='submit' className='btn blue_btn'>
+            <button type='submit' className='btn red_btn'>
               Search
             </button>
           </div>

@@ -42,7 +42,7 @@ export const SendEmail = ({ userData, setContent }) => {
         <Link to='/login' className='gray_btn btn'>
           Not You ?
         </Link>
-        <button onClick={sendEmailHandler} className='btn blue_btn'>
+        <button onClick={sendEmailHandler} className='btn red_btn'>
           Continue
         </button>
       </div>

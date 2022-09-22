@@ -54,7 +54,7 @@ export const ChangePassword = ({ email }) => {
             <Link to='/login' className='btn gray_btn'>
               Cancel
             </Link>
-            <button type='submit' className='btn blue_btn'>
+            <button type='submit' className='btn red_btn'>
               Continue
             </button>
           </div>

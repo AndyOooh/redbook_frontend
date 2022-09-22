@@ -124,6 +124,13 @@ a {
 
 // My stuff -------------------------------------------------------
 
+.welcome_header {
+  font-size: 5rem;
+  color: var(--red-main);
+  font-family: Verdana, Geneva, Tahoma, sans-serif, 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+  font-weight: 600;
+}
+
 /*----Buttons----*/
 .blue_btn {
   background: var(--blue-color);
@@ -234,3 +241,4 @@ a {
   z-index: 10;
 }
 /*---Circles------*/
+

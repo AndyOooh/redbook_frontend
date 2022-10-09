@@ -1,6 +1,6 @@
 @use '../../styles/mixins';
 
-header {
+.header_main {
   height: var(--header-height);
   width: 100%;
   // @include mixins.flex-row(5rem, space-between);
@@ -63,6 +63,7 @@ header {
         background: transparent;
         font-size: 1.5rem;
         font-family: inherit;
+        outline: none;
       }
     }
   }

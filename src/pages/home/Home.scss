@@ -13,7 +13,8 @@
 .home_bottom_layout {
   // To use default scrollbar for main, I need to put it in same container as home_right probably.
 
-  height: 100vh;
+  // height: 100vh;
+  height: calc(100vh - var(--header-height));
   max-width: 140rem;
   margin: 0 auto;
 
@@ -48,37 +49,58 @@
 
   .left_home {
     grid-area: left;
-    @include mixins.hideScrollbar;
+    // @include mixins.hideScrollbar;
     @include mixins.flex-column();
-
+    padding-left: 1.2rem;
+    height: 100%;
     width: 100%;
     user-select: none;
+    overflow-y: auto;
+    overflow-x: hidden;
 
-    position: sticky;
-    top: 0;
+    // scrollbar-gutter: stable;
+    scrollbar-width: 0;
+    scrollbar-color: transparent transparent;
+
+    &::-webkit-scrollbar {
+      background: transparent;
+    }
+    &::-webkit-scrollbar-thumb {
+      background: transparent;
+    }
+
+    &:hover {
+      scrollbar-color: var(--scrollbar) transparent;
+
+      &::-webkit-scrollbar-thumb {
+        background: var(--scrollbar);
+      }
+    }
   }
 
-  .main {
+  .home_middle {
     // To use default scrollbar for main, I need to put it in same container as home_right probably.
-    grid-area: main;
+    grid-area: main; // not sure neccessary
     @include mixins.hideScrollbar;
     height: 100%;
-    // max-width is estimate and. nev is set to same but they're not in sync. how to do that?
+    // max-width is estimate and. nav is set to same but they're not in sync. how to do that?
     max-width: 80rem;
+    padding-right: 3.2rem;
+    padding-left: 3.2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.1rem;
   }
 
   .right_home {
     grid-area: right;
     width: 100%;
-  }
-}
 
-.home_middle {
-  padding-right: 3.2rem;
-  padding-left: 3.2rem;
-  display: flex;
-  flex-direction: column;
-  gap: 1.1rem;
+    &:hover {
+      overflow-x: hidden;
+      overflow-y: auto;
+    }
+  }
 }
 
 @media (max-width: 1295px) {

@@ -15,13 +15,14 @@ const authSlice = createSlice({
       state.accessToken = accessToken;
     },
     updateUser: (state, action) => {
-      // Can only update one property at a time!!
       for (const [key, value] of Object.entries(action.payload)) {
-        console.log('🚀 ~ file: authSlice.js ~ line 20 ~ value', value)
-        console.log('🚀 ~ file: authSlice.js ~ line 20 ~ key', key)
-        // const [key] = Object.keys(action.payload);
-        // const [value] = Object.values(action.payload);
-        state.user[key] = value;
+        // Instead of below we're sending entire arrays in response.
+        // if (Array.isArray(state.user[key])) {
+        //   state.user[key].push(value);
+        // } else {
+        //   state.user[key] = value;
+        // }
+          state.user[key] = value;
       }
     },
   },

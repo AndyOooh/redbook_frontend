@@ -1,5 +1,5 @@
 import { Header } from 'layout/header/Header';
-import LeftHome from './left';
+import LeftHome from './left/HomeLeft';
 import { RightHome } from './right';
 
 import './Home.scss';

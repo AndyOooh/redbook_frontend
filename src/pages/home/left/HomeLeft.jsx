@@ -1,3 +1,4 @@
+import { useSelector } from 'react-redux';
 import { useState } from 'react';
 
 import LeftLink from './LeftLink';
@@ -5,9 +6,8 @@ import { left } from '../homeData';
 import { Link } from 'react-router-dom';
 import { ArrowDown1 } from 'assets/svg';
 import Shortcut from './Shortcut';
-import './styles.scss';
-import { useSelector } from 'react-redux';
 import { ProfileImage } from 'components/ProfileImage';
+import './HomeLeft.scss';
 
 export default function LeftHome() {
   const [visible, setVisible] = useState(false);

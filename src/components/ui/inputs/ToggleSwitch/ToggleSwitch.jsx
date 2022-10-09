@@ -12,7 +12,7 @@ Usage: <ToggleSwitch id={id} checked={value} onChange={checked => setValue(check
 export const ToggleSwitch = ({
   id,
   name,
-  checked,
+  // checked,
   onChange,
   optionLabels = ['yes', 'no'],
   small,
@@ -20,14 +20,14 @@ export const ToggleSwitch = ({
   size = '3rem',
   color,
 }) => {
-  function handleKeyPress(e) {
-    if (e.keyCode !== 32) return;
+  const [checked, setChecked] = React.useState(false);
 
+  const handleKeyPress = e => {
+    if (e.keyCode !== 32) return;
     e.preventDefault();
     onChange(!checked);
-  }
-
-
+  };
+  console.log(name, 'cheked ?', checked);
 
   return (
     <div className='toggle-switch' style={{ height: size }}>
@@ -37,26 +37,19 @@ export const ToggleSwitch = ({
         name={id}
         id={id}
         disabled={disabled}
-
         checked={checked}
         // onChange={e => onChange(e.target.checked)}
-        onChange={e => onChange(e)}
+        // onChange={e => onChange(e)}
+        onChange={e => setChecked(e.target.checked)}
       />
       {id ? (
         <label
           className='toggle-switch-label'
-          style={{justifyContent: checked ? 'flex-end' : 'flex-start'}}
           htmlFor={id}
           tabIndex={disabled ? -1 : 1}
           onKeyDown={e => {
             handleKeyPress(e);
           }}>
-          {/* <span
-            className={'toggle-switch-inner' + (disabled ? 'toggle-switch-disabled' : '')}
-            data-yes={optionLabels[0]}
-            data-no={optionLabels[1]}
-            tabIndex={-1}
-          /> */}
           <span
             className={'toggle-switch-switch' + (disabled ? 'toggle-switch-disabled' : '')}
             tabIndex={-1}

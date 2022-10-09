@@ -13,33 +13,32 @@
 .profile_container {
   width: 100%;
   height: 100%;
-  max-width: 110rem;
+  max-width: 120rem;
   margin: 0 auto;
 }
 
 .profile_top {
   background: linear-gradient(to bottom, #ff5b5b, white 50%);
-  //   height: 90vh;
   width: 100%;
 
   box-shadow: 0 1rem 1rem -1rem rgba(0, 0, 0, 0.4);
 
   .top_container {
-    // border: 1px solid orange;
     background: white;
 
     .cover_photo {
       position: relative;
-      // height: 40.5rem;
-      // background: pink;
 
       img {
+        border-bottom-left-radius: 1.5rem;
+        border-bottom-right-radius: 1.5rem;
         height: 100%;
         width: 100%;
         object-fit: cover;
       }
 
       .edit_cover_btn {
+        background-color: var(--bg-primary);
         position: absolute;
         right: 2rem;
         bottom: 2rem;
@@ -48,8 +47,6 @@
 
     .top_lower {
       padding: 0 4rem;
-      //   background: pink;
-      //   height: 100%;
 
       .name_row {
         @include mixins.flex-row(1rem, space-between);
@@ -63,7 +60,6 @@
             transform: translateY(-3rem);
 
             img {
-              // border: 0.4rem solid pink;
               border: 0.4rem solid white;
             }
 
@@ -84,6 +80,15 @@
 
             .friends_gallery {
               @include mixins.flex-row(0);
+
+              div {
+                border: 2px solid white;
+              }
+
+              div:not(:first-child) {
+                margin-left: -1rem;
+                // transform: translateX(-6rem);
+              }
             }
           }
         }
@@ -100,7 +105,6 @@
           @include mixins.flex-row();
 
           .menu_item {
-            //   background: pink;
             font-weight: 600;
 
             .link {
@@ -120,17 +124,16 @@
 
 .profile_bottom {
   width: 100%;
-
   padding: 1.5rem 4rem;
+  @include mixins.flex-column(1rem);
 
   .profile_posts {
-    // @include mixins.flex-row(2rem, $align: flex-start);
+    width: 100%;
     display: grid;
     grid-template-columns: 1fr 1.4fr;
     gap: 2rem;
 
     & > * {
-      // width: 100%;
       @include mixins.flex-column(0, flex-start);
 
       & > * {
@@ -138,8 +141,6 @@
       }
     }
   }
-
-  
 }
 
 @media screen and (max-width: 840px) {

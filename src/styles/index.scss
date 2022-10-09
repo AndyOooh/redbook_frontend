@@ -91,6 +91,7 @@ a {
   --color-error-1: #1876f2;
   --color-input: #949ea8;
   --border-grey: #ccd0d5;
+  --scrollbar: #aeaeafa1;
 
   --phone: 42rem;
   --tablet: 90rem;
@@ -220,7 +221,7 @@ a {
   width: 8px;
 }
 .scrollbar::-webkit-scrollbar-thumb {
-  background: #aeaeafa1;
+  background: var(--scrollbar);
   border-radius: 5px;
 }
 /*----Scrollbar----*/

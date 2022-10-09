@@ -4,7 +4,7 @@ import { useLocation } from 'react-router-dom';
 export const ProfileImage = ({ size, isHeader, image }) => {
   const { user } = useSelector(state => state.auth);
   const location = useLocation();
-  const onProfileRoute = location?.pathname === '/profile';
+  const onProfileRoute = location?.pathname.includes('/profile');
 
   const src = image ? image : user?.pictures[0]?.url;
 

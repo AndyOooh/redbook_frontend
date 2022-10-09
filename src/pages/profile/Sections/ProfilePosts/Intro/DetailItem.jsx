@@ -1,6 +1,7 @@
 import { ToggleSwitch } from 'components';
 import { useState } from 'react';
 import { BsPlusCircle } from 'react-icons/bs';
+import { useNavigate } from 'react-router-dom';
 
 import { UpdateBio } from './UpdateBio';
 
@@ -10,57 +11,43 @@ import { UpdateBio } from './UpdateBio';
 // Usage: <ToggleSwitch id={id} checked={value} onChange={checked => setValue(checked)}} />
 
 export const DetailItem = ({
-  publicc,
-  // img,
   value,
   placeholder,
   name,
   handleChange,
   updateDetails,
-  // infos,
   text,
   rel,
+  section,
 }) => {
   const [show, setShow] = useState(false);
+  const navigate = useNavigate();
+
   return (
-    <div className='details_item'>
-      {/* <div className='details_col ' onClick={() => setShow(true)}> */}
+    <>
       {value ? (
-        // <div className='info_profile '>
-
-        <>
-          <ToggleSwitch id={name} checked={publicc} onChange={handleChange} />
-          {/* <label class='switch'>
-              <input type='checkbox' checked />
-              <span class='slider round'></span>
-            </label> */}
-
-          {/* <img src={`../../../icons/${img}.png`} alt='' /> */}
+        <div className='details_item'>
+          <ToggleSwitch id={name} name={name} onChange={handleChange} />
           <p>{value}</p>
-
-          <i className='edit_icon'></i>
-        </>
+          <i className='edit_icon' onClick={() => navigate(`about?section=${section}`)}></i>
+        </div>
       ) : (
-        // </div>
-        <>
-          {/* <i className='rounded_plus_icon'></i> */}
+        <div className='add_detail_wrap' onClick={() => navigate(`about?section=${section}`)}>
           <BsPlusCircle className='icon_plus' />
           <span className='underline'>Add {text}</span>
-        </>
+        </div>
       )}
-      {/* </div> */}
       {show && (
         <UpdateBio
           placeholder={placeholder}
           name={name}
           handleChange={handleChange}
-          updateDetails={updateDetails}
-          // infos={infos}
+          handleSubmitDetails={updateDetails}
           detail
           setShow={setShow}
           rel={rel}
         />
       )}
-    </div>
+    </>
   );
 };

@@ -1,22 +1,15 @@
 import { Posts } from 'features/posts/components/Posts';
 import { CreatePost } from 'features/posts/CreatePost';
-import React from 'react';
-import { Photos } from '../Photos';
+import { Photos } from '../Photos/Photos';
 import { Intro } from './Intro/Intro';
 
 export const ProfilePosts = props => {
-  console.log('🚀 ~ file: ProfilePosts.jsx ~ line 8 ~ props', props);
   return (
     <>
       <section className='profile_posts'>
         <div className='posts_left'>
-          <div className='card_main intro'>
-            <Intro user={props.user} visitor={props.visitor} />
-          </div>
-
-          <div className='card_main photos'>
-            <Photos photos={props.photos} />
-          </div>
+          <Intro user={props.user} visitor={props.visitor} />
+          <Photos photos={props.photos} />
         </div>
         <div className='posts_right'>
           <CreatePost />

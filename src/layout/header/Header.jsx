@@ -30,7 +30,7 @@ export const Header = () => {
   });
 
   return (
-    <header className='header'>
+    <header className='header_main'>
       <div className='header_left'>
         {showSearchMenu && <SearchDropdown color={color} setVisible={setShowSearchMenu} />}
         <Link to='/' className='logo'>

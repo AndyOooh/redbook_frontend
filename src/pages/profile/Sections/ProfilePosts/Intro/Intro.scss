@@ -55,6 +55,10 @@
     width: 100%;
     margin-bottom: 1rem;
 
+    .visibility_row {
+      @include mixins.flex-row(1rem);
+    }
+
     .action_buttons {
       @include mixins.flex-row(1rem);
     }
@@ -69,10 +73,13 @@
 }
 
 .edit_details_modal {
+  @include mixins.flex-column(0);
   // height: 82vh;
   // width and max-width are temp. max-width is set in modal_type_1 because it is cut from registerModal.
   width: 60vw;
   max-width: none;
+  max-height: 85vh;
+  overflow: hidden;
 
   //   --------- Top part ( copied from Registerform) ---------
   .modal_header {
@@ -103,35 +110,52 @@
 
   //   ------------ Bottom  part --------------------------------------------------
   .modal_middle {
-    @include mixins.flex-column(2rem);
-    padding: 0 2rem;
     width: 100%;
+    padding: 0 2rem;
+    @include mixins.flex-column(0.5rem);
+    overflow: auto; //Mine
+    // position: relative;
 
-    position: relative;
-
-    // detailsItem
-    .details_item {
-      @include mixins.flex-row(1rem);
+    .topic_wrapper {
       width: 100%;
 
-      .icon_plus {
+      h4 {
+        margin-bottom: 1.5rem;
+        margin-top: 2rem;
+      }
+
+      .details_item {
+        @include mixins.flex-row(1rem, space-between);
+        width: 100%;
+
+        .edit_icon {
+          margin-left: auto;
+
+          &:hover {
+            cursor: pointer;
+          }
+        }
+      }
+
+      .add_detail_wrap {
+        @include mixins.flex-row(1rem);
         color: var(--red-main);
-        height: 3rem;
-        width: 3rem;
 
         &:hover {
           cursor: pointer;
         }
-      }
 
-      .edit_icon {
-        margin-left: auto;
+        .icon_plus {
+          height: 3rem;
+          width: 3rem;
+        }
       }
     }
   }
 
   .modal_bottom {
     @include mixins.flex-row(0, space-between);
+
     width: 100%;
     padding: 2rem;
     margin-top: 1rem;

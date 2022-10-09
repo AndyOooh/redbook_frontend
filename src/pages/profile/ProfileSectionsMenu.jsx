@@ -1,13 +1,13 @@
 import { Link, NavLink } from 'react-router-dom';
 
-import { menuItems } from './menuItems';
+import { profileMenuItems } from './profileMenuItems';
 
 export const ProfileSectionsMenu = ({ user, visitor }) => {
   // const path = visitor ? user.username : '';
 
   return (
     <div className='menu_wrapper'>
-      {menuItems.map(item => {
+      {profileMenuItems.map(item => {
         return (
           <div className='menu_item' key={item.name}>
             <NavLink

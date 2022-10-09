@@ -174,7 +174,7 @@ export const RegisterForm = ({ visible, setVisible }) => {
                 and <span>Cookie Policy.</span> You may receive SMS notifications from us and can
                 opt out at any time.
               </div>
-              {isError && <div className='error_text'>{error.data.message}</div>}
+              {isError && <div className='error_text'>{error.data?.message}</div>}
               {/* {isSuccess && <div className='success_text'>{message}</div>} */}
               <div className='btn_wrapper'>
                 {isLoading ? (

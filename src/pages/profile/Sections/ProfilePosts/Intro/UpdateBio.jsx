@@ -1,31 +1,16 @@
-import React from 'react';
 
 export const UpdateBio = ({
-  // infos,
-  // handleChange,
-  // max,
-  // setShowBio,
-  updateDetails,
-  // placeholder,
-  name,
-  // detail,
-  // setShow,
-  // rel,
+  handleSubmitDetails,
   setVisible,
-  // details,
   updatedDetails,
-  setUpdatedDetails,
   remainingChar,
   handleChange,
 }) => {
   return (
     <>
-      {/* <div className='add_bio_wrap'> */}
-      {/* {rel ? ( */}
-      {updatedDetails?.relationship ? (
+      {updatedDetails?.relationshipStatus ? (
         <select
           className='select_rel'
-          // name={name}
           name='relationship'
           value={updatedDetails.relationship}
           onChange={handleChange}>
@@ -36,36 +21,33 @@ export const UpdateBio = ({
         </select>
       ) : (
         <textarea
-          // placeholder={placeholder}
-          placeholder='Add bio'
-          // name={name}
+          placeholder='Describe who you are'
           name='bio'
-          // value={infos?.[name]}
           maxLength={updatedDetails?.bio ? 25 : 100}
           className='textarea_blue details_input'
           onChange={handleChange}></textarea>
       )}
-      {!updatedDetails?.bio && <div className='remaining'>{remainingChar} characters remaining</div>}
+      {!updatedDetails?.bio && (
+        <div className='remaining'>{remainingChar} characters remaining</div>
+      )}
       <div className='actions'>
-        <i className='public_icon'></i>
+        <div className='visibility_row'>
+          <i className='public_icon'></i>
+          Public
+        </div>
         <div className='action_buttons'>
-          <button
-            className='btn gray_btn'
-            // onClick={() => (!updatedDetails.bio ? setShowBio(false) : setShow(false))}
-            onClick={() => setVisible(false)}>
+          <button className='btn gray_btn' onClick={() => setVisible(false)}>
             Cancel
           </button>
           <button
             className='btn red_btn'
             onClick={() => {
-              updateDetails();
-              // setShow(false);
+              handleSubmitDetails();
             }}>
             Save
           </button>
         </div>
       </div>
-      {/* </div> */}
     </>
   );
 };

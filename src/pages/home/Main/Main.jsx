@@ -23,14 +23,11 @@ export const Main = () => {
   return (
     <>
       {verificationToken && <VerifyModal />}
-      {/* <main className='main home'> */}
-      <main className='main home_middle scrollbar'>
-        {/* <div className='home_middle scrollbar'> */}
+      <main className='home_middle scrollbar'>
         <Stories />
         {!verified && <ResendVerification />}
         <CreatePost />
         <Posts />
-        {/* </div> */}
       </main>
     </>
   );

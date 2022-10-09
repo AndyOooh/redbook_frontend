@@ -37,6 +37,7 @@ export const Profile = () => {
   const { username } = useParams();
 
   const visitor = username ? username !== currentUser.username : false;
+  const [skip, setSkip] = useState(!visitor);
   const [friendRequest, { error, isLoading: friendRequestLoading }] = useFriendRequestMutation();
 
   // was trying to avoid 'unauthorixed on /profile/someotherusername. Cant recreate the issue but a new
@@ -47,10 +48,10 @@ export const Profile = () => {
   // }
 
   const handleFriendRequest = async type => {
-    console.log('receiver ***************user.id', profileUser.id);
+    console.log('receiver ***************user.id', user.id)
     try {
       const { data, message } = await friendRequest({
-        receiverId: { receiverId: profileUser.id },
+        receiverId: { receiverId: user.id },
         type,
       }).unwrap();
       dispatch(updateUser(data));
@@ -58,44 +59,42 @@ export const Profile = () => {
   };
 
   useEffect(() => {
-    if (!visitor && username) {
+    if (visitor) {
+      setSkip(false);
+    } else if (!visitor && username) {
       navigate('/profile');
     }
   }, [visitor, navigate, username]);
 
   const {
-    data: userData,
+    data: otherUser,
     isLoading,
     isSuccess,
     isError,
-  } = useGetUserQuery({
-    userId: username || currentUser.username,
-    type: visitor ? 'profile' : 'currentUser',
-  });
+  } = useGetUserQuery({ userId: username, type: 'profile' }, { skip });
 
-  let profileUser;
-  if (userData) {
-    profileUser = visitor ? { ...userData } : { ...currentUser, ...userData };
-  }
-
+  let user = otherUser ? otherUser : currentUser;
   useEffect(() => {
-    if (isError) {
+    if (isSuccess) {
+      setSkip(true);
+    } else if (isError) {
+      setSkip(true);
       navigate('/');
     }
   }, [isSuccess, isError, navigate]);
 
-  const visitorButtonsJsx = (
+  const visitorButtons = (
     <>
-      {currentUser.friends.includes(profileUser?.id) ? (
+      {currentUser.friends.includes(user.id) ? (
         <button className='btn gray_btn'>
           <FaUserCheck />
           Friends
         </button>
-      ) : currentUser.requestsSent?.includes(profileUser?.id) ? (
+      ) : currentUser.requestsSent?.includes(user.id) ? (
         <button className='btn red_btn'>
           <FaUserTimes /> Requested
         </button>
-      ) : currentUser.requestsReceived?.includes(profileUser?.id) ? (
+      ) : currentUser.requestsReceived?.includes(user.id) ? (
         // not done yet
         <button className='btn red_btn' onClick={() => handleFriendRequest('accept')}>
           <FaUserTimes /> Accept request
@@ -106,8 +105,7 @@ export const Profile = () => {
           Add Friend
         </button>
       )}
-      <button
-        className={currentUser.friends.includes(profileUser?.id) ? 'btn red_btn' : 'btn gray_btn'}>
+      <button className={currentUser.friends.includes(user.id) ? 'btn red_btn' : 'btn gray_btn'}>
         <FaFacebookMessenger />
         Message
       </button>
@@ -117,8 +115,8 @@ export const Profile = () => {
   // not ideal to ask for !user. Should be a better iplementation. how to check for user )= currentUser and if not send req vefore return/render? asl SO
   // remmeber we changed some routing in app.js because clciking another profile routed us ro profile of liogged in user!
 
-  console.log('🚀 ~ file: Profile.jsx ~ line 43 ~ profileUser', profileUser);
-  return !userData ? (
+  console.log('🚀 ~ file: Profile.jsx ~ line 43 ~ user', user);
+  return isLoading ? (
     <div>Loading...</div>
   ) : (
     <>
@@ -135,7 +133,7 @@ export const Profile = () => {
         <div className='profile_top'>
           <div className='profile_container top_container'>
             <div className='cover_photo'>
-              <img src={profileUser.covers[0]?.url} alt='' />
+              <img src={user.covers[0].url} alt='' />
               {!visitor && (
                 <button
                   className='btn gray_btn edit_cover_btn'
@@ -149,7 +147,7 @@ export const Profile = () => {
               <div className='name_row'>
                 <div className='name_row_right'>
                   <div className='prof_image_wrap'>
-                    <ProfileImage size='16.8rem' image={profileUser.pictures[0].url} />
+                    <ProfileImage size='16.8rem' image={user.pictures[0].url} />
                     {!visitor && (
                       <div
                         className='prof_icon_wrapper'
@@ -160,16 +158,16 @@ export const Profile = () => {
                   </div>
                   <div className='name_and_friends'>
                     <h1>
-                      {profileUser.first_name} {profileUser.last_name}
+                      {user.first_name} {user.last_name}
                     </h1>
-                    <span>{profileUser.friends?.length} Friends</span>
+                    <span>{user.friends?.length} Friends</span>
                     <div className='friends_gallery'>
-                      {profileUser.friends.map(friend => {
+                      {user.friends.map(friend => {
                         return (
                           <ProfileImage
                             key={friend.id}
-                            size='4.8rem'
-                            image={friend.pictures[0].url}
+                            size='3rem'
+                            // image={friend.picture[0].url}
                           />
                         );
                       })}
@@ -178,7 +176,7 @@ export const Profile = () => {
                 </div>
                 <div className='name_row_left'>
                   {visitor ? (
-                    { ...visitorButtonsJsx }
+                    { ...visitorButtons }
                   ) : (
                     <>
                       <button className='btn red_btn'>
@@ -194,7 +192,7 @@ export const Profile = () => {
                 </div>
               </div>
               <div className='menu_row'>
-                <ProfileSectionsMenu user={profileUser} visitor={visitor} />
+                <ProfileSectionsMenu user={user} visitor={visitor} />
                 <Dots color='#828387' />
               </div>
             </div>
@@ -203,7 +201,7 @@ export const Profile = () => {
 
         <div className='profile_container '>
           <div className='profile_bottom'>
-            {profileUser.id && <ProfileBottom user={profileUser} visitor={visitor} />}
+            {user.id && <ProfileBottom user={user} visitor={visitor} />}
           </div>
         </div>
       </div>

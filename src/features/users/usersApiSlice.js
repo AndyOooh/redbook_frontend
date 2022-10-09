@@ -32,7 +32,6 @@ export const usersApiSlice = apiSlice.injectEndpoints({
         };
       },
     }),
-
     updateProfileImages: builder.mutation({
       query: payload => {
         console.log('postData in usersApiSlice -----------------: ', payload);
@@ -44,6 +43,17 @@ export const usersApiSlice = apiSlice.injectEndpoints({
         };
       },
     }),
+    friendRequest: builder.mutation({
+      query: payload => {
+        const { receiverId, type } = payload;
+        console.log('🚀 ~ file: usersApiSlice.js ~ line 49 ~ receiver', receiverId);
+        return {
+          url: `/users/friendRequest?type=${type}`,
+          method: 'PUT',
+          body: receiverId,
+        };
+      },
+    }),
   }),
 });
 
@@ -52,4 +62,6 @@ export const {
   useLazyGetUserQuery,
   useUpdateProfileImagesMutation,
   useUpdateUserDetailsMutation,
+  // useSendFriendRequestMutation,
+  useFriendRequestMutation,
 } = usersApiSlice;

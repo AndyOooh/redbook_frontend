@@ -162,6 +162,27 @@ export const About = props => {
         },
       ],
     },
+    {
+      title: 'Social media',
+      queryValue: 'social_media',
+      subItems: [
+        {
+          subTitle: 'Instagram',
+          noun: 'instagram',
+          iconSrc: iconsBaseUrl + 'instagram.png',
+          // text: `${user?.details.instagram}`,
+          text: (
+            <a
+              href={`https://www.instagram.com/${user?.details.instagram}`}
+              target='_blank'
+              rel='noreferrer'>
+              {`@${user?.details.instagram}`}
+            </a>
+          ),
+          mongoName: 'instagram',
+        },
+      ],
+    },
   ];
 
   return (

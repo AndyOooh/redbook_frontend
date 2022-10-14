@@ -62,6 +62,11 @@
         .subItem_left {
           @include mixins.flex-row(2rem);
           font-size: 1.8rem;
+
+        img {
+          width: 2rem;
+          height: 2rem;
+        }
         }
         .subItem_right {
           @include mixins.flex-row(2rem);

@@ -127,17 +127,20 @@ export const Intro = ({ user, visitor }) => {
       lowerCaseAndSpace: 'relationship',
     },
     {
+      queryValue: 'social_media',
+      topic: 'Social Media',
       name: 'instagram',
       introText: (
         <a
-          href={`https://www.instagram.com/${details?.instaGram}`}
+          href={`https://www.instagram.com/${details?.instagram}`}
           target='_blank'
           rel='noreferrer'>
-          {details?.instaGram}
+          {details?.instagram}
         </a>
       ),
+      // introText: 'akajkjaa',
       icon: iconsBaseUrl + 'instagram.png',
-      value: details?.instaGram,
+      value: details?.instagram,
       lowerCaseAndSpace: 'instagram',
     },
   ];

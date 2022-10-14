@@ -14,6 +14,8 @@ export const DetailInput = ({
 
   // 'Single', 'In a relationship', 'Engaged', 'Married', "It's Complicated", 'Prefer not to say'
 
+  const instaPlaceholder = 'For example: rainnWilson. No @, https or www.';
+
   return (
     <div className='detail_input'>
       {subTitle === 'Relationship' ? (
@@ -35,12 +37,11 @@ export const DetailInput = ({
             value={value}
             onChange={changeHandler}
             // rows={2}
-            placeholder={subTitle}
+            placeholder={subTitle === 'Instagram' ? instaPlaceholder : subTitle}
           />
         </>
       )}
       <div className='button_row'>
-        
         <div className='buttons'>
           <button type='button' onClick={cancelHandler} className='btn grey_btn'>
             Cancel

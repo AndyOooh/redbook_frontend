@@ -128,7 +128,8 @@ a {
 .welcome_header {
   font-size: 5rem;
   color: var(--red-main);
-  font-family: Verdana, Geneva, Tahoma, sans-serif, 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+  font-family: Verdana, Geneva, Tahoma, sans-serif, 'Lucida Sans Unicode', 'Lucida Grande',
+    'Lucida Sans', Arial, sans-serif;
   font-weight: 600;
 }
 
@@ -176,6 +177,16 @@ a {
   font-weight: 600;
   font-size: 1.7rem;
   margin-top: 1rem;
+}
+
+.dotloader_wrapper {
+  @include mixins.flex-center();
+  height: 100vh;
+  width: 100%;
+}
+.dotLoader {
+  // margin: auto;
+  // width: 80%;
 }
 
 .vert_line {
@@ -242,4 +253,3 @@ a {
   z-index: 10;
 }
 /*---Circles------*/
-

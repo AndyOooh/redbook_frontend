@@ -4,6 +4,7 @@ import { useEffect } from 'react';
 import { selectAccessToken, setCredentials } from 'features/auth/authSlice';
 import { useRefreshAccessTokenQuery } from 'features/auth/authApiSlice';
 import { Outlet, useNavigate } from 'react-router-dom';
+import { DotLoader } from 'react-spinners';
 
 export const PrivateRoutes = () => {
   const dispatch = useDispatch();
@@ -25,5 +26,9 @@ export const PrivateRoutes = () => {
 
   if (accessToken) return <Outlet />;
 
-  return <h1>Loading...</h1>;
+  return (
+    <main className='dotloader_wrapper'>
+      <DotLoader color='var(--red-main)' size={'10rem'} className='dotLoader' />
+    </main>
+  );
 };

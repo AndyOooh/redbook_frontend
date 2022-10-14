@@ -75,7 +75,6 @@ export const RegisterForm = ({ visible, setVisible }) => {
   // JSX ------------------------------------------------------------------------------------------------
   return (
     <>
-      {/* <h1>Hello from register </h1> */}
       <Modal className='modal_type_1 register_form' visible={visible} setIsVisible={setVisible}>
         <div className='header'>
           <div className='heading'>
@@ -178,7 +177,7 @@ export const RegisterForm = ({ visible, setVisible }) => {
               {/* {isSuccess && <div className='success_text'>{message}</div>} */}
               <div className='btn_wrapper'>
                 {isLoading ? (
-                  <DotLoader color='#1876f2' loading={isLoading} size={30} />
+                  <DotLoader color='var(--red-main)' loading={isLoading} size={30} />
                 ) : (
                   <button
                     type='submit'

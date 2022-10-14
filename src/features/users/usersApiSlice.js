@@ -4,24 +4,8 @@ export const usersApiSlice = apiSlice.injectEndpoints({
   endpoints: builder => ({
     getUser: builder.query({
       query: ({ userId, type }) => `users/${userId}?type=${type}`,
+      providesTags: ['UserTag'],
     }),
-    // getProfile: builder.query({
-    //   query: userId => `users/${userId}/profile`,
-    // }),
-    // updateProfilePhoto: builder.mutation({
-    //   query: ({postData, userId}) => ({
-    //     url: `/users/${userId}/update`,
-    //     method: 'PUT',
-    //     body: postData,
-    //   }),
-    // }),
-    // updatedUserDetails: builder.mutation({
-    //   query: ({ postData, userId, field }) => ({
-    //     url: `/users/${userId}/update?field=${field}`,
-    //     method: 'PUT',
-    //     body: postData,
-    //   }),
-    // }),
     updateUserDetails: builder.mutation({
       query: ({ postData, userId, field }) => {
         console.log('in updatedUserDetails: ', field);
@@ -31,6 +15,7 @@ export const usersApiSlice = apiSlice.injectEndpoints({
           body: postData,
         };
       },
+      invalidatesTags: ['UserTag'],
     }),
     updateProfileImages: builder.mutation({
       query: payload => {
@@ -53,6 +38,7 @@ export const usersApiSlice = apiSlice.injectEndpoints({
           body: receiverId,
         };
       },
+      invalidatesTags: ['UserTag'],
     }),
   }),
 });

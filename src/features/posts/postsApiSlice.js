@@ -12,6 +12,14 @@ const postsApiSlice = apiSlice.injectEndpoints({
           body: postData,
         };
       },
+      invalidatesTags: ['PostsTag'],
+    }),
+    deletePost: builder.mutation({
+      query: postId => ({
+        url: `/posts/${postId}`,
+        method: 'DELETE',
+      }),
+      invalidatesTags: ['PostsTag'],
     }),
     getPosts: builder.query({
       // query: filter => `/posts?${filter}`,
@@ -21,13 +29,11 @@ const postsApiSlice = apiSlice.injectEndpoints({
           params: { ...filter },
         };
       },
+      providesTags: ['PostsTag'],
     }),
     createComment: builder.mutation({
       query: comment => {
-        console.log('in createComment: ', comment);
         const { commentData, postId } = comment;
-        console.log('commentData: ', commentData);
-        console.log('postId: ', postId);
         // url: `/posts/${postId}`,
         return {
           url: '/posts/' + postId,
@@ -35,6 +41,17 @@ const postsApiSlice = apiSlice.injectEndpoints({
           body: commentData,
         };
       },
+      invalidatesTags: ['PostsTag'],
+    }),
+    deleteComment: builder.mutation({
+      query: comment => {
+        const { commentId, postId } = comment;
+        return {
+          url: `/posts/${postId}?comment=${commentId}`,
+          method: 'DELETE',
+        };
+      },
+      invalidatesTags: ['PostsTag'],
     }),
 
     // getPost: builder.get('/posts/:id'),
@@ -43,4 +60,9 @@ const postsApiSlice = apiSlice.injectEndpoints({
   }),
 });
 
-export const { useCreatePostMutation, useGetPostsQuery, useCreateCommentMutation } = postsApiSlice;
+export const {
+  useCreatePostMutation,
+  useDeletePostMutation,
+  useGetPostsQuery,
+  useCreateCommentMutation,
+} = postsApiSlice;

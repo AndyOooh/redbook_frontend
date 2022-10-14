@@ -4,13 +4,13 @@ import Cropper from 'react-easy-crop';
 import { DotLoader } from 'react-spinners';
 
 import { useUpdateProfileImagesMutation } from '../usersApiSlice';
-import { updateUser } from 'features/auth/authSlice';
+import { selectCurrentUser, updateUser } from 'features/auth/authSlice';
 import { getCroppedImg } from 'utils/getCroppedImg';
 import { useCreatePostMutation } from 'features/posts/postsApiSlice';
 
 export const ImageCropper = ({ image, setImage, setParentVisible, type }) => {
   console.log('🚀 ~ file: ImageCropper.jsx ~ line 11 ~ type', type);
-  const { user } = useSelector(state => state.auth);
+  const user  = useSelector(selectCurrentUser);
   const dispatch = useDispatch();
   const sliderRef = useRef(null);
 
@@ -124,7 +124,7 @@ export const ImageCropper = ({ image, setImage, setParentVisible, type }) => {
       </div>
       <div className='buttons'>
         {isLoading ? (
-          <DotLoader color='#1876f2' loading={isLoading} size={30} />
+          <DotLoader color='var(--red-main)' loading={isLoading} size={30} />
         ) : (
           <>
             {/* <button className='btn' onClick={handleCropImage}>

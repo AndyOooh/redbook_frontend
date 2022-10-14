@@ -46,5 +46,7 @@ export const apiSlice = createApi({
   reducerPath: 'api',
   baseQuery: baseQuery,
   // baseQuery: baseQueryWithReauth,
+  tagTypes: ['PostsTag', 'UserTag'],
   endpoints: builder => ({}),
 });
+

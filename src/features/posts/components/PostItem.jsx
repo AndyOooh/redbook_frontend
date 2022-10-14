@@ -8,28 +8,31 @@ import { Dots, Public } from 'assets/svg';
 import { useHoverHandler } from 'hooks/useHoverHandler';
 import { CreateComment } from './CreateComment';
 import { PostMenu } from './PostMenu';
-import { PostComment } from './PostComment';
+import { CommentItem } from './CommentItem';
 import { ProfileImage } from 'components/ProfileImage';
+import { useSelector } from 'react-redux';
+import { selectCurrentUser } from 'features/auth/authSlice';
 
 export const PostItem = memo(({ post }) => {
   const [showMenu, setShowMenu] = useState(false);
   const [showReactionsPopup, setShowReactionsPopup] = useState(false);
   const [showComments, setShowComments] = useState(true);
+  const user = useSelector(selectCurrentUser);
   const hoverHandler = useHoverHandler();
 
-  const { user, images, type } = post;
-  console.log('🚀 ~ file: PostItem.jsx ~ line 19 ~ PostItem ~ user', user);
+  const { user: poster, images, type } = post;
+  console.log('🚀 ~ file: PostItem.jsx ~ line 24 ~ poster', poster)
 
   const updatedText =
     type === 'profile'
-      ? `updated ${user.gender === 'male' ? 'his' : 'her'} profile picture`
+      ? `updated ${poster.gender === 'male' ? 'his' : 'her'} profile picture`
       : type === 'cover'
-      ? `updated ${user.gender === 'male' ? 'his' : 'her'} cover picture`
+      ? `updated ${poster.gender === 'male' ? 'his' : 'her'} cover picture`
       : null;
 
   let gridClass;
 
-  switch (images.length) {
+  switch (images?.length) {
     case 1:
       gridClass = 'grid_1';
       break;
@@ -50,14 +53,14 @@ export const PostItem = memo(({ post }) => {
         <div className='post_header'>
           <div className='header_left'>
             {/* <Link to={`/profile/${user.username}`} className=''> */}
-            <Link to={user.username} className=''>
-              <ProfileImage image={user.pictures[0].url} />
+            <Link to={poster.username} className=''>
+              <ProfileImage image={poster.pictures[0].url} />
             </Link>
             <div className='post_details'>
               <div className='profile_name'>
                 {/* <Link to={`/profile/${user.username}`} className=''> */}
-                <Link to={`/${user.username}`} className=''>
-                  {user.first_name} {user.last_name} <span>{updatedText}</span>
+                <Link to={`/${poster.username}`} className=''>
+                  {poster.first_name} {poster.last_name} <span>{updatedText}</span>
                 </Link>
               </div>
               <div className='privacy_date'>
@@ -76,8 +79,8 @@ export const PostItem = memo(({ post }) => {
         </div>
         {showMenu && (
           <PostMenu
-            userId={user.id}
-            postUserId={user._id}
+            posterId={poster._id}
+            postId={post._id}
             imagesLength={images?.length}
             setVisible={setShowMenu}
           />
@@ -94,7 +97,7 @@ export const PostItem = memo(({ post }) => {
             <div className='profile_post'>
               <div
                 className='profile_cover'
-                style={{ backgroundImage: `url(${user.covers[0].url})` }}></div>
+                style={{ backgroundImage: `url(${poster.covers[0].url})` }}></div>
               <img className='profile_image' src={images[0].url} alt='' />
             </div>
           ) : type === 'cover' ? (
@@ -103,7 +106,7 @@ export const PostItem = memo(({ post }) => {
             //     className='cover_image'
             //     style={{ backgroundImage: `url(${user.covers[0].url})` }}></div>
             // </div>
-            <img className='cover_image' src={user.covers[0].url} alt='' />
+            <img className='cover_image' src={poster.covers[0].url} alt='' />
           ) : (
             images?.length > 0 && (
               <div className={`post_images_grid ${gridClass}`}>
@@ -168,7 +171,7 @@ export const PostItem = memo(({ post }) => {
         {post.comments.length > 0 && (
           <div className='comments'>
             {post.comments.map(comment => (
-              <PostComment key={comment._id} comment={comment} />
+              <CommentItem key={comment._id} comment={comment} />
             ))}
           </div>
         )}

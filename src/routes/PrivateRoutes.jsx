@@ -1,16 +1,15 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
 
-import { setCredentials } from 'features/auth/authSlice';
+import { selectAccessToken, setCredentials } from 'features/auth/authSlice';
 import { useRefreshAccessTokenQuery } from 'features/auth/authApiSlice';
 import { Outlet, useNavigate } from 'react-router-dom';
 
 export const PrivateRoutes = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  console.log('in PrivateRoutes');
 
-  const { accessToken } = useSelector(state => state.auth);
+  const accessToken = useSelector(selectAccessToken);
 
   const { data, isError } = useRefreshAccessTokenQuery();
 

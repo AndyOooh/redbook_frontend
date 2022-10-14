@@ -1,9 +1,10 @@
 import { ProfileImage } from 'components/ProfileImage';
+import { selectCurrentUser } from 'features/auth/authSlice';
 import { BsPersonFill } from 'react-icons/bs';
 import { useSelector } from 'react-redux';
 
 export const PostModalUser = () => {
-  const user = useSelector(state => state.auth.user); // Better to pass as prop?
+  const user = useSelector(selectCurrentUser); // Better to pass as prop?
 
   return (
     <div className='modal_profile'>

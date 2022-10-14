@@ -12,7 +12,6 @@ import './About.scss';
 
 export const About = props => {
   const { user, visitor } = props;
-  // const { user } = useSelector(state => state.auth);
   const dispatch = useDispatch();
   const [showDetailInput, setShowDetailInput] = useState('');
   const [updatedDetails, setUpdatedDetails] = useState({});

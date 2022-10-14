@@ -1,5 +1,5 @@
 import { Routes, Route } from 'react-router-dom';
-import { profileMenuItems } from './profileMenuItems';
+import { profileMenuItems } from './profileNavigation/profileMenuItems';
 
 export const ProfileBottom = props => {
   return (

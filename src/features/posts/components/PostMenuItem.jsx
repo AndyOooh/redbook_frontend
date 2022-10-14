@@ -1,9 +1,6 @@
-
-
-export const PostMenuItem = ({ icon, title, subtitle, img }) => {
-
+export const PostMenuItem = ({ icon, title, subtitle, img, clickHandler, postId }) => {
   return (
-    <li className='hover1'>
+    <li className='hover1' onClick={() => clickHandler(postId || null)}>
       {img ? <img src={img} alt='' /> : <i className={icon}></i>}
       <div className='post_menu_text'>
         <span>{title}</span>
@@ -11,4 +8,4 @@ export const PostMenuItem = ({ icon, title, subtitle, img }) => {
       </div>
     </li>
   );
-}
+};

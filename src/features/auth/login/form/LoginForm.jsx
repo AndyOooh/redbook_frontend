@@ -7,10 +7,10 @@ import DotLoader from 'react-spinners/DotLoader';
 import './LoginForm.scss';
 import { TextInput } from '../../../../components/ui/inputs/TextInput';
 import { loginvalidation } from './loginValidation';
-import { reset, setCredentials } from 'features/auth/authSlice';
+import { resetAuthState, setCredentials } from 'features/auth/authSlice';
 import { useLoginMutation } from 'features/auth/authApiSlice';
 
-export const LoginForm = ({ setRegisterIsVisible }) => {
+export const LoginForm = ({ setRegisterFormVisible }) => {
   const initialFormData = {
     email: '',
     password: '',
@@ -36,10 +36,10 @@ export const LoginForm = ({ setRegisterIsVisible }) => {
   const loginSubmitHandler = async () => {
     try {
       const userData = await login(formData).unwrap();
-      console.log('userData', userData);
+      console.log('🚀 ~ file: LoginForm.jsx ~ line 39 ~ userData', userData);
       dispatch(setCredentials({ ...userData }));
       setFormData(initialFormData);
-      navigate('/');
+      // navigate('/');
     } catch (error) {
       console.log('error', error);
     }
@@ -82,7 +82,7 @@ export const LoginForm = ({ setRegisterIsVisible }) => {
         {/* {isSuccess && <div className='success_text'>{message}</div>} */}
 
         {isLoading ? (
-          <DotLoader color='#1876f2' loading={isLoading} size={30} />
+          <DotLoader color='var(--red-main)' loading={isLoading} size={30} />
         ) : (
           <>
             <Link to='/reset' className='forgot_password'>
@@ -95,8 +95,8 @@ export const LoginForm = ({ setRegisterIsVisible }) => {
                 type='button'
                 className='btn red_btn create_account_btn'
                 onClick={() => {
-                  setRegisterIsVisible(true);
-                  dispatch(reset());
+                  setRegisterFormVisible(true);
+                  dispatch(resetAuthState());
                 }}>
                 Create new account
               </button>

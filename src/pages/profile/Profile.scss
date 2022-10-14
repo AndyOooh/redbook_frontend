@@ -95,6 +95,37 @@
 
         .name_row_left {
           @include mixins.flex-row(1rem);
+
+          > button {
+            font-size: 1.8rem;
+          }
+
+          position: relative;
+          // .request_dropdown_wrapper {
+          // }
+
+          .request_dropdown {
+            @include mixins.flex-column(1rem);
+            position: absolute;
+            top: 5rem;
+            // right: 0;
+            padding: 1rem;
+            min-width: fit-content;
+            width: 15rem;
+
+            .dropdown_item {
+              @include mixins.flex-row(1rem);
+              // font-size: 2rem;
+
+              p {
+                white-space: nowrap
+              }
+
+              &:hover {
+                cursor: pointer;
+              }
+            }
+          }
         }
       }
 

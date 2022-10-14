@@ -11,7 +11,6 @@ export const ImagePicker = ({
   mimeTypes = ['image/jpeg', 'image/png', 'image/webp', 'image/gif'],
   maxFileSizeMb = 5,
 }) => {
-  console.log('imagePicker rendered');
 
   const [error, setError] = useState(null);
 

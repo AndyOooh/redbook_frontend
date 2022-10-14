@@ -6,7 +6,6 @@ import { ImagePicker } from '../../../components/ui/inputs/ImagePicker';
 import { useCreateCommentMutation, useUpdatePostMutation } from '../postsApiSlice';
 
 export const CreateComment = ({ postId, visible, setVisible }) => {
-
   const [commentText, setCommentText] = React.useState('');
   const [commentImages, setCommentImages] = useState([]);
 
@@ -35,21 +34,13 @@ export const CreateComment = ({ postId, visible, setVisible }) => {
   // Submithandler --------------------------------------------------
   const submitCommentHandler = async e => {
     e.preventDefault();
-    console.log('submitCommentHandler');
-    console.log('commentText', commentText);
-    console.log('commentImage', commentImages);
-    console.log('commentImage.length', commentImages.length);
-
     let commentData = new FormData();
-
-    // postData.append('id', postId);
     commentData.append('text', commentText);
     if (commentImages.length > 0) {
       for (let i = 0; i < commentImages.length; i++) {
         commentData.append('images', commentImages[i]);
       }
     }
-
     // log formData
     for (var pair of commentData.entries()) {
       console.log('in for loop');
@@ -83,10 +74,7 @@ export const CreateComment = ({ postId, visible, setVisible }) => {
 
       {/* Create comment. CreateComment component? */}
       <form className='comment_form' onSubmit={submitCommentHandler}>
-        <ImagePicker
-          preview
-          setImages={setCommentImages}
-        >
+        <ImagePicker preview setImages={setCommentImages}>
           {props => (
             <>
               <div className='create_comment'>

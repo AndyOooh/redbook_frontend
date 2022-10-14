@@ -11,8 +11,6 @@ import { UpdateBio } from './UpdateBio';
 export const Intro = ({ user, visitor }) => {
   const dispatch = useDispatch();
   const { details } = user;
-  console.log('🚀 ~ file: Intro.jsx ~ line 4 ~ details', details);
-  console.log('🚀 ~ file: Intro.jsx ~ line 4 ~ vistitor', visitor);
 
   const [showUpdateBio, setShowUpdateBio] = useState(false);
   const [showEditDetailsModal, setShowEditDetailsModal] = useState(false);

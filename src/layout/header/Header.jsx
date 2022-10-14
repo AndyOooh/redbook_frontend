@@ -7,7 +7,7 @@ import './Header.scss';
 import SearchDropdown from './SearchDropdown';
 import AllMenu from './AllMenu';
 import { useClickOutside } from 'hooks/useClickOutside';
-import { UserMenu } from './userMenu';
+import { UserMenu } from './userMenu/UserMenu';
 import RbLogo from 'assets/icons/icon-redbook.png';
 import { Messenger, Notifications, Search } from 'assets/svg';
 import { ProfileImage } from 'components/ProfileImage';

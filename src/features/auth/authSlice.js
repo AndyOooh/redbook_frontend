@@ -4,8 +4,7 @@ const authSlice = createSlice({
   name: 'auth',
   initialState: { user: null, accessToken: null },
   reducers: {
-    // I added this
-    reset: state => {
+    resetAuthState: state => {
       state.user = null;
       state.accessToken = null;
     },
@@ -22,15 +21,15 @@ const authSlice = createSlice({
         // } else {
         //   state.user[key] = value;
         // }
-          state.user[key] = value;
+        state.user[key] = value;
       }
     },
   },
 });
 
-export const { reset, setCredentials, logout, updateUser } = authSlice.actions;
+export const { resetAuthState, setCredentials, logout, updateUser } = authSlice.actions;
 
 export default authSlice.reducer;
 
 export const selectCurrentUser = state => state.auth.user;
-export const selectCurrentToken = state => state.auth.token;
+export const selectAccessToken = state => state.auth.accessToken;

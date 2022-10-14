@@ -1,8 +1,8 @@
-import { Modal } from 'components';
 import { useRef, useState } from 'react';
-import { PulseLoader } from 'react-spinners';
+import { DotLoader } from 'react-spinners';
 
 import './CreatePostModal.scss';
+import { Modal } from 'components';
 import { AddToPost } from './AddToPost';
 import { ImagePicker } from '../../../components/ui/inputs/ImagePicker';
 import { Modalheader } from '../../../components/ui/modal/Modalheader';
@@ -54,28 +54,22 @@ export const CreatePostModal = ({ visible, setVisible }) => {
   // SUBMIT Handler ----------------------------------
   const submitPostHandler = async e => {
     e.preventDefault();
-
     let postData = new FormData();
-
     postData.append('text', postText);
     postData.append('background', postBackground);
     for (let i = 0; i < postImages.length; i++) {
       postData.append('images', postImages[i]);
     }
-
     // log formData
     for (var pair of postData.entries()) {
       console.log('in for loop');
       console.log('from iterator:', pair[0] + ', ' + pair[1]);
     }
-
     try {
       const { data } = await createPost({ postData, type: 'feed' }).unwrap();
-      console.log('data', data);
     } catch (error) {
       console.log('error', error);
     }
-
     setPostText('');
     setPostBackground(null);
     setPostImages([]);
@@ -120,7 +114,7 @@ export const CreatePostModal = ({ visible, setVisible }) => {
             <AddToPost setVisible={setImagePickerVisible} />
 
             <button className='btn red_btn post_submit' type='submit' disabled={isLoading}>
-              {isLoading ? <PulseLoader color='#fff' size={5} /> : 'Post'}
+              {isLoading ? <DotLoader color='var(--white-main)' size={5} /> : 'Post'}
             </button>
           </div>
         </form>

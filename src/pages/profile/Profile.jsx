@@ -1,61 +1,39 @@
 import { useState, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { useNavigate, useParams } from 'react-router-dom';
 import { BsFillPlusCircleFill } from 'react-icons/bs';
 import { MdModeEditOutline } from 'react-icons/md';
 import {
   FaFacebookMessenger,
   FaUserCheck,
-  FaUserFriends,
+  // FaUserFriends,
   FaUserPlus,
   FaUserTimes,
 } from 'react-icons/fa';
+import { DotLoader } from 'react-spinners';
 
 import './Profile.scss';
 import { Dots } from 'assets/svg';
 import { ProfileImage } from 'components/ProfileImage';
 import { ChangeImageModal } from 'features/users/changePicture/ChangeImageModal';
-import {
-  useGetUserQuery,
-  useLazyGetUserQuery,
-  useSendFriendRequestMutation,
-  useFriendRequestMutation,
-} from 'features/users/usersApiSlice';
+import { useGetUserQuery, useFriendRequestMutation } from 'features/users/usersApiSlice';
 import { Header } from 'layout/header/Header';
 import { ProfileBottom } from './ProfileBottom';
-import { ProfileSectionsMenu } from './ProfileSectionsMenu';
-import { updateUser } from 'features/auth/authSlice';
+import { ProfileSectionsMenu } from './profileNavigation/ProfileSectionsMenu';
+import { selectCurrentUser } from 'features/auth/authSlice';
+import { RequestDropDown } from './RequestDropDown';
 
 export const Profile = () => {
-  const dispatch = useDispatch();
   const navigate = useNavigate();
   const [changeImageModal, setChangeImageModal] = useState('');
-  // const params = useParams();
-  // const { pathname } = useLocation();
-
-  const currentUser = useSelector(state => state.auth.user);
+  const [showRequestDropdown, setShowRequestDropdown] = useState(false);
+  const user = useSelector(selectCurrentUser);
   const { username } = useParams();
 
-  const visitor = username ? username !== currentUser.username : false;
-  const [friendRequest, { error, isLoading: friendRequestLoading }] = useFriendRequestMutation();
+  const [friendRequest, { isLoading: friendRequestLoading, isSuccess: friendRequestSuccess }] =
+    useFriendRequestMutation();
 
-  // was trying to avoid 'unauthorixed on /profile/someotherusername. Cant recreate the issue but a new
-  // one: should redirect to /profile if on /profile/somenonsense
-  // if (visitor && pathname.includes('profile')) {
-  //   console.log('navigating to username')
-  //   navigate(`${username}`);
-  // }
-
-  const handleFriendRequest = async type => {
-    console.log('receiver ***************user.id', profileUser.id);
-    try {
-      const { data, message } = await friendRequest({
-        receiverId: { receiverId: profileUser.id },
-        type,
-      }).unwrap();
-      dispatch(updateUser(data));
-    } catch (error) {}
-  };
+  const visitor = username ? username !== user.username : false;
 
   useEffect(() => {
     if (!visitor && username) {
@@ -65,66 +43,96 @@ export const Profile = () => {
 
   const {
     data: userData,
-    isLoading,
-    isSuccess,
-    isError,
+    isLoading: getUserLoading,
+    isSuccess: getUserSuccess,
+    isError: getUserError,
   } = useGetUserQuery({
-    userId: username || currentUser.username,
-    type: visitor ? 'profile' : 'currentUser',
+    userId: username || user.username,
+    type: 'profile',
   });
 
-  let profileUser;
-  if (userData) {
-    profileUser = visitor ? { ...userData } : { ...currentUser, ...userData };
-  }
-
   useEffect(() => {
-    if (isError) {
+    if (getUserError) {
       navigate('/');
     }
-  }, [isSuccess, isError, navigate]);
+  }, [getUserError, navigate]);
 
-  const visitorButtonsJsx = (
-    <>
-      {currentUser.friends.includes(profileUser?.id) ? (
-        <button className='btn gray_btn'>
-          <FaUserCheck />
-          Friends
-        </button>
-      ) : currentUser.requestsSent?.includes(profileUser?.id) ? (
-        <button className='btn red_btn'>
-          <FaUserTimes /> Requested
-        </button>
-      ) : currentUser.requestsReceived?.includes(profileUser?.id) ? (
-        // not done yet
-        <button className='btn red_btn' onClick={() => handleFriendRequest('accept')}>
-          <FaUserTimes /> Accept request
-        </button>
-      ) : (
-        <button className='btn red_btn' onClick={() => handleFriendRequest('add')}>
-          <FaUserPlus />
-          Add Friend
-        </button>
-      )}
-      <button
-        className={currentUser.friends.includes(profileUser?.id) ? 'btn red_btn' : 'btn gray_btn'}>
-        <FaFacebookMessenger />
-        Message
-      </button>
-    </>
-  );
+  const handleFriendRequest = async type => {
+    try {
+      const { data, message } = await friendRequest({
+        receiverId: { receiverId: userData.id },
+        type,
+      }).unwrap();
+    } catch (error) {
+      console.log('handleFriendRequest error: ', error);
+    }
+  };
 
-  // not ideal to ask for !user. Should be a better iplementation. how to check for user )= currentUser and if not send req vefore return/render? asl SO
-  // remmeber we changed some routing in app.js because clciking another profile routed us ro profile of liogged in user!
+  let visitorButtonsJsx;
+  if (visitor && userData?.friendship) {
+    visitorButtonsJsx = (
+      <>
+        {userData.friendship.friends ? (
+          <button className='btn gray_btn' onClick={() => setShowRequestDropdown(true)}>
+            <FaUserCheck />
+            Friends
+          </button>
+        ) : userData?.friendship?.requestSent ? (
+          <button className='btn red_btn' onClick={() => handleFriendRequest('cancel')}>
+            {friendRequestLoading ? (
+              <>
+                <DotLoader color='var(--white-main)' size={10} loading={friendRequestLoading} />{' '}
+                Loading...
+              </>
+            ) : (
+              <>
+                <FaUserTimes /> Cancel request
+              </>
+            )}
+          </button>
+        ) : userData?.friendship.requestReceived ? (
+          <button className='btn red_btn' onClick={() => setShowRequestDropdown(true)}>
+            {friendRequestLoading ? (
+              <>
+                <DotLoader color='var(--white-main)' size={10} loading={friendRequestLoading} />{' '}
+                Loading...
+              </>
+            ) : (
+              <>
+                <FaUserCheck /> Respond
+              </>
+            )}
+          </button>
+        ) : (
+          <button className='btn red_btn' onClick={() => handleFriendRequest('add')}>
+            {friendRequestLoading ? (
+              <>
+                <DotLoader color='var(--white-main)' size={10} loading={true} /> Loading...
+              </>
+            ) : (
+              <>
+                <FaUserPlus /> Add Friend
+              </>
+            )}
+          </button>
+        )}
+        <button className={userData.friendship.friends ? 'btn red_btn' : 'btn gray_btn'}>
+          <FaFacebookMessenger />
+          Message
+        </button>
+      </>
+    );
+  }
 
-  console.log('🚀 ~ file: Profile.jsx ~ line 43 ~ profileUser', profileUser);
-  return !userData ? (
-    <div>Loading...</div>
+  console.log('🚀 ~ file: Profile.jsx ~ line 135 ~ userData', userData);
+  //******************************************** return ********************************************
+  return getUserLoading || Object.keys(userData).length === 0 ? (
+    <DotLoader color='var(--red-main)' size={50} loading={getUserLoading} />
   ) : (
     <>
       {changeImageModal && (
         <ChangeImageModal
-          user={currentUser}
+          user={user}
           visible={changeImageModal}
           setVisible={setChangeImageModal}
           type={changeImageModal}
@@ -135,7 +143,7 @@ export const Profile = () => {
         <div className='profile_top'>
           <div className='profile_container top_container'>
             <div className='cover_photo'>
-              <img src={profileUser.covers[0]?.url} alt='' />
+              <img src={userData.covers[0]?.url} alt='' />
               {!visitor && (
                 <button
                   className='btn gray_btn edit_cover_btn'
@@ -149,7 +157,7 @@ export const Profile = () => {
               <div className='name_row'>
                 <div className='name_row_right'>
                   <div className='prof_image_wrap'>
-                    <ProfileImage size='16.8rem' image={profileUser.pictures[0].url} />
+                    <ProfileImage size='16.8rem' image={userData.pictures[0].url} />
                     {!visitor && (
                       <div
                         className='prof_icon_wrapper'
@@ -160,14 +168,14 @@ export const Profile = () => {
                   </div>
                   <div className='name_and_friends'>
                     <h1>
-                      {profileUser.first_name} {profileUser.last_name}
+                      {userData.first_name} {userData.last_name}
                     </h1>
-                    <span>{profileUser.friends?.length} Friends</span>
+                    <span>{userData.friends?.length} Friends</span>
                     <div className='friends_gallery'>
-                      {profileUser.friends.map(friend => {
+                      {userData.friends?.map(friend => {
                         return (
                           <ProfileImage
-                            key={friend.id}
+                            key={friend._id}
                             size='4.8rem'
                             image={friend.pictures[0].url}
                           />
@@ -178,7 +186,18 @@ export const Profile = () => {
                 </div>
                 <div className='name_row_left'>
                   {visitor ? (
-                    { ...visitorButtonsJsx }
+                    <>
+                      {visitorButtonsJsx}
+                      {showRequestDropdown && (
+                        // <div className='request_dropdown_wrapper'>
+                        <RequestDropDown
+                          handleFriendRequest={handleFriendRequest}
+                          friendship={userData.friendship}
+                          visible={showRequestDropdown}
+                          setVisible={setShowRequestDropdown}
+                        />
+                      )}
+                    </>
                   ) : (
                     <>
                       <button className='btn red_btn'>
@@ -194,7 +213,7 @@ export const Profile = () => {
                 </div>
               </div>
               <div className='menu_row'>
-                <ProfileSectionsMenu user={profileUser} visitor={visitor} />
+                <ProfileSectionsMenu user={userData} visitor={visitor} />
                 <Dots color='#828387' />
               </div>
             </div>
@@ -203,7 +222,7 @@ export const Profile = () => {
 
         <div className='profile_container '>
           <div className='profile_bottom'>
-            {profileUser.id && <ProfileBottom user={profileUser} visitor={visitor} />}
+            <ProfileBottom user={userData} visitor={visitor} />
           </div>
         </div>
       </div>

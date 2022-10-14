@@ -1,8 +1,9 @@
+import { selectCurrentUser } from 'features/auth/authSlice';
 import { useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 
 export const ProfileImage = ({ size, isHeader, image }) => {
-  const { user } = useSelector(state => state.auth);
+  const user = useSelector(selectCurrentUser);
   const location = useLocation();
   const onProfileRoute = location?.pathname.includes('/profile');
 

@@ -10,19 +10,22 @@ import DisplayAccessibility from './DisplayAccessibility';
 import HelpSupport from './HelpSupport';
 import SettingsPrivacy from './SettingsPrivacy';
 import { useLogoutMutation } from 'features/auth/authApiSlice';
-import { reset } from 'features/auth/authSlice';
+import { resetAuthState, selectCurrentUser } from 'features/auth/authSlice';
 import { ProfileImage } from 'components/ProfileImage';
+import { apiSlice } from 'app/api/apiSlice';
 
 export const UserMenu = () => {
-  const [visible, setVisible] = useState(0);
-  const { user } = useSelector(state => state.auth);
-  const [logout] = useLogoutMutation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const user  = useSelector(selectCurrentUser);
+  const [logout, { isLoading: logoutIsLoading }] = useLogoutMutation();
+  const [visible, setVisible] = useState(0);
+
 
   const logoutHandler = async () => {
     await logout();
-    await dispatch(reset());
+    dispatch(resetAuthState());
+    dispatch(apiSlice.util.resetApiState());
     navigate('/login');
   };
 

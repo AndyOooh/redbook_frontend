@@ -6,14 +6,16 @@ import { CreatePost } from 'features/posts/CreatePost';
 import Stories from './top/Top';
 import { ResendVerification } from 'features';
 import { VerifyModal } from 'features';
-import { Posts } from 'features/posts/components/Posts';
+import { PostsArray } from 'features/posts/components/PostsArray';
+import { useGetPostsQuery } from 'features/posts/postsApiSlice';
+import { selectCurrentUser } from 'features/auth/authSlice';
 
 export const Main = () => {
   const [searchParams, setSearchParams] = useSearchParams();
-  const verified = useSelector(state => state.auth.user?.verified);
-  // const { verified } = useSelector(selectCurrentUser); //might be bad to have state in such a high level component. Verified shouldn't change often though
-
+  const { verified } = useSelector(selectCurrentUser); //might be bad to have state in such a high level component. Verified shouldn't change often though
+  const { data: posts = [], isLoading, error } = useGetPostsQuery();
   const verificationToken = searchParams.get('verificationToken');
+  console.log('🚀 ~ file: Main.jsx ~ line 17 ~ posts', posts)
 
   useEffect(() => {
     if (verificationToken) {
@@ -27,7 +29,7 @@ export const Main = () => {
         <Stories />
         {!verified && <ResendVerification />}
         <CreatePost />
-        <Posts />
+        <PostsArray posts={posts} />
       </main>
     </>
   );

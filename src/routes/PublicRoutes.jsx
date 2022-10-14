@@ -1,8 +1,9 @@
+import { selectCurrentUser } from 'features/auth/authSlice';
 import { useSelector } from 'react-redux';
 import { Navigate, Outlet } from 'react-router-dom';
 
 export const PublicRoutes = () => {
-  const { user } = useSelector(state => state.auth);
+  const user = useSelector(selectCurrentUser);
   console.log('in PublicRoutes');
   return user ? <Navigate to='/' /> : <Outlet />;
 };

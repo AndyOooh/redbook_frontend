@@ -1,17 +1,17 @@
 import { useLogoutMutation } from 'features/auth/authApiSlice';
-import { reset } from 'features/auth/authSlice';
+import { resetAuthState, selectCurrentUser } from 'features/auth/authSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 
 export const ResetHeader = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { user } = useSelector(state => state.auth);
+  const user = useSelector(selectCurrentUser);
   const [logout, { isLoading }] = useLogoutMutation();
 
   const logoutHandler = async () => {
     await logout();
-    dispatch(reset);
+    dispatch(resetAuthState);
     navigate('/login');
   };
 

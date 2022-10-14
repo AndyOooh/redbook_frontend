@@ -1,16 +1,17 @@
 import { Dots, NewRoom, Search } from 'assets/svg';
+import { selectCurrentUser } from 'features/auth/authSlice';
 import { useSelector } from 'react-redux';
 import Contact from './Contact';
 import './styles.scss';
 
-export const RightHome = () => {
-  const { user } = useSelector(state => state.auth);
+export const HomeRight = () => {
+  const user = useSelector(selectCurrentUser);
   const color = '#65676b';
 
   return (
     <section className='right_home'>
       <div className='heading'>Sponsored</div>
-      <div className="vert_line"></div>
+      <div className='vert_line'></div>
       <div className='contacts_wrap'>
         <div className='contacts_header'>
           <div className='contacts_header_left'>Contacts</div>

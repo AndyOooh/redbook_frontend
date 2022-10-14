@@ -1,17 +1,18 @@
 import { useSelector } from 'react-redux';
 import { useState } from 'react';
 
-import LeftLink from './LeftLink';
+import { LeftLink } from './LeftLink';
 import { left } from '../homeData';
 import { Link } from 'react-router-dom';
 import { ArrowDown1 } from 'assets/svg';
-import Shortcut from './Shortcut';
+import { Shortcut } from './Shortcut';
 import { ProfileImage } from 'components/ProfileImage';
 import './HomeLeft.scss';
+import { selectCurrentUser } from 'features/auth/authSlice';
 
-export default function LeftHome() {
+export const HomeLeft = () => {
   const [visible, setVisible] = useState(false);
-  const { user } = useSelector(state => state.auth);
+  const user = useSelector(selectCurrentUser);
   return (
     <section className='left_home scrollbar'>
       <Link to='/profile' className='left_link hover1'>
@@ -82,4 +83,4 @@ export default function LeftHome() {
       </div>
     </section>
   );
-}
+};

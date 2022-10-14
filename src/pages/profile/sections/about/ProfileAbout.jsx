@@ -1,4 +1,4 @@
-import { Friends } from '../Friends/Friends';
+import { Friends } from '../friends/Friends';
 import { About } from './About';
 
 export const ProfileAbout = props => {

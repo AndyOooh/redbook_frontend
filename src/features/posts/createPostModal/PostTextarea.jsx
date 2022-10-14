@@ -1,7 +1,8 @@
+import { selectCurrentUser } from 'features/auth/authSlice';
 import { useSelector } from 'react-redux';
 
 export const PostTextarea = ({ imagePickerVisible, bgRef, post, setPost }) => {
-  const { user } = useSelector(state => state.auth);
+  const user = useSelector(selectCurrentUser);
 
   const handlePostInput = e => {
     setPost(e.target.value);

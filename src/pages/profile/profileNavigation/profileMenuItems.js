@@ -1,8 +1,8 @@
-import { ProfilePosts } from './Sections/ProfilePosts/ProfilePosts';
-import { ProfileAbout } from './Sections/About/ProfileAbout';
-import { ProfileFriends } from './Sections/Friends/ProfileFriends';
-import { ProfilePhotos } from './Sections/Photos/ProfilePhotos';
-import { ProfileVideos } from './Sections/Videos/ProfileVideos';
+import { ProfilePosts } from '../sections/posts/ProfilePosts';
+import { ProfileAbout } from '../sections/about/ProfileAbout';
+import { ProfileFriends } from '../sections/friends/ProfileFriends';
+import { ProfilePhotos } from '../sections/photos/ProfilePhotos';
+import { ProfileVideos } from '../sections/videos/ProfileVideos';
 
 // const componetFn = (props, Component) => {
 //   return <Component {...props} />;

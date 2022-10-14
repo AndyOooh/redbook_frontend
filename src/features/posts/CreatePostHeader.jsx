@@ -1,8 +1,9 @@
 import { ProfileImage } from 'components/ProfileImage';
+import { selectCurrentUser } from 'features/auth/authSlice';
 import { useSelector } from 'react-redux';
 
 export const CreatePostHeader = ({ setVisible }) => {
-  const { user } = useSelector(state => state.auth);
+  const user = useSelector(selectCurrentUser);
   return (
     <div className='createPost_header'>
       <ProfileImage size='4rem' />

@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import { useNavigate, useParams } from 'react-router-dom';
+import { NavLink, useNavigate, useParams } from 'react-router-dom';
 import { BsFillPlusCircleFill } from 'react-icons/bs';
 import { MdModeEditOutline } from 'react-icons/md';
 import {
@@ -181,11 +181,13 @@ export const Profile = () => {
                     <div className='friends_gallery'>
                       {userData.friends?.map(friend => {
                         return (
-                          <ProfileImage
-                            key={friend._id}
-                            size='4.8rem'
-                            image={friend.pictures[0].url}
-                          />
+                          <NavLink key={friend.id} to={`/${friend.username}`} exact>
+                            <ProfileImage
+                              key={friend._id}
+                              size='4.8rem'
+                              image={friend.pictures[0].url}
+                            />
+                          </NavLink>
                         );
                       })}
                     </div>

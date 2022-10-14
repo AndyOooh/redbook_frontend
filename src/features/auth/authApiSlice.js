@@ -6,19 +6,21 @@ const authApiSlice = apiSlice.injectEndpoints({
     refreshAccessToken: builder.query({
       query: () => '/auth/refresh',
     }),
- 
+
     login: builder.mutation({
       query: userInputs => ({
         url: '/auth/login',
         method: 'POST',
         body: { ...userInputs },
       }),
+      invalidatesTags: ['UserTag'],
     }),
     logout: builder.mutation({
       query: () => ({
         url: '/auth/logout',
         method: 'POST',
       }),
+      invalidatesTags: ['UserTag'],
     }),
     register: builder.mutation({
       query: userInputs => ({
@@ -26,6 +28,7 @@ const authApiSlice = apiSlice.injectEndpoints({
         method: 'POST',
         body: { ...userInputs },
       }),
+      invalidatesTags: ['UserTag'],
     }),
     verifyAccount: builder.mutation({
       query: verificationToken => ({
@@ -85,5 +88,4 @@ export const {
   useSendPwResetCodeMutation,
   useValidateResetCodeMutation,
   useChangePasswordMutation,
-
 } = authApiSlice;

@@ -147,93 +147,91 @@ export const Profile = () => {
       )}
       <div className='profile'>
         <Header />
-        <main>
-          <div className='profile_top'>
-            <div className='profile_container top_container'>
-              <div className='cover_photo'>
-                <img src={userData.covers[0]?.url} alt='' />
-                {!visitor && (
-                  <button
-                    className='btn gray_btn edit_cover_btn'
-                    onClick={() => setChangeImageModal('cover')}>
-                    <i className='camera_filled_icon'></i>
-                    Edit cover Photo
-                  </button>
-                )}
-              </div>
-              <div className='top_lower'>
-                <div className='name_row'>
-                  <div className='name_row_right'>
-                    <div className='prof_image_wrap'>
-                      <ProfileImage size='16.8rem' image={userData.pictures[0].url} />
-                      {!visitor && (
-                        <div
-                          className='prof_icon_wrapper'
-                          onClick={() => setChangeImageModal('profile')}>
-                          <i className='camera_filled_icon'></i>
-                        </div>
-                      )}
-                    </div>
-                    <div className='name_and_friends'>
-                      <h1>
-                        {userData.first_name} {userData.last_name}
-                      </h1>
-                      <span>{userData.friends?.length} Friends</span>
-                      <div className='friends_gallery'>
-                        {userData.friends?.map(friend => {
-                          return (
-                            <ProfileImage
-                              key={friend._id}
-                              size='4.8rem'
-                              image={friend.pictures[0].url}
-                            />
-                          );
-                        })}
+        <div className='profile_top'>
+          <div className='profile_container top_container'>
+            <div className='cover_photo'>
+              <img src={userData.covers[0]?.url} alt='' />
+              {!visitor && (
+                <button
+                  className='btn gray_btn edit_cover_btn'
+                  onClick={() => setChangeImageModal('cover')}>
+                  <i className='camera_filled_icon'></i>
+                  Edit cover Photo
+                </button>
+              )}
+            </div>
+            <div className='top_lower'>
+              <div className='name_row'>
+                <div className='name_row_right'>
+                  <div className='prof_image_wrap'>
+                    <ProfileImage size='16.8rem' image={userData.pictures[0].url} />
+                    {!visitor && (
+                      <div
+                        className='prof_icon_wrapper'
+                        onClick={() => setChangeImageModal('profile')}>
+                        <i className='camera_filled_icon'></i>
                       </div>
-                    </div>
-                  </div>
-                  <div className='name_row_left'>
-                    {visitor ? (
-                      <>
-                        {visitorButtonsJsx}
-                        {showRequestDropdown && (
-                          // <div className='request_dropdown_wrapper'>
-                          <RequestDropDown
-                            handleFriendRequest={handleFriendRequest}
-                            friendship={userData.friendship}
-                            visible={showRequestDropdown}
-                            setVisible={setShowRequestDropdown}
-                          />
-                        )}
-                      </>
-                    ) : (
-                      <>
-                        <button className='btn red_btn'>
-                          <BsFillPlusCircleFill />
-                          Add to story
-                        </button>
-                        <button className='btn gray_btn'>
-                          <MdModeEditOutline />
-                          Edit profile
-                        </button>
-                      </>
                     )}
                   </div>
+                  <div className='name_and_friends'>
+                    <h1>
+                      {userData.first_name} {userData.last_name}
+                    </h1>
+                    <span>{userData.friends?.length} Friends</span>
+                    <div className='friends_gallery'>
+                      {userData.friends?.map(friend => {
+                        return (
+                          <ProfileImage
+                            key={friend._id}
+                            size='4.8rem'
+                            image={friend.pictures[0].url}
+                          />
+                        );
+                      })}
+                    </div>
+                  </div>
                 </div>
-                <div className='menu_row'>
-                  <ProfileSectionsMenu user={userData} visitor={visitor} />
-                  <Dots color='#828387' />
+                <div className='name_row_left'>
+                  {visitor ? (
+                    <>
+                      {visitorButtonsJsx}
+                      {showRequestDropdown && (
+                        // <div className='request_dropdown_wrapper'>
+                        <RequestDropDown
+                          handleFriendRequest={handleFriendRequest}
+                          friendship={userData.friendship}
+                          visible={showRequestDropdown}
+                          setVisible={setShowRequestDropdown}
+                        />
+                      )}
+                    </>
+                  ) : (
+                    <>
+                      <button className='btn red_btn'>
+                        <BsFillPlusCircleFill />
+                        Add to story
+                      </button>
+                      <button className='btn gray_btn'>
+                        <MdModeEditOutline />
+                        Edit profile
+                      </button>
+                    </>
+                  )}
                 </div>
+              </div>
+              <div className='menu_row'>
+                <ProfileSectionsMenu user={userData} visitor={visitor} />
+                <Dots color='#828387' />
               </div>
             </div>
           </div>
+        </div>
 
-          <div className='profile_container '>
-            <div className='profile_bottom'>
-              <ProfileBottom user={userData} visitor={visitor} />
-            </div>
+        <div className='profile_container '>
+          <div className='profile_bottom'>
+            <ProfileBottom user={userData} visitor={visitor} />
           </div>
-        </main>
+        </div>
       </div>
     </>
   );

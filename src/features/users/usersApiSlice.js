@@ -27,6 +27,7 @@ export const usersApiSlice = apiSlice.injectEndpoints({
           body: postData,
         };
       },
+      invalidatesTags: ['UserTag'],
     }),
     friendRequest: builder.mutation({
       query: payload => {

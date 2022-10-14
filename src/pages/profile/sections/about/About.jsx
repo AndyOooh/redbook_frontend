@@ -135,7 +135,7 @@ export const About = props => {
         {
           subTitle: 'Hometown',
           noun: 'hometown',
-          iconSrc: iconsBaseUrl + 'home.png',
+          iconSrc: iconsBaseUrl + 'from.png',
           text: `From ${user?.details.hometown}`,
           mongoName: 'hometown',
         },

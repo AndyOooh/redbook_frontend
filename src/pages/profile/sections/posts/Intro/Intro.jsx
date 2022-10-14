@@ -113,7 +113,7 @@ export const Intro = ({ user, visitor }) => {
       topic: 'Hometown',
       name: 'hometown',
       introText: `From ${details?.hometown}`,
-      icon: iconsBaseUrl + 'home.png',
+      icon: iconsBaseUrl + 'from.png',
       value: details?.hometown,
       lowerCaseAndSpace: 'hometown',
     },

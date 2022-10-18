@@ -11,126 +11,89 @@ import { UpdateBio } from './UpdateBio';
 export const Intro = ({ user, visitor }) => {
   const dispatch = useDispatch();
   const { details } = user;
+  console.log('🚀 ~ file: Intro.jsx ~ line 4 ~ details', details);
+  console.log('🚀 ~ file: Intro.jsx ~ line 4 ~ vistitor', visitor);
 
   const [showUpdateBio, setShowUpdateBio] = useState(false);
-  const [showEditDetailsModal, setShowEditDetailsModal] = useState(false);
+  const [showEditDetailsModal, setShowEditDetailsModal] = useState(true);
 
   // const [updatedDetails, setUpdatedDetails] = useState(details);
   const [updatedDetails, setUpdatedDetails] = useState({});
   const [remainingChar, setRemainingChar] = useState(
     details?.bio ? 100 - details?.bio.length : 100
   );
+
+  console.log('🚀 ~ file: Intro.jsx ~ line 12 ~ updatedDetails', updatedDetails);
   const iconsBaseUrl = '../../../../../icons/';
-
-  let detailsArr = [];
-  Object.entries(details).forEach(([key, value]) => {
-    detailsArr.push({ name: key, value });
-  });
-
-  const newArr = detailsArr.map(det => {
-    const { name } = det;
-    const nameLowerCase =
-      name.toLowerCase() === name ? name.replace(/([A-Z])/g, ' $1').toLowerCase() : name;
-    const iconName =
-      name === 'highSchool' || name === 'college'
-        ? 'studies'
-        : name === 'relationshipStatus'
-        ? 'relationship'
-        : name === 'currentCity'
-        ? 'home'
-        : name === 'hometown'
-        ? 'home'
-        : 'job';
-    const icon = iconsBaseUrl + iconName + '.png';
-
-    return { ...det, lowerCaseAndSpace: nameLowerCase, icon: icon };
-  });
-
 
   const detailsArray = [
     {
       name: 'jobAndWorkPlace',
-      introText:
+      text:
         details?.job && details?.workPlace
           ? `Works as ${details?.job} at ${details?.workPlace}`
           : details?.job && !details?.workplace
           ? `Works as ${details?.job}`
-          : details?.workPlace && !details?.job && `Works at ${details?.workPlace}`,
-
+          : details?.workPlace.value && !details?.job && `Works at ${details?.workPlace.value}`,
       icon: iconsBaseUrl + 'job.png',
       value: details?.job || details?.workPlace,
     },
     {
-      queryValue: 'work_and_edu',
-      topic: 'Work',
-      multiPossible: true,
+      // exception: 'editOnly',
       name: 'job',
       icon: iconsBaseUrl + 'job.png',
       value: details?.job,
       lowerCaseAndSpace: 'job',
+      // public: details?.job.public,
+      visibility: details?.job.visibility,
     },
     {
-      queryValue: 'work_and_edu',
-      topic: 'Work',
-      multiPossible: true,
+      // exception: 'editOnly',
       name: 'workPlace',
       icon: iconsBaseUrl + 'job.png',
-      value: details?.workPlace,
+      value: details?.workPlace.value,
       lowerCaseAndSpace: 'workplace',
     },
 
     {
-      queryValue: 'work_and_edu',
-      topic: 'Education',
-      multiPossible: true,
+      name: 'relationship',
+      text: details.relationship,
+      icon: iconsBaseUrl + 'relationship.png',
+      value: details?.relationship,
+      lowerCaseAndSpace: 'relationship',
+    },
+    {
       name: 'college',
-      introText: `Studied at ${details?.college}`,
+      text: `Studied at ${details?.college}`,
       icon: iconsBaseUrl + 'studies.png',
       value: details?.college,
       lowerCaseAndSpace: 'college',
     },
     {
-      queryValue: 'work_and_edu',
-      topic: 'Education',
-      multiPossible: true,
       name: 'highSchool',
-      introText: `Studied at ${details?.highSchool}`,
+      text: `Studied at ${details?.highSchool}`,
       icon: iconsBaseUrl + 'studies.png',
       value: details?.highSchool,
       lowerCaseAndSpace: 'high school',
     },
     {
-      queryValue: 'places',
-      topic: 'Current City',
       name: 'currentCity',
-      introText: `Lives in ${details?.currentCity}`,
+      text: `Lives in ${details?.currentCity}`,
       icon: iconsBaseUrl + 'home.png',
       value: details?.currentCity,
       lowerCaseAndSpace: 'current city',
     },
     {
-      queryValue: 'places',
-      topic: 'Hometown',
-      name: 'hometown',
-      introText: `From ${details?.hometown}`,
-      icon: iconsBaseUrl + 'from.png',
-      value: details?.hometown,
+      name: 'homeTown',
+      text: `From ${details?.homeTown}`,
+      icon: iconsBaseUrl + 'home.png',
+      value: details?.homeTown,
       lowerCaseAndSpace: 'hometown',
     },
+
     {
-      queryValue: 'family_and_relationships',
-      topic: 'Relationship',
-      name: 'relationship',
-      introText: details?.relationshipStatus,
-      icon: iconsBaseUrl + 'relationship.png',
-      value: details?.relationshipStatus,
-      lowerCaseAndSpace: 'relationship',
-    },
-    {
-      queryValue: 'social_media',
-      topic: 'Social Media',
       name: 'instagram',
-      introText: (
+      text: (
         <a
           href={`https://www.instagram.com/${details?.instagram}`}
           target='_blank'
@@ -138,7 +101,6 @@ export const Intro = ({ user, visitor }) => {
           {details?.instagram}
         </a>
       ),
-      // introText: 'akajkjaa',
       icon: iconsBaseUrl + 'instagram.png',
       value: details?.instagram,
       lowerCaseAndSpace: 'instagram',
@@ -153,17 +115,21 @@ export const Intro = ({ user, visitor }) => {
 
   const [updateUserDetails, { isLoading, isSuccess, error }] = useUpdateUserDetailsMutation();
 
-  const handleSubmitDetails = async () => {
+  const updateDetails = async () => {
+    console.log('🚀 ~ file: Intro.jsx ~ line 73 ~ updateDetails ~ updatedDetails', updatedDetails);
     const postData = updatedDetails;
+    console.log('🚀 ~ file: Intro.jsx ~ line 80 ~ postData', postData);
     const { data } = await updateUserDetails({ postData, userId: user.id, field: 'details' });
+    console.log('🚀 ~ file: Intro.jsx ~ line 82 ~ data', data);
     const { userData, message } = data;
     dispatch(updateUser(userData));
     setShowUpdateBio(false);
   };
 
+  console.log('details', details);
 
   return (
-    <div className='card_main intro'>
+    <>
       <span className='card_title'>Intro</span>
 
       {details?.bio && !showUpdateBio && (
@@ -186,20 +152,29 @@ export const Intro = ({ user, visitor }) => {
       {showUpdateBio && (
         <UpdateBio
           setVisible={setShowUpdateBio}
-          handleSubmitDetails={handleSubmitDetails}
+          // updatedDetails={updatedDetails}
+          // details={details}
+          handleSubmitDetails={updateDetails}
           setUpdatedDetails={setUpdatedDetails}
           remainingChar={remainingChar}
           handleChange={handleChange}
+
+          //   infos={infos}
+          //   max={max}
+          //   setVisible={setShowUpdateBio}
+          //   updateDetails={updateDetails}
+          //   placeholder="Add Bio"
+          //   name="bio"
         />
       )}
 
       {detailsArray.map(
         detail =>
           detail.value &&
-          detail.introText && (
+          detail.text && (
             <div key={detail.name} className='detail_row'>
               <img src={detail.icon} alt='' />
-              <span>{detail.introText}</span>
+              <span>{detail.text}</span>
             </div>
           )
       )}
@@ -208,13 +183,19 @@ export const Intro = ({ user, visitor }) => {
           Edit Details
         </button>
       )}
+      <p>Hiiii</p>
+      <p>{details?.workPlace.visibility}</p>
+      <p>{details?.workPlace.visibility}</p>
+      <p>{details?.otherName.visibility}</p>
+      <p>{details?.otherName.visibility}</p>
 
       {showEditDetailsModal && !visitor && (
         <EditDetailsModal
           details={details}
           detailsArray={detailsArray}
           handleChange={handleChange}
-          updateDetails={handleSubmitDetails}
+          updateDetails={updateDetails}
+          // infos={infos}
           visible={showEditDetailsModal}
           setVisible={setShowEditDetailsModal}
         />
@@ -222,6 +203,6 @@ export const Intro = ({ user, visitor }) => {
 
       {!visitor && <button className='btn gray_btn hover1 '>Add Hobbies</button>}
       {!visitor && <button className='btn gray_btn hover1 '>Add Features</button>}
-    </div>
+    </>
   );
 };

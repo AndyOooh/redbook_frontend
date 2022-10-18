@@ -1,4 +1,4 @@
-import { useState, useEffect, useContext } from 'react';
+import { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { NavLink, useNavigate, useParams } from 'react-router-dom';
 import { BsFillPlusCircleFill } from 'react-icons/bs';
@@ -22,28 +22,18 @@ import { ProfileBottom } from './ProfileBottom';
 import { ProfileSectionsMenu } from './profileNavigation/ProfileSectionsMenu';
 import { selectCurrentUser } from 'features/auth/authSlice';
 import { RequestDropDown } from './RequestDropDown';
-import { ProfileContext } from './profileContext/profileContext';
-import { ProfileProvider } from './profileContext/ProfileProvider';
 
 export const Profile = () => {
   const navigate = useNavigate();
   const [changeImageModal, setChangeImageModal] = useState('');
   const [showRequestDropdown, setShowRequestDropdown] = useState(false);
-
   const user = useSelector(selectCurrentUser);
   const { username } = useParams();
-
-  const profCtx = useContext(ProfileContext);
-  console.log('🚀 ~ file: Profile.jsx ~ line 37 ~ profCtx', profCtx);
 
   const [friendRequest, { isLoading: friendRequestLoading, isSuccess: friendRequestSuccess }] =
     useFriendRequestMutation();
 
   const visitor = username ? username !== user.username : false;
-
-
-  profCtx.setVisitor(visitor);
-  console.log('🚀 ~ file: Profile.jsx ~ line 37 ~ profCtx', profCtx);
 
   useEffect(() => {
     if (!visitor && username) {
@@ -52,7 +42,7 @@ export const Profile = () => {
   }, [visitor, navigate, username]);
 
   const {
-    data: profileData,
+    data: userData,
     isLoading: getUserLoading,
     isSuccess: getUserSuccess,
     isError: getUserError,
@@ -67,17 +57,10 @@ export const Profile = () => {
     }
   }, [getUserError, navigate]);
 
-  // useEffect(() => {
-  //   if (profileData) {
-  //     // profCtx.setProfileUser(profileData);
-  //     console.log('🚀 ~ file: Profile.jsx ~ line 37 ~ profCtx', profCtx);
-  //   }
-  // }, [getUserSuccess, profileData, profCtx]);
-
   const handleFriendRequest = async type => {
     try {
       const { data, message } = await friendRequest({
-        receiverId: { receiverId: profileData.id },
+        receiverId: { receiverId: userData.id },
         type,
       }).unwrap();
     } catch (error) {
@@ -85,19 +68,16 @@ export const Profile = () => {
     }
   };
 
-  const { profileUser } = profCtx;
-  console.log('🚀 ~ file: Profile.jsx ~ line 87 ~ profileUser', profileUser);
-
   let visitorButtonsJsx;
-  if (visitor && profileData?.friendship) {
+  if (visitor && userData?.friendship) {
     visitorButtonsJsx = (
       <>
-        {profileData.friendship.friends ? (
+        {userData.friendship.friends ? (
           <button className='btn gray_btn' onClick={() => setShowRequestDropdown(true)}>
             <FaUserCheck />
             Friends
           </button>
-        ) : profileData?.friendship?.requestSent ? (
+        ) : userData?.friendship?.requestSent ? (
           <button className='btn red_btn' onClick={() => handleFriendRequest('cancel')}>
             {friendRequestLoading ? (
               <>
@@ -110,7 +90,7 @@ export const Profile = () => {
               </>
             )}
           </button>
-        ) : profileData?.friendship.requestReceived ? (
+        ) : userData?.friendship.requestReceived ? (
           <button className='btn red_btn' onClick={() => setShowRequestDropdown(true)}>
             {friendRequestLoading ? (
               <>
@@ -136,7 +116,7 @@ export const Profile = () => {
             )}
           </button>
         )}
-        <button className={profileData.friendship.friends ? 'btn red_btn' : 'btn gray_btn'}>
+        <button className={userData.friendship.friends ? 'btn red_btn' : 'btn gray_btn'}>
           <FaFacebookMessenger />
           Message
         </button>
@@ -144,10 +124,9 @@ export const Profile = () => {
     );
   }
 
-  console.log('🚀 ~ file: Profile.jsx ~ line 135 ~ userData', profileData);
-
+  console.log('🚀 ~ file: Profile.jsx ~ line 135 ~ userData', userData);
   //******************************************** return ********************************************
-  return !profileUser || Object.keys(profileData).length === 0 ? (
+  return getUserLoading || Object.keys(userData).length === 0 ? (
     <main className='dotloader_wrapper'>
       <DotLoader
         color='var(--red-main)'
@@ -171,7 +150,7 @@ export const Profile = () => {
         <div className='profile_top'>
           <div className='profile_container top_container'>
             <div className='cover_photo'>
-              <img src={profileData.covers[0]?.url} alt='' />
+              <img src={userData.covers[0]?.url} alt='' />
               {!visitor && (
                 <button
                   className='btn gray_btn edit_cover_btn'
@@ -185,7 +164,7 @@ export const Profile = () => {
               <div className='name_row'>
                 <div className='name_row_right'>
                   <div className='prof_image_wrap'>
-                    <ProfileImage size='16.8rem' image={profileData.pictures[0].url} />
+                    <ProfileImage size='16.8rem' image={userData.pictures[0].url} />
                     {!visitor && (
                       <div
                         className='prof_icon_wrapper'
@@ -196,11 +175,11 @@ export const Profile = () => {
                   </div>
                   <div className='name_and_friends'>
                     <h1>
-                      {profileData.first_name} {profileData.last_name}
+                      {userData.first_name} {userData.last_name}
                     </h1>
-                    <span>{profileData.friends?.length} Friends</span>
+                    <span>{userData.friends?.length} Friends</span>
                     <div className='friends_gallery'>
-                      {profileData.friends?.map(friend => {
+                      {userData.friends?.map(friend => {
                         return (
                           <NavLink key={friend._id} to={`/${friend.username}`} className='friend'>
                             <ProfileImage size='4.8rem' image={friend.pictures[0].url} />
@@ -218,7 +197,7 @@ export const Profile = () => {
                         // <div className='request_dropdown_wrapper'>
                         <RequestDropDown
                           handleFriendRequest={handleFriendRequest}
-                          friendship={profileData.friendship}
+                          friendship={userData.friendship}
                           visible={showRequestDropdown}
                           setVisible={setShowRequestDropdown}
                         />
@@ -239,7 +218,7 @@ export const Profile = () => {
                 </div>
               </div>
               <div className='menu_row'>
-                <ProfileSectionsMenu user={profileData} visitor={visitor} />
+                <ProfileSectionsMenu user={userData} visitor={visitor} />
                 <Dots color='#828387' />
               </div>
             </div>
@@ -248,7 +227,7 @@ export const Profile = () => {
 
         <div className='profile_container '>
           <div className='profile_bottom'>
-            <ProfileBottom user={profileData} visitor={visitor} />
+            <ProfileBottom user={userData} visitor={visitor} />
           </div>
         </div>
       </div>

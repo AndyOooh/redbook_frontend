@@ -8,6 +8,9 @@ import { VerifyAccount } from 'features/auth/verifyAccount/VerifyAccount';
 import { ResetPassword } from 'pages/resetPassword';
 import { PrivateRoutes } from 'routes/PrivateRoutes';
 import { Developing } from 'pages/Developing';
+import { ProfileContext } from 'pages/profile/profileContext/profileContext';
+import { useContext } from 'react';
+import { ProfileProvider } from 'pages/profile/profileContext/ProfileProvider';
 
 console.log('in App.js');
 
@@ -25,8 +28,23 @@ const App = () => {
         <Route path='/gaming' element={<Developing />} />
         {/* Developed */}
         <Route path='/verify' element={<VerifyAccount />} />
-        <Route exact path=':username/*' element={<Profile />} />
-        <Route exact path='profile/*' element={<Profile />}></Route>
+        <Route
+          exact
+          path=':username/*'
+          element={
+            <ProfileProvider>
+              <Profile />
+            </ProfileProvider>
+          }
+        />
+        <Route
+          exact
+          path='profile/*'
+          element={
+            <ProfileProvider>
+              <Profile />
+            </ProfileProvider>
+          }></Route>
         <Route exact path='/' element={<Home />} />
       </Route>
       <Route path='/reset' element={<ResetPassword />} />

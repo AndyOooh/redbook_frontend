@@ -28,11 +28,9 @@ Looking for a project to put together all the skills I have learned so far, I be
 
 
 ## Usage
-There are two choices for usage: 
+
 1. **Go to the website and peak around.**
-   1. Log in with the dummy-user *Michal Scott:*  
-   Email: thatswhat@shesaid.com Password: 1234.
-   2. Or create a user with your own or a [throw-away email].(https://temp-mail.org/en/)
+   1. Create a user with your own or a [throw-away email](https://temp-mail.org/en/)
 2. **Clone the project to your machine. 
 NB: You will need to clone both the front-end and back-end repo.** 
    Prerequisites for option 2:
@@ -104,4 +102,6 @@ npm start
 
 👤 **AndyOooh**
 
-* Website: [andyo.xyz](andyo.xyz)
+- Website: [andyo.xyz](https://www.andyo.xyz/)
+- LinkedIn: [@andyooh](https://linkedin.com/in/andyooh)
+- Resume: [andyo.xyz/resume](https://www.andyo.xyz/static/media/Andreas%20Oee%20-%20Junior%20Full%20Stack%20-%20Resume.ab537effccc087b4a020.pdf)

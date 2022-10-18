@@ -51,7 +51,7 @@ export const Photos = props => {
         <div className='photos_grid_wrapper'>
           <div className='photos_grid'>
             {photos.slice(0, 9).map(photo => {
-              return <img src={photo.url} alt='' key={photo.id} />;
+              return <img src={photo.url} alt='' />;
             })}
           </div>
         </div>

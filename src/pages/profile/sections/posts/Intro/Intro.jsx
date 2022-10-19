@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { useDispatch } from 'react-redux';
 
 import './Intro.scss';
@@ -7,10 +7,12 @@ import { updateUser } from 'features/auth/authSlice';
 import { useUpdateUserDetailsMutation } from 'features/users/usersApiSlice';
 import { EditDetailsModal } from './EditDetailsModal';
 import { UpdateBio } from './UpdateBio';
+import { ProfileContext } from 'pages/profile/profileContext/profileContext';
 
-export const Intro = ({ user, visitor }) => {
+export const Intro = () => {
   const dispatch = useDispatch();
-  const { details } = user;
+  const { profileUser, visitor } = useContext(ProfileContext);
+  const { details } = profileUser;
 
   const [showUpdateBio, setShowUpdateBio] = useState(false);
   const [showEditDetailsModal, setShowEditDetailsModal] = useState(false);
@@ -45,7 +47,6 @@ export const Intro = ({ user, visitor }) => {
 
     return { ...det, lowerCaseAndSpace: nameLowerCase, icon: icon };
   });
-
 
   const detailsArray = [
     {
@@ -155,12 +156,15 @@ export const Intro = ({ user, visitor }) => {
 
   const handleSubmitDetails = async () => {
     const postData = updatedDetails;
-    const { data } = await updateUserDetails({ postData, userId: user.id, field: 'details' });
+    const { data } = await updateUserDetails({
+      postData,
+      userId: profileUser.id,
+      field: 'details',
+    });
     const { userData, message } = data;
     dispatch(updateUser(userData));
     setShowUpdateBio(false);
   };
-
 
   return (
     <div className='card_main intro'>

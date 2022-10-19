@@ -1,9 +1,11 @@
 const { createContext } = require('react');
 
 export const ProfileContext = createContext({
-  visitor: true,
-  setVisitor: () => {},
+  getUserError: null,
+  username: null,
+  getUserLoading: null,
+  handleFriendRequest: () => {},
+  friendRequestLoading: null,
+  visitor: null,
   profileUser: null,
-  setProfileUser: () => {},
-  arr: [],
 });

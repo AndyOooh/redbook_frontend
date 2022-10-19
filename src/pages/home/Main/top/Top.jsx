@@ -6,7 +6,7 @@ import Story from './Story';
 import './Top.scss';
 import { useState } from 'react';
 
-export default function Stories() {
+export const Stories = () => {
   const [activeMedia, setActiveMedia] = useState('stories');
 
   const handleMediaChange = media => {
@@ -26,8 +26,6 @@ export default function Stories() {
     query: '(max-width: 885px)',
   });
   const max = query885px ? 5 : query96rem ? 4 : query103rem ? 5 : query1175px ? 4 : stories.length;
-
-  // const buttonClasses =
 
   return (
     <section className='home_media card_main'>
@@ -61,10 +59,7 @@ export default function Stories() {
         {stories.slice(0, max).map((story, i) => (
           <Story story={story} key={story.profile_name} />
         ))}
-        {/* <div className='white_circle'>
-        <ArrowRight color='#65676b' />
-      </div> */}
       </div>
     </section>
   );
-}
+};

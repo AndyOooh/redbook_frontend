@@ -21,7 +21,6 @@ export const PostItem = memo(({ post }) => {
   const hoverHandler = useHoverHandler();
 
   const { user: poster, images, type } = post;
-  console.log('🚀 ~ file: PostItem.jsx ~ line 24 ~ poster', poster)
 
   const updatedText =
     type === 'profile'

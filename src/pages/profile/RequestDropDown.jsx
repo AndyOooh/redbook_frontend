@@ -1,17 +1,16 @@
+import { useContext } from 'react';
 import { MdOutlineCancelPresentation } from 'react-icons/md';
 import { RiUserUnfollowLine } from 'react-icons/ri';
+import { ProfileContext } from './profileContext/profileContext';
 
 import './RequestDropDown.scss';
 
-export const RequestDropDown = ({ handleFriendRequest, friendship, visible, setVisible }) => {
-  const { friends, following, requestSent, requestReceived } = friendship;
-
-  // <img src='../../../icons/unfollowOutlined.png' alt='' />
+export const RequestDropDown = ({ visible, setVisible }) => {
+  const { handleFriendRequest, profileUser } = useContext(ProfileContext);
+  const { friends, requestReceived } = profileUser.friendship;
 
   const clickHandler = name => {
-    // e.preventDefault();
     handleFriendRequest(name);
-
     setVisible(false);
   };
 

@@ -1,22 +1,15 @@
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import { BsPlusLg } from 'react-icons/bs';
 
 import './ChangeImageModal.scss';
 import { Modal } from 'components';
 import { ImagePicker } from 'components';
 import { ImageCropper } from './ImageCropper';
+import { ProfileContext } from 'pages/profile/profileContext/profileContext';
 
-export const ChangeImageModal = ({ user, visible, setVisible, type }) => {
+export const ChangeImageModal = ({ visible, setVisible, mode }) => {
   const [selectedimage, setSelectedimage] = useState(null);
-
-  console.log('🚀 ~ file: ChangeImageModal.jsx ~ line 10 ~ type', type);
-
-  const uploads = [
-    'https://pbs.twimg.com/media/EosHCHJXEAIfa7H?format=jpg&name=4096x4096',
-    'https://i.pinimg.com/736x/69/d0/cb/69d0cbd0f6b91fce72cbe446d85cfbae--sexy-women-sexy-girls.jpg',
-    'https://f5bulous.files.wordpress.com/2013/02/hot-chick.jpg',
-    'https://pbs.twimg.com/media/EosHCHJXEAIfa7H?format=jpg&name=4096x4096',
-  ];
+  const { profileUser } = useContext(ProfileContext);
 
   const handleExit = () => {
     setSelectedimage(null);
@@ -27,31 +20,14 @@ export const ChangeImageModal = ({ user, visible, setVisible, type }) => {
     setSelectedimage(image);
   };
 
-  let title;
-  let topic_header1;
-  let topic_header2;
-  let photoArray1;
-  let photoArray2;
-  let photoGridClass1;
-  let photoGridClass2;
-
-  if (type === 'cover') {
-    title = 'Change Cover Photo';
-    topic_header1 = 'Cover Photos';
-    topic_header2 = 'Profile Pictures';
-    photoArray1 = user.covers;
-    photoArray2 = user.pictures;
-    photoGridClass1 = 'cover_photo_grid';
-    photoGridClass2 = 'profile_photo_grid';
-  } else if (type === 'profile') {
-    title = 'Update profile picture';
-    topic_header1 = 'Profile Pictures';
-    topic_header2 = 'Cover Photos';
-    photoArray1 = user.pictures;
-    photoArray2 = user.covers;
-    photoGridClass1 = 'profile_photo_grid';
-    photoGridClass2 = 'cover_photo_grid';
-  }
+  const isModeCover = mode === 'cover';
+  const title = isModeCover ? 'Change Cover Photo' : 'Update profile picture';
+  const topic_header1 = isModeCover ? 'Cover Photos' : 'Profile Pictures';
+  const topic_header2 = isModeCover ? 'Profile Pictures' : 'Cover Photos';
+  const photoArray1 = isModeCover ? profileUser.covers : profileUser.pictures;
+  const photoArray2 = isModeCover ? profileUser.pictures : profileUser.covers;
+  const photoGridClass1 = isModeCover ? 'cover_photo_grid' : 'profile_photo_grid';
+  const photoGridClass2 = isModeCover ? 'profile_photo_grid' : 'cover_photo_grid';
 
   return (
     <Modal className='change_profile_pic' visible={visible} setVisible={setVisible}>
@@ -69,7 +45,7 @@ export const ChangeImageModal = ({ user, visible, setVisible, type }) => {
               image={selectedimage}
               setImage={setSelectedimage}
               setParentVisible={setVisible}
-              type={type}
+              type={mode}
             />
           ) : (
             <>
@@ -100,8 +76,8 @@ export const ChangeImageModal = ({ user, visible, setVisible, type }) => {
                   {photoArray1?.slice(1, 12).map(photo => {
                     return (
                       <img
-                        src={photo.url}
                         key={photo.id}
+                        src={photo.url}
                         alt=''
                         onClick={() => handleSelectOldPhoto(photo)}
                       />
@@ -116,8 +92,8 @@ export const ChangeImageModal = ({ user, visible, setVisible, type }) => {
                   {photoArray2?.slice(0, 11).map(photo => {
                     return (
                       <img
-                        src={photo.url}
                         key={photo.id}
+                        src={photo.url}
                         alt=''
                         onClick={() => handleSelectOldPhoto(photo)}
                       />
@@ -129,9 +105,8 @@ export const ChangeImageModal = ({ user, visible, setVisible, type }) => {
               <div className='photo_section'>
                 <span className='topic_header'>Post pictures</span>
                 <div className='profile_photo_grid'>
-                  {/* find all post pics */}
-                  {uploads.map(photo => (
-                    <img src={photo} key={photo.id} alt='' />
+                  {profileUser.postPictures?.map(photo => (
+                    <img src={photo.url} key={photo.id} alt='' />
                   ))}
                 </div>
                 <button className='btn gray_btn'>See more</button>

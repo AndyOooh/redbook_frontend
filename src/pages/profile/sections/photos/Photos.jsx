@@ -1,24 +1,23 @@
-import React from 'react';
-import { Link, useParams } from 'react-router-dom';
-import { NavLink, useSearchParams } from 'react-router-dom';
+import { useContext } from 'react';
+import { NavLink, useParams, useSearchParams } from 'react-router-dom';
 
-import { Dots, Search } from 'assets/svg';
 import './Photos.scss';
+import { ProfileContext } from 'pages/profile/profileContext/profileContext';
 
-export const Photos = props => {
-  const color = '#65676b';
-  const photos = props.user.pictures.slice(0, -1);
-  const { visitor, user } = props;
+export const Photos = () => {
+  // const color = '#65676b';
+  const { profileUser, visitor } = useContext(ProfileContext);
+  const photos = profileUser.pictures.slice(0, -1);
 
   const params = useParams();
   const page = Object.values(params).includes('photos') ? 'photos' : 'profile';
 
-  const [searchParams, setSearchParams] = useSearchParams();
+  const searchParams = useSearchParams()[0];
   const section = searchParams.get('section');
 
   const photosNav = [
-    { title: `Photos of ${visitor ? user.first_name : 'you'}`, section: 'photos_of' },
-    { title: 'Your photos', section: 'photos_by' },
+    { title: `Photos of ${visitor ? profileUser.first_name : 'you'}`, section: 'photos_of' },
+    { title: visitor ? `${profileUser.first_name}'s photos` : 'Your photos', section: 'photos_by' },
     { title: 'Albums', section: 'photos_albums' },
   ];
 
@@ -28,9 +27,16 @@ export const Photos = props => {
         <header className='photos_header'>
           <span className='card_title'>Photos</span>
           <div className='header_right'>
-            <NavLink to='photos'>
-              <span>See all photos</span>
-            </NavLink>
+            {page === 'profile' && (
+              <NavLink to='photos'>
+                <span>See all photos</span>
+              </NavLink>
+            )}
+            {page === 'photos' && !visitor && (
+              <NavLink to='photos'>
+                <span>Add photos/videos</span>
+              </NavLink>
+            )}
           </div>
         </header>
         {page === 'photos' && (

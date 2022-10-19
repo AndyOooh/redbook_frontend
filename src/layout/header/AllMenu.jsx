@@ -36,11 +36,6 @@ export default function AllMenu() {
       sliceEnd: 21,
     },
     {
-      title: 'Community Resources',
-      sliceStart: 17,
-      sliceEnd: 21,
-    },
-    {
       title: 'More from Red Book',
       sliceStart: 21,
       sliceEnd: 23,
@@ -77,7 +72,7 @@ export default function AllMenu() {
         <div className='all_right'>
           <div className='all_right_header'>Create</div>
           {create.map(item => (
-            <div className='all_right_item hover1'>
+            <div key={item.name} className='all_right_item hover1'>
               <div className='all_right_circle'>
                 <i className={item.icon}></i>
               </div>

@@ -42,12 +42,12 @@ export const ProfileProvider = props => {
   const handleFriendRequest = useCallback(
     async type => {
       try {
-        await friendRequest({ receiverId: { receiverId: profileUser.id }, type }).unwrap();
+        await friendRequest({ receiverId: { receiverId: profileUser?.id }, type }).unwrap();
       } catch (error) {
         console.log('handleFriendRequest error: ', error);
       }
     },
-    [friendRequest, profileUser.id]
+    [friendRequest, profileUser?.id]
   );
 
   // the context - the values passed to the provider and downwards to it's children

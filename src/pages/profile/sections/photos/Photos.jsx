@@ -7,13 +7,19 @@ import { ProfileContext } from 'pages/profile/profileContext/profileContext';
 export const Photos = () => {
   // const color = '#65676b';
   const { profileUser, visitor } = useContext(ProfileContext);
-  const photos = profileUser.pictures.slice(0, -1);
+  const searchParams = useSearchParams()[0];
+  const section = searchParams.get('section');
+  const photos =
+    section === 'photos_of'
+      ? profileUser.pictures.slice(0, -1)
+      : section === 'photos_by'
+      ? profileUser.postPictures
+      : section === 'photos_albums'
+      ? [...profileUser.pictures.slice(0, -1), ...profileUser.postPictures] //Not developed yet
+      : profileUser.pictures.slice(0, -1)
 
   const params = useParams();
   const page = Object.values(params).includes('photos') ? 'photos' : 'profile';
-
-  const searchParams = useSearchParams()[0];
-  const section = searchParams.get('section');
 
   const photosNav = [
     { title: `Photos of ${visitor ? profileUser.first_name : 'you'}`, section: 'photos_of' },
@@ -56,7 +62,7 @@ export const Photos = () => {
 
         <div className='photos_grid_wrapper'>
           <div className='photos_grid'>
-            {photos.slice(0, 9).map(photo => {
+            {photos?.slice(0, 9).map(photo => {
               return <img src={photo.url} alt='' key={photo.id} />;
             })}
           </div>

@@ -21,14 +21,7 @@ export const Profile = () => {
   const [showRequestDropdown, setShowRequestDropdown] = useState(false);
 
   const profCtx = useContext(ProfileContext);
-  console.log('🚀 ~ file: Profile.jsx ~ line 37 ~ profCtx', profCtx);
-  const {
-    getUserError,
-    username,
-
-    visitor,
-    profileUser,
-  } = profCtx;
+  const { getUserError, username, visitor, profileUser } = profCtx;
 
   // navigate to ('/profile') if user is looking at their own profile. NB: don't use !visitor because it defaults to null
   useEffect(() => {
@@ -47,12 +40,7 @@ export const Profile = () => {
   //******************************************** return ********************************************
   return !profileUser ? (
     <main className='dotloader_wrapper'>
-      <DotLoader
-        color='var(--red-main)'
-        size={'10rem'}
-        // loading={getUserLoading}
-        className='dotLoader'
-      />
+      <DotLoader color='var(--red-main)' size={'10rem'} className='dotLoader' />
     </main>
   ) : (
     <>

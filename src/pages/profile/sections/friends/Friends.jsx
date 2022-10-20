@@ -1,4 +1,6 @@
 import { Dots, Search } from 'assets/svg';
+import { ProfileContext } from 'pages/profile/profileContext/profileContext';
+import { useContext } from 'react';
 import { NavLink, useSearchParams } from 'react-router-dom';
 
 import './Friends.scss';
@@ -6,8 +8,9 @@ import './Friends.scss';
 export const Friends = () => {
   const color = '#65676b';
 
-  const [searchParams, setSearchParams] = useSearchParams();
+  const searchParams = useSearchParams()[0];
   const section = searchParams.get('section');
+  const { profileUser } = useContext(ProfileContext);
 
   const friendsNav = [
     { title: 'All friends', section: 'all' },
@@ -53,6 +56,23 @@ export const Friends = () => {
               </NavLink>
             );
           })}
+        </div>
+        <div className='friends_grid_wrapper'>
+          <div className='friends_grid'>
+            {profileUser.friends.map(friend => {
+              return (
+                <div key={friend._id} className='friend_wrapper'>
+                  <div className='friend' key={friend.id}>
+                    <img src={friend.pictures[0].url} alt='friend' />
+                    <span className='friend_name'>
+                      {friend.first_name} {friend.last_name}{' '}
+                    </span>
+                  </div>
+                  <Dots color='#828387' />
+                </div>
+              );
+            })}
+          </div>
         </div>
       </section>
     </>

@@ -46,7 +46,8 @@ a {
 
 .card_main {
   width: 100%;
-  padding: 1rem 1.5rem;
+  // padding: 1rem 1.5rem;
+  padding: 2.5rem;
   margin: 0.5rem 0;
   // padding: 1rem 0;
   background: var(--bg-primary);
@@ -60,7 +61,7 @@ a {
   }
 
   .card_title {
-    font-size: 2rem;
+    font-size: 2.4rem;
     font-weight: 700;
   }
 }

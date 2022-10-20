@@ -5,13 +5,10 @@
   padding: 0;
   height: 100%;
 
-  > * {
-    padding: 2rem;
-  }
-
   .about_nav {
     width: 35%;
     @include mixins.flex_column(2rem);
+    padding: 2.5rem;
     // border-right: 1px solid var(--border-color);
 
     .menu_link {
@@ -24,19 +21,11 @@
     }
   }
 
-  //   .vert_line{
-  //     width: 2px;
-  //     height: 100%;
-  //     border: 1px solid var(--border-color);
-  //     color: black;
-  //     padding: 0;
-  //     margin-left: 2px;
-  //   }
-
   .about_content {
     width: 100%;
     border-left: 1px solid var(--border-color);
     @include mixins.flex_column(3rem);
+    padding: 2.5rem;
 
     // padding: 2rem ;
 
@@ -63,10 +52,10 @@
           @include mixins.flex-row(2rem);
           font-size: 1.8rem;
 
-        img {
-          width: 2rem;
-          height: 2rem;
-        }
+          img {
+            width: 2rem;
+            height: 2rem;
+          }
         }
         .subItem_right {
           @include mixins.flex-row(2rem);

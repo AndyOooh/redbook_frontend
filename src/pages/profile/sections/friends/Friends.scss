@@ -44,4 +44,37 @@
       color: var(--red-main);
     }
   }
+  .friends_grid_wrapper {
+    width: 100%;
+    .friends_grid {
+      width: 100%;
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1rem;
+
+      .friend_wrapper {
+        @include mixins.flex-row(0, space-between);
+        max-height: 11.5rem;
+        border: 0.02rem solid var(--bg-fourth);
+        border-radius: 1rem;
+        padding: 1rem;
+
+        .friend {
+          @include mixins.flex-row(1rem);
+          height: 100%;
+
+          img {
+            height: 100%;
+            object-fit: cover;
+            border-radius: 2rem;
+          }
+
+          .friend_name {
+            font-size: 1.8rem;
+            font-weight: 500;
+          }
+        }
+      }
+    }
+  }
 }

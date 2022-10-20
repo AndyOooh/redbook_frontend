@@ -1,17 +1,19 @@
 import React, { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { NavLink, useSearchParams } from 'react-router-dom';
-import { BsFillPlusCircleFill, BsPeopleFill, BsPlusLg } from 'react-icons/bs';
+import { BsFillPlusCircleFill, BsPeopleFill } from 'react-icons/bs';
 import { MdModeEditOutline } from 'react-icons/md';
 
+import './About.scss';
 import { useUpdateUserDetailsMutation } from 'features/users/usersApiSlice';
 import { updateUser } from 'features/auth/authSlice';
 import { DetailInput } from './DetailInput';
+import { useContext } from 'react';
+import { ProfileContext } from 'pages/profile/profileContext/profileContext';
 
-import './About.scss';
+export const About = () => {
+  const { profileUser, visitor } = useContext(ProfileContext);
 
-export const About = props => {
-  const { user, visitor } = props;
   const dispatch = useDispatch();
   const [showDetailInput, setShowDetailInput] = useState('');
   const [updatedDetails, setUpdatedDetails] = useState({});
@@ -47,7 +49,7 @@ export const About = props => {
     try {
       const data = await updateUserDetails({
         postData,
-        userId: user.id,
+        userId: profileUser.id,
         field: 'details',
       }).unwrap();
       console.log('🚀 ~ file: About.jsx ~ line 38 ~ data', data);
@@ -68,28 +70,28 @@ export const About = props => {
           subTitle: 'Work',
           noun: 'workplace',
           iconSrc: iconsBaseUrl + 'job.png',
-          text: `Works as ${user?.details.job} at ${user.details.workPlace}`,
+          text: `Works as ${profileUser?.details.job} at ${profileUser.details.workPlace}`,
           mongoName: 'work_and_edu',
         },
         {
           subTitle: 'College',
           noun: 'college',
           iconSrc: iconsBaseUrl + 'studies.png',
-          text: `Went to ${user?.details.college}`,
+          text: `Went to ${profileUser?.details.college}`,
           mongoName: 'college',
         },
         {
           subTitle: 'High School',
           noun: 'high school',
           iconSrc: iconsBaseUrl + 'studies.png',
-          text: `Went to ${user?.details.highSchool}`,
+          text: `Went to ${profileUser?.details.highSchool}`,
           mongoName: 'highSchool',
         },
         {
           subTitle: 'Current city',
           noun: 'current city',
           iconSrc: iconsBaseUrl + 'home.png',
-          text: user?.details.currentCity,
+          text: profileUser?.details.currentCity,
           mongoName: 'currentCity',
         },
       ],
@@ -102,21 +104,21 @@ export const About = props => {
           subTitle: 'Work',
           noun: 'workplace',
           iconSrc: iconsBaseUrl + 'job.png',
-          text: `Works as ${user?.details.job} at ${user.details.workPlace}`,
+          text: `Works as ${profileUser?.details.job} at ${profileUser.details.workPlace}`,
           mongoName: 'workPlace',
         },
         {
           subTitle: 'College',
           noun: 'college',
           iconSrc: iconsBaseUrl + 'studies.png',
-          text: `Went to ${user?.details.college}`,
+          text: `Went to ${profileUser?.details.college}`,
           mongoName: 'college',
         },
         {
           subTitle: 'High School',
           noun: 'high school',
           iconSrc: iconsBaseUrl + 'studies.png',
-          text: `Went to ${user?.details.highSchool}`,
+          text: `Went to ${profileUser?.details.highSchool}`,
           mongoName: 'highSchool',
         },
       ],
@@ -129,14 +131,14 @@ export const About = props => {
           subTitle: 'Current City',
           noun: 'city',
           iconSrc: iconsBaseUrl + 'home.png',
-          text: `Lives in ${user?.details.currentCity}`,
+          text: `Lives in ${profileUser?.details.currentCity}`,
           mongoName: 'currentCity',
         },
         {
           subTitle: 'Hometown',
           noun: 'hometown',
           iconSrc: iconsBaseUrl + 'from.png',
-          text: `From ${user?.details.hometown}`,
+          text: `From ${profileUser?.details.hometown}`,
           mongoName: 'hometown',
         },
       ],
@@ -149,7 +151,7 @@ export const About = props => {
           subTitle: 'Relationship',
           noun: 'relationship status',
           iconSrc: iconsBaseUrl + 'relationship.png',
-          text: `${user?.details.relationshipStatus}`,
+          text: `${profileUser?.details.relationshipStatus}`,
           mongoName: 'relationshipStatus',
         },
         {
@@ -157,7 +159,7 @@ export const About = props => {
           noun: 'family member',
           iconSrc: iconsBaseUrl + 'relationship.png',
           // text: `From ${user?.details.hometown}`,
-          array: user.details.familyMembers,
+          array: profileUser.details.familyMembers,
           // mongoName: 'relationshipStatus', // Not in DB yet
         },
       ],
@@ -173,10 +175,10 @@ export const About = props => {
           // text: `${user?.details.instagram}`,
           text: (
             <a
-              href={`https://www.instagram.com/${user?.details.instagram}`}
+              href={`https://www.instagram.com/${profileUser?.details.instagram}`}
               target='_blank'
               rel='noreferrer'>
-              {`@${user?.details.instagram}`}
+              {`@${profileUser?.details.instagram}`}
             </a>
           ),
           mongoName: 'instagram',
@@ -193,10 +195,10 @@ export const About = props => {
           {menuData.map(item => {
             return (
               <NavLink
+                key={item.title}
                 to={`?section=${item.queryValue}`}
                 onClick={() => reset()}
-                className={section === item.queryValue ? 'menu_link active_link ' : 'menu_link'}
-                key={item.title}>
+                className={section === item.queryValue ? 'menu_link active_link ' : 'menu_link'}>
                 {item.title}
               </NavLink>
             );
@@ -211,8 +213,8 @@ export const About = props => {
                 )[0]
                 .subItems.map(subItem => {
                   return (
-                    <React.Fragment key={subItem.subTitle}>
-                      <div className='content_item'>
+                    <>
+                      <div key={subItem.subTitle} className='content_item'>
                         <div className='subItem_row'>
                           <div className='subItem_left'>
                             <img src={subItem.iconSrc} alt='' />
@@ -220,7 +222,7 @@ export const About = props => {
                           </div>
                         </div>
                       </div>
-                    </React.Fragment>
+                    </>
                   );
                 })
             : menuData
@@ -232,14 +234,14 @@ export const About = props => {
                     <React.Fragment key={subItem.subTitle}>
                       <div className='content_item'>
                         <h4>{subItem.subTitle}</h4>
-                        {(subItem.array || !user.details[subItem.mongoName]) && (
+                        {(subItem.array || !profileUser.details[subItem.mongoName]) && (
                           <div
                             className='add_row'
                             onClick={() => handleShowInput(subItem.mongoName)}>
                             <BsFillPlusCircleFill /> Add {subItem.noun || subItem.subTitle}
                           </div>
                         )}
-                        {user.details[subItem.mongoName] && (
+                        {profileUser.details[subItem.mongoName] && (
                           <div className='subItem_row'>
                             <div className='subItem_left'>
                               <img src={subItem.iconSrc} alt='' />

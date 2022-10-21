@@ -102,7 +102,7 @@ export const Intro = () => {
     },
     {
       queryValue: 'places',
-      topic: 'Current City',
+      topic: 'Current city',
       name: 'currentCity',
       introText: `Lives in ${details?.currentCity}`,
       icon: iconsBaseUrl + 'home.png',

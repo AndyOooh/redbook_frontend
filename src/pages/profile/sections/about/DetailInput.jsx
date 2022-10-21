@@ -9,11 +9,6 @@ export const DetailInput = ({
   disabled,
   subTitle,
 }) => {
-  console.log('🚀 ~ file: UpdateDetail.jsx ~ line 4 ~ value', value);
-  console.log('🚀 ~ file: UpdateDetail.jsx ~ line 4 ~ name', name);
-
-  // 'Single', 'In a relationship', 'Engaged', 'Married', "It's Complicated", 'Prefer not to say'
-
   const instaPlaceholder = 'For example: rainnWilson. No @, https or www.';
 
   return (
@@ -36,7 +31,6 @@ export const DetailInput = ({
             name={name}
             value={value}
             onChange={changeHandler}
-            // rows={2}
             placeholder={subTitle === 'Instagram' ? instaPlaceholder : subTitle}
           />
         </>

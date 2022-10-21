@@ -12,7 +12,6 @@ import { useContext } from 'react';
 import { ProfileContext } from 'pages/profile/profileContext/profileContext';
 import { About2 } from './About2';
 import { camelToLetterCase, camelToSnakeCase } from 'utils/stringHelpers';
-import { isObject } from 'formik';
 
 export const About = () => {
   const { profileUser, visitor } = useContext(ProfileContext);
@@ -22,7 +21,6 @@ export const About = () => {
   const [updatedDetails, setUpdatedDetails] = useState({});
   const searchParams = useSearchParams()[0];
   const section = searchParams.get('section');
-  console.log('🚀 ~ file: About.jsx ~ line 24 ~ section', section);
   const [updateUserDetails, { isLoading, isSuccess, error }] = useUpdateUserDetailsMutation();
 
   const iconsBaseUrl = '../../../../../icons/';
@@ -184,96 +182,86 @@ export const About = () => {
     },
   ];
 
-  const { details } = useContext(ProfileContext).profileUser;
-  console.log('🚀 ~ file: About2.jsx ~ line 6 ~ details', details);
-
   const overView = {
-    title: 'Overview',
-    snakeCase: 'overview',
-    subItems: [
+    menuText: 'Overview',
+    snake_case: 'overview',
+    value: [
       {
-        name: 'Test',
-        value: 'test',
+        subTitle: 'Work',
+        noun: 'workplace',
         iconSrc: iconsBaseUrl + 'job.png',
+        text: `Works as ${profileUser?.details.job} at ${profileUser.details.workPlace}`,
+        mongoName: 'work_and_edu',
+      },
+      {
+        subTitle: 'College',
+        noun: 'college',
+        iconSrc: iconsBaseUrl + 'studies.png',
+        text: `Went to ${profileUser?.details.college}`,
+        mongoName: 'college',
+      },
+      {
+        subTitle: 'High School',
+        noun: 'high school',
+        iconSrc: iconsBaseUrl + 'studies.png',
+        text: `Went to ${profileUser?.details.highSchool}`,
+        mongoName: 'highSchool',
+      },
+      {
+        subTitle: 'Current city',
+        noun: 'current city',
+        iconSrc: iconsBaseUrl + 'home.png',
+        text: profileUser?.details.currentCity,
+        mongoName: 'currentCity',
       },
     ],
   };
 
-  let detailsArray = [overView];
-  Object.entries(details).forEach(([key, value]) => {
-    const subItemTextObject = val => {
-      return {
-        // work: `Works as ${details.job} at details.workPlace}`,
-        work: val ? 'dadasdasd' : null,
-        college: val ? `Went to ${val}` : null,
-        highSchool: val ? `Went to ${val}` : null,
-        // currentCity: profileUser?.details.currentCity
-        currentCity: val ? `Lives in ${val}` : null,
-        hometown: val ? `From ${val}` : null,
-        // relationshipStatus: `${profileUser?.details.relationshipStatus}`,
-        relationshipStatus: val ? val : null,
-      };
-    };
+ 
 
+  const { details } = useContext(ProfileContext).profileUser;
+  console.log('🚀 ~ file: About2.jsx ~ line 6 ~ details', details);
+
+  let detailsArray = [];
+  Object.entries(details).forEach(([key, value]) => {
     detailsArray.push({
-      title: camelToLetterCase(key),
-      snakeCase: camelToSnakeCase(key),
-      subItems: Object.entries(value).map(([key, value]) => {
-        if (isObject(value)) {
-          return {
-            subTitle: camelToLetterCase(key),
-            subItems: Object.entries(value).map(([key, value]) => {
-              return {
-                name: camelToLetterCase(key),
-                value: value,
-                iconSrc: iconsBaseUrl + 'home.png',
-                text: subItemTextObject(value)[key],
-              };
-            }),
-          };
-        } else {
-          return {
-            name: camelToLetterCase(key),
-            value: value,
-            iconSrc: iconsBaseUrl + 'home.png',
-            text: subItemTextObject(value)[key],
-          };
-        }
-      }),
+      // category: key,
+      menuText: camelToLetterCase(key),
+      snake_case: camelToSnakeCase(key),
+      value,
     });
   });
-
   console.log('🚀 ~ file: About2.jsx ~ line 10 ~ detailsArray', detailsArray);
+
+  // detailsArray.shift(overView);
 
   return (
     <>
       <section className='card_main about'>
         <div className='about_nav'>
           <h2>About</h2>
-          {detailsArray.map(category => {
+          {detailsArray.map(detail => {
             return (
               <NavLink
-                key={category.title}
-                to={`?section=${category.snakeCase}`}
+                key={detail.menuText}
+                to={`?section=${detail.snake_case}`}
                 onClick={() => reset()}
-                className={section === category.snakeCase ? 'menu_link active_link ' : 'menu_link'}>
-                {category.title}
+                className={section === detail.snake_case ? 'menu_link active_link ' : 'menu_link'}>
+                {detail.menuText}
               </NavLink>
             );
           })}
         </div>
         <div className='about_content'>
           {visitor
-            ? detailsArray
-                .filter(category =>
-                  section ? category.snakeCase === section : category.snakeCase === 'overview'
+            ? menuData
+                .filter(item =>
+                  section ? item.queryValue === section : item.queryValue === 'overview'
                 )[0]
-                .subItems.map(subItem =>
-                  // trying to make sure no entry /(with icon) is amde when we have no value. this is currently not wokring. wHen it does, it should also be pomopleneted forter down.
-                  !subItem.value ? null : 
-                 ( !subItem.subItems ? (
-                    <React.Fragment key={subItem.name}>
-                      <div className='content_item'>
+                .subItems.map(subItem => {
+                  return (
+                    <>
+                      <div key={subItem.subTitle} className='content_item'>
                         <div className='subItem_row'>
                           <div className='subItem_left'>
                             <img src={subItem.iconSrc} alt='' />
@@ -281,56 +269,40 @@ export const About = () => {
                           </div>
                         </div>
                       </div>
-                    </React.Fragment>
-                  ) : (
-                    subItem.subItems.map(subItem => (
-                      <React.Fragment key={subItem.name}>
-                        <div className='content_item'>
-                          <div className='subItem_row'>
-                            <div className='subItem_left'>
-                              <h1>elloo</h1>
-                              <img src={subItem.iconSrc} alt='' />
-                              <p>{subItem.text}</p>
-                            </div>
-                          </div>
-                        </div>
-                      </React.Fragment>
-                    ))
-                  ))
-                )
-            : detailsArray
-                .filter(category =>
-                  section ? category.snakeCase === section : category.snakeCase === 'overview'
+                    </>
+                  );
+                })
+            : menuData
+                .filter(item =>
+                  section ? item.queryValue === section : item.queryValue === 'overview'
                 )[0]
                 .subItems.map(subItem => {
                   return (
-                    <React.Fragment key={subItem.name}>
+                    <React.Fragment key={subItem.subTitle}>
                       <div className='content_item'>
-                        <h4>{subItem.name}</h4>
-                        {!subItem.value || subItem.value.length === 0 ? (
+                        <h4>{subItem.subTitle}</h4>
+                        {(subItem.array || !profileUser.details[subItem.mongoName]) && (
                           <div
                             className='add_row'
                             onClick={() => handleShowInput(subItem.mongoName)}>
-                            <BsFillPlusCircleFill /> Add {subItem.noun || subItem.name}
+                            <BsFillPlusCircleFill /> Add {subItem.noun || subItem.subTitle}
                           </div>
-                        ) : (
-                          <>
-                            <div className='subItem_row'>
-                              <div className='subItem_left'>
-                                <img src={subItem.iconSrc} alt='' />
-                                <p>{subItem.text}</p>
-                              </div>
-                              <div className='subItem_right'>
-                                <BsPeopleFill />
-                                <MdModeEditOutline
-                                  onClick={() => handleShowInput(subItem.mongoName)}
-                                />
-                              </div>
+                        )}
+                        {profileUser.details[subItem.mongoName] && (
+                          <div className='subItem_row'>
+                            <div className='subItem_left'>
+                              <img src={subItem.iconSrc} alt='' />
+                              <p>{subItem.text}</p>
                             </div>
-                          </>
+                            <div className='subItem_right'>
+                              <BsPeopleFill />
+                              <MdModeEditOutline
+                                onClick={() => handleShowInput(subItem.mongoName)}
+                              />
+                            </div>
+                          </div>
                         )}
                       </div>
-
                       {showDetailInput === subItem.mongoName && (
                         <DetailInput
                           name={subItem.mongoName}
@@ -339,7 +311,7 @@ export const About = () => {
                           cancelHandler={reset}
                           saveHandler={handleSubmit}
                           disabled={updatedDetails[subItem.mongoName] === ''}
-                          subTitle={subItem.name}
+                          subTitle={subItem.subTitle}
                         />
                       )}
                     </React.Fragment>

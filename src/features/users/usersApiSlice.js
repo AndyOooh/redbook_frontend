@@ -6,11 +6,20 @@ export const usersApiSlice = apiSlice.injectEndpoints({
       query: ({ userId, type }) => `users/${userId}?type=${type}`,
       providesTags: ['UserTag'],
     }),
-    updateUserDetails: builder.mutation({
+    registerUser: builder.mutation({
+      query: userInputs => ({
+        url: '/users',
+        method: 'POST',
+        body: { ...userInputs },
+      }),
+      invalidatesTags: ['UserTag'],
+    }),
+    updateUser: builder.mutation({
       query: ({ postData, userId, path }) => {
-        console.log('in updatedUserDetails: ', path);
+        console.log('🚀 ~ file: usersApiSlice.js ~ line 19 ~ path', path)
+        console.log('🚀 ~ file: usersApiSlice.js ~ line 19 ~ userId', userId)
         return {
-          url: `/users/${userId}/update?path=${path}`,
+          url: `/users/${userId}?path=${path}`,
           method: 'PUT',
           body: postData,
         };
@@ -45,10 +54,11 @@ export const usersApiSlice = apiSlice.injectEndpoints({
 });
 
 export const {
+  useRegisterUserMutation,
   useGetUserQuery,
   useLazyGetUserQuery,
+  useUpdateUserMutation,
+
   useUpdateProfileImagesMutation,
-  useUpdateUserDetailsMutation,
-  // useSendFriendRequestMutation,
   useFriendRequestMutation,
 } = usersApiSlice;

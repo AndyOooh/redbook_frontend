@@ -4,12 +4,12 @@ import authService from './[old]authService';
 const authApiSlice = apiSlice.injectEndpoints({
   endpoints: builder => ({
     refreshAccessToken: builder.query({
-      query: () => '/auth/refresh',
+      query: () => '/refresh',
     }),
 
     login: builder.mutation({
       query: userInputs => ({
-        url: '/auth/login',
+        url: '/login',
         method: 'POST',
         body: { ...userInputs },
       }),
@@ -17,56 +17,56 @@ const authApiSlice = apiSlice.injectEndpoints({
     }),
     logout: builder.mutation({
       query: () => ({
-        url: '/auth/logout',
+        url: '/logout',
         method: 'POST',
       }),
       invalidatesTags: ['UserTag'],
     }),
-    register: builder.mutation({
-      query: userInputs => ({
-        url: '/auth/register',
-        method: 'POST',
-        body: { ...userInputs },
-      }),
-      invalidatesTags: ['UserTag'],
-    }),
+    // register: builder.mutation({
+    //   query: userInputs => ({
+    //     url: '/users',
+    //     method: 'POST',
+    //     body: { ...userInputs },
+    //   }),
+    //   invalidatesTags: ['UserTag'],
+    // }),
     verifyAccount: builder.mutation({
       query: verificationToken => ({
-        url: `auth/verify/${verificationToken}`,
+        url: `verify/${verificationToken}`,
         method: 'PATCH',
       }),
     }),
     resendVerificationEmail: builder.mutation({
       query: () => ({
-        url: '/auth/resendverify',
+        url: '/resendverify',
         method: 'POST',
       }),
     }),
     // Reset PW flow (four mutations)
     findUser: builder.mutation({
       query: email => ({
-        url: '/auth/findUser',
+        url: '/findUser',
         method: 'POST',
         body: { email },
       }),
     }),
     sendPwResetCode: builder.mutation({
       query: email => ({
-        url: '/auth/resetPassword',
+        url: '/resetPassword',
         method: 'POST',
         body: { email },
       }),
     }),
     validateResetCode: builder.mutation({
       query: userInputs => ({
-        url: '/auth/validateResetCode',
+        url: '/validateResetCode',
         method: 'POST',
         body: { ...userInputs },
       }),
     }),
     changePassword: builder.mutation({
       query: userInputs => ({
-        url: '/auth/changePassword',
+        url: '/changePassword',
         method: 'POST',
         body: { ...userInputs },
       }),
@@ -79,7 +79,7 @@ export const {
 
   useLoginMutation,
   useLogoutMutation,
-  useRegisterMutation,
+  // useRegisterMutation,
 
   useVerifyAccountMutation,
   useResendVerificationEmailMutation,

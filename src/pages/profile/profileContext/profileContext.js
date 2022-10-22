@@ -8,4 +8,5 @@ export const ProfileContext = createContext({
   friendRequestLoading: null,
   visitor: null,
   profileUser: null,
+  detailsArray: null,
 });

@@ -10,11 +10,10 @@ import { TextInput } from 'components/ui/inputs/TextInput';
 import { registerValidation } from './registerValidation';
 import './RegisterForm.scss';
 import { useDispatch } from 'react-redux';
-import { useRegisterMutation } from 'features/auth/authApiSlice';
 import { setCredentials } from 'features/auth/authSlice';
+import { useRegisterUserMutation } from 'features/users/usersApiSlice';
 
 export const RegisterForm = ({ visible, setVisible }) => {
-  console.log('in RegisterForm');
   const initialFormData = {
     first_name: '',
     last_name: '',
@@ -34,7 +33,7 @@ export const RegisterForm = ({ visible, setVisible }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const [register, { isLoading, isError, error }] = useRegisterMutation();
+  const [registerUser, { isLoading, isError, error }] = useRegisterUserMutation();
 
   const { first_name, last_name, email, password, birth_year, birth_month, birth_date, gender } =
     formData;
@@ -62,7 +61,7 @@ export const RegisterForm = ({ visible, setVisible }) => {
   const registerSubmitHandler = async e => {
     console.log('in registerSubmitHandler');
     try {
-      const userData = await register(formData).unwrap();
+      const userData = await registerUser(formData).unwrap();
       dispatch(setCredentials({ ...userData }));
       setFormData(initialFormData);
       navigate('/');

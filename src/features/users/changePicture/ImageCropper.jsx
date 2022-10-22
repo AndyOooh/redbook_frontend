@@ -4,13 +4,13 @@ import Cropper from 'react-easy-crop';
 import { DotLoader } from 'react-spinners';
 
 import { useUpdateProfileImagesMutation } from '../usersApiSlice';
-import { selectCurrentUser, updateUser } from 'features/auth/authSlice';
+import { selectCurrentUser, updateUserStore } from 'features/auth/authSlice';
 import { getCroppedImg } from 'utils/getCroppedImg';
 import { useCreatePostMutation } from 'features/posts/postsApiSlice';
 
 export const ImageCropper = ({ image, setImage, setParentVisible, type }) => {
   console.log('🚀 ~ file: ImageCropper.jsx ~ line 11 ~ type', type);
-  const user  = useSelector(selectCurrentUser);
+  const user = useSelector(selectCurrentUser);
   const dispatch = useDispatch();
   const sliderRef = useRef(null);
 
@@ -62,7 +62,7 @@ export const ImageCropper = ({ image, setImage, setParentVisible, type }) => {
         const payload =
           type === 'profile' ? { pictures: newImageArray } : { covers: newImageArray }; // shouldnt it be pictures/covers: [...newImageArray]? seems like its working without it
 
-        dispatch(updateUser(payload)); //could alse have ref to cover/profilepic and set the bg pic for that with ref.current.style.backgroundImage = `url(${newImageArray[0].url})`
+        dispatch(updateUserStore(payload)); //could alse have ref to cover/profilepic and set the bg pic for that with ref.current.style.backgroundImage = `url(${newImageArray[0].url})`
         setParentVisible(false); // doesnt rerender Profile. Even if it does I'm not sure Profile refetches the user data.
       } catch (error) {
         console.log('🚀 ~ error', error);

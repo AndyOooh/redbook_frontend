@@ -7,7 +7,7 @@ import './VerifyAccount.scss';
 import { VerifyModal } from './VerifyModal';
 import { Header } from 'layout/header/Header';
 import { Home } from 'pages/home/Home';
-import { updateUser } from 'features/auth/authSlice';
+import { updateUserStore } from 'features/auth/authSlice';
 import { useVerifyAccountMutation } from '../authApiSlice';
 
 export const VerifyAccount = () => {
@@ -32,7 +32,7 @@ export const VerifyAccount = () => {
     const verify = async () => {
       try {
         await verifyAccount(verificationToken).unwrap();
-        dispatch(updateUser({ verified: 'true' }));
+        dispatch(updateUserStore({ verified: 'true' }));
       } catch (error) {
         console.log(error);
       }

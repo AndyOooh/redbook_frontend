@@ -4,7 +4,7 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 console.log('in apiSlice');
 
 const baseQuery = fetchBaseQuery({
-  baseUrl: process.env.REACT_APP_BACKEND_URL + '/api',
+  baseUrl: process.env.REACT_APP_BACKEND_URL,
   credentials: 'include',
   prepareHeaders: (headers, { getState }) => {
     console.log('in baseQuery');

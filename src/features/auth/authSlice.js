@@ -13,7 +13,7 @@ const authSlice = createSlice({
       state.user = user;
       state.accessToken = accessToken;
     },
-    updateUser: (state, action) => {
+    updateUserStore: (state, action) => {
       for (const [key, value] of Object.entries(action.payload)) {
         // Instead of below we're sending entire arrays in response.
         // if (Array.isArray(state.user[key])) {
@@ -27,7 +27,12 @@ const authSlice = createSlice({
   },
 });
 
-export const { resetAuthState, setCredentials, logout, updateUser } = authSlice.actions;
+export const {
+  resetAuthState,
+  setCredentials,
+  logout,
+  updateUserStore,
+} = authSlice.actions;
 
 export default authSlice.reducer;
 

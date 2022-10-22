@@ -2,17 +2,14 @@ import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { NavLink, useSearchParams } from 'react-router-dom';
 import { BsFillPlusCircleFill, BsPeopleFill } from 'react-icons/bs';
-import { MdKeyboardArrowUp, MdModeEditOutline } from 'react-icons/md';
+import { MdModeEditOutline } from 'react-icons/md';
 
 import './About.scss';
-import { useUpdateUserDetailsMutation } from 'features/users/usersApiSlice';
-import { updateUser } from 'features/auth/authSlice';
+import { useUpdateUserMutation } from 'features/users/usersApiSlice';
+import { updateUserStore } from 'features/auth/authSlice';
 import { DetailInput } from './DetailInput';
 import { useContext } from 'react';
 import { ProfileContext } from 'pages/profile/profileContext/profileContext';
-import { camelToLetterCase, camelToSnakeCase } from 'utils/stringHelpers';
-import { isObject } from 'utils/isObject';
-import { flattenObjectDeep } from 'utils/flattenObjectDeep';
 
 export const About = () => {
   const { profileUser, visitor } = useContext(ProfileContext);
@@ -20,12 +17,11 @@ export const About = () => {
   const dispatch = useDispatch();
   const [showDetailInput, setShowDetailInput] = useState('');
   const [updatedDetails, setUpdatedDetails] = useState({});
+  console.log('🚀 ~ file: About.jsx ~ line 23 ~ updatedDetails', updatedDetails);
   const searchParams = useSearchParams()[0];
   const section = searchParams.get('section');
   console.log('🚀 ~ file: About.jsx ~ line 24 ~ section', section);
-  const [updateUserDetails, { isLoading, isSuccess, error }] = useUpdateUserDetailsMutation();
-
-  const iconsBaseUrl = '../../../../../icons/';
+  const [updateUser, {}] = useUpdateUserMutation();
 
   const reset = () => {
     setShowDetailInput('');
@@ -33,8 +29,6 @@ export const About = () => {
   };
 
   const handleShowInput = detailName => {
-    console.log('🚀 ~ file: About.jsx ~ line 38 ~ handleShowInput ~ detailName', detailName);
-    console.log('🚀 ~ file: About.jsx ~ line 38 ~ showDetailInput', typeof showDetailInput)
     showDetailInput === '' ? setShowDetailInput(detailName) : reset();
   };
 
@@ -44,124 +38,27 @@ export const About = () => {
     setUpdatedDetails({ ...updatedDetails, [name]: value });
   };
 
-  const handleSubmit = async (e, path) => {
+  const handleUpdateDetails = async (e, path) => {
     e.preventDefault();
-    console.log('🚀 ~ file: About.jsx ~ line 48 ~ handleSubmit ~ path', path);
-
     const postData = updatedDetails;
     try {
-      const data = await updateUserDetails({
+      const data = await updateUser({
         postData,
         userId: profileUser.id,
         path: 'details.' + path,
       }).unwrap();
       const { userData, message } = data;
-      // ååå
-      dispatch(updateUser({ details: { ...userData } }));
+      dispatch(updateUserStore({ details: { ...userData } }));
       reset();
     } catch (error) {
       console.log('🚀 ~ file: About.jsx ~ line 52 ~ error', error);
     }
   };
 
-  const { details: detailsWithbio } = useContext(ProfileContext).profileUser;
-  const { bio, ...details } = detailsWithbio;
+  const { detailsArray } = useContext(ProfileContext);
 
-  console.log('🚀 ~ file: About2.jsx ~ line 6 ~ details', details);
-
-  const createMissingText = string => `No ${string} to show`;
-  const getSubItemTextAndIcon = val => {
-    return {
-      workPlace: {
-        text: val ? `Works at ${val}` : createMissingText('workplace info'),
-        icon: iconsBaseUrl + 'job.png',
-      },
-      job: {
-        text: val ? `Works as ${val}` : createMissingText('job info'),
-        icon: iconsBaseUrl + 'job.png',
-      },
-      college: {
-        text: val ? `Went to ${val}` : createMissingText('college'),
-        icon: iconsBaseUrl + 'studies.png',
-      },
-      highSchool: {
-        text: val ? `Went to ${val}` : createMissingText('high school'),
-        icon: iconsBaseUrl + 'studies.png',
-      },
-      currentCity: {
-        text: val ? `Lives in ${val}` : createMissingText('current city'),
-        icon: iconsBaseUrl + 'home.png',
-      },
-      hometown: {
-        text: val ? `From ${val}` : createMissingText('hometown info'),
-        icon: iconsBaseUrl + 'from.png',
-      },
-      relationshipStatus: {
-        text: val ? val : createMissingText('relationship info'),
-        icon: iconsBaseUrl + 'relationship.png',
-      },
-      familyMembers: {
-        text: val ? val : createMissingText('family members'),
-        icon: iconsBaseUrl + 'relationship.png',
-      },
-      instagram: {
-        text: val ? val : createMissingText('instagram'),
-        icon: iconsBaseUrl + 'instagram.png',
-      },
-    };
-  };
-
-  const overView = {
-    title: 'Overview',
-    snakeCase: 'overview',
-    subItems: Object.entries(flattenObjectDeep(details)).map(([key, value]) => {
-      return {
-        name: camelToLetterCase(key),
-        dbName: key,
-        value: value,
-        iconSrc: getSubItemTextAndIcon(value)[key]?.icon,
-        text: getSubItemTextAndIcon(value)[key]?.text,
-      };
-    }),
-  };
-
-  let detailsArray = [overView];
-  Object.entries(details).forEach(([key, value]) => {
-    detailsArray.push({
-      dbName: key,
-      title: camelToLetterCase(key),
-      snakeCase: camelToSnakeCase(key),
-      subItems: Object.entries(value).map(([key, value]) => {
-        if (isObject(value)) {
-          return {
-            subTitle: camelToLetterCase(key),
-            nestedItems: Object.entries(value).map(([nestedKey, nestedValue]) => {
-              return {
-                name: camelToLetterCase(nestedKey),
-                dbName: nestedKey,
-                value: nestedValue,
-                iconSrc: getSubItemTextAndIcon(nestedValue)[nestedKey].icon,
-                text: getSubItemTextAndIcon(nestedValue)[nestedKey].text,
-              };
-            }),
-          };
-        } else {
-          return {
-            name: camelToLetterCase(key),
-            dbName: key,
-            value: value,
-            iconSrc: getSubItemTextAndIcon(value)[key]?.icon,
-            text: getSubItemTextAndIcon(value)[key]?.text,
-          };
-        }
-      }),
-    });
-  });
-
-  console.log('🚀 ~ file: About2.jsx ~ line 10 ~ detailsArray', detailsArray);
-
-  let currentCategory = detailsArray.find(item => item.snakeCase === section)?.dbName;
-  return (
+  let currentCategory = detailsArray?.find(item => item.snakeCase === section)?.dbName;
+  return !detailsArray ? null : ( // <DotLoader color='var(--red-main)' size={'10rem'} className='dotLoader' /> seems redundant. it's set from /profile already
     <>
       <section className='card_main about'>
         <div className='about_nav'>
@@ -229,7 +126,7 @@ export const About = () => {
                         value={updatedDetails[subItem.dbName]}
                         changeHandler={handleChange}
                         cancelHandler={reset}
-                        saveHandler={handleSubmit}
+                        saveHandler={handleUpdateDetails}
                         path={currentCategory + '.' + subItem.dbName}
                         disabled={updatedDetails[subItem.dbName] === ''}
                         subTitle={subItem.name}
@@ -248,10 +145,22 @@ export const About = () => {
                       <div className='subItem_right'>
                         <BsPeopleFill />
                         <div onClick={() => handleShowInput(subItem.dbName)}>
-                          <MdModeEditOutline  />
+                          <MdModeEditOutline />
                         </div>
                       </div>
                     </div>
+                    {showDetailInput === subItem.dbName && (
+                      <DetailInput
+                        name={subItem.dbName}
+                        value={updatedDetails[subItem.dbName]}
+                        changeHandler={handleChange}
+                        cancelHandler={reset}
+                        saveHandler={handleUpdateDetails}
+                        path={currentCategory + '.' + subItem.dbName}
+                        disabled={updatedDetails[subItem.dbName] === ''}
+                        subTitle={subItem.name}
+                      />
+                    )}
                   </div>
                 ) : (
                   // nestedItems
@@ -289,7 +198,7 @@ export const About = () => {
                             value={updatedDetails[nestedItem.dbName]}
                             changeHandler={handleChange}
                             cancelHandler={reset}
-                            saveHandler={handleSubmit}
+                            saveHandler={handleUpdateDetails}
                             path={'test' + nestedItem.dbName}
                             disabled={updatedDetails[nestedItem.dbName] === ''}
                             subTitle={nestedItem.name}
@@ -299,7 +208,6 @@ export const About = () => {
                     ))}
                   </React.Fragment>
                 )
-              // <h1>testttttttt</h1>
             )}
         </div>
       </section>

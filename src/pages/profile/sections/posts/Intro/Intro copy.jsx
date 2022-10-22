@@ -166,9 +166,6 @@ export const Intro = () => {
     setShowUpdateBio(false);
   };
 
-
-  
-
   return (
     <div className='card_main intro'>
       <span className='card_title'>Intro</span>

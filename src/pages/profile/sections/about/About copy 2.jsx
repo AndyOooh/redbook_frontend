@@ -74,7 +74,7 @@ export const About = () => {
         {
           subTitle: 'College',
           noun: 'college',
-          iconSrc: iconsBaseUrl + ,
+          iconSrc: iconsBaseUrl + 'studies.png',
           text: `Went to ${profileUser?.details.college}`,
           mongoName: 'college',
         },
@@ -201,19 +201,18 @@ export const About = () => {
 
   let detailsArray = [overView];
   Object.entries(details).forEach(([key, value]) => {
-    const subItemTextObject = val => {
+    const getSubItemTextAndIcon = val => {
       return {
-        // work: `Works as ${details.job} at details.workPlace}`,
-        work: val ? 'dadasdasd' : null,
-        college: val ? `Went to ${val}` : null,
-        highSchool: val ? `Went to ${val}` : null,
-        // currentCity: profileUser?.details.currentCity
-        currentCity: val ? `Lives in ${val}` : null,
-        hometown: val ? `From ${val}` : null,
-        // relationshipStatus: `${profileUser?.details.relationshipStatus}`,
-        relationshipStatus: val ? val : null,
+        workPlace: { text: val ? `Works at ${val}` : null, icon: iconsBaseUrl + 'job.png' },
+        job: { text: val ? `Works as ${val}` : null, icon: iconsBaseUrl + 'job.png' },
+        college: { text: val ? `Went to ${val}` : null, icon: iconsBaseUrl + 'job.png' },
+        highSchool: { text: val ? `Went to ${val}` : null, icon: iconsBaseUrl + 'job.png' },
+        currentCity: { text: val ? `Lives in ${val}` : null, icon: iconsBaseUrl + 'job.png' },
+        hometown: { text: val ? `From ${val}` : null, icon: iconsBaseUrl + 'job.png' },
+        relationshipStatus: { text: val ? val : null, icon: iconsBaseUrl + 'job.png' },
       };
     };
+
 
     detailsArray.push({
       title: camelToLetterCase(key),
@@ -222,21 +221,23 @@ export const About = () => {
         if (isObject(value)) {
           return {
             subTitle: camelToLetterCase(key),
-            subItems: Object.entries(value).map(([key, value]) => {
+            nestedItems: Object.entries(value).map(([nestedKey, nestedValue]) => {
               return {
-                name: camelToLetterCase(key),
-                value: value,
-                iconSrc: iconsBaseUrl + 'home.png',
-                text: subItemTextObject(value)[key],
+                name: camelToLetterCase(nestedKey),
+                value: nestedValue,
+                iconSrc: getSubItemTextAndIcon(nestedValue)[nestedKey].icon,
+                text: getSubItemTextAndIcon(nestedValue)[nestedKey].text,
               };
             }),
           };
         } else {
+          console.log('key', key, 'value', value);
+          console.log('getSubItemTextAndIcon(value)[key]', getSubItemTextAndIcon(value)[key])
           return {
             name: camelToLetterCase(key),
             value: value,
-            iconSrc: iconsBaseUrl + 'home.png',
-            text: subItemTextObject(value)[key],
+            iconSrc: getSubItemTextAndIcon(value)[key]?.icon,
+            text: getSubItemTextAndIcon(value)[key]?.text,
           };
         }
       }),
@@ -264,93 +265,99 @@ export const About = () => {
         </div>
 
         <div className='about_content'>
-          {visitor ? // Visitor
-              detailsArray
-                .filter(category =>
-                  section ? category.snakeCase === section : category.snakeCase === 'overview'
-                )[0]
-                .subItems.map(subItem =>
-                  // trying to make sure no entry /(with icon) is amde when we have no value. this is currently not wokring. wHen it does, it should also be pomopleneted forter down.
-                  !subItem.value ? null : !subItem.subItems ? (
-                    <React.Fragment key={subItem.name}>
-                      <div className='content_item'>
-                        <div className='subItem_row'>
-                          <div className='subItem_left'>
-                            <h1>doenst have subItems</h1>
-                            <img src={subItem.iconSrc} alt='' />
-                            <p>{subItem.text}</p>
-                          </div>
+          {detailsArray
+            .filter(category =>
+              section ? category.snakeCase === section : category.snakeCase === 'overview'
+            )[0] //start iterating over one category. the one which matches current section.
+            .subItems.map(subItem =>
+              // trying to make sure no entry /(with icon) is amde when we have no value. this is currently not wokring. wHen it does, it should also be pomopleneted forter down.
+              !subItem.value && !subItem.nestedItems ? null : !subItem.nestedItems ? (
+                visitor ? (
+
+                  // visitor, 
+                  <React.Fragment key={subItem.name}>
+                    <div className='content_item'>
+                      <div className='subItem_row'>
+                        <div className='subItem_left'>
+                          <img src={subItem.iconSrc} alt='' />
+                          <h1>Here</h1>
+                          <p>{subItem.text}</p>
+                          <p>{subItem.value}</p>
                         </div>
                       </div>
-                    </React.Fragment>
-                  ) : (
-                    subItem.subItems.map(subItem => (
-                      <React.Fragment key={subItem.name}>
+                    </div>
+                  </React.Fragment>
+                ) : (
+                  <div className='content_item'>
+                    <h4>{subItem.name}</h4>
+                    <p>{subItem.text} </p>
+                    <div className='add_row' onClick={() => handleShowInput(subItem.name)}>
+                      <BsFillPlusCircleFill /> Add {subItem.name}
+                    </div>
+                  </div>
+                )
+              ) : (
+                // has subItems
+                <h3>
+                  {subItem.subTitle}
+                  {subItem.nestedItems.map(nestedItem =>
+                    visitor ? (
+                      <React.Fragment key={nestedItem.subTitle}>
                         <div className='content_item'>
                           <div className='subItem_row'>
                             <div className='subItem_left'>
-                              <h1>Has subItems</h1>
-                              <img src={subItem.iconSrc} alt='' />
-                              <p>{subItem.text}</p>
+                              <img src={nestedItem.iconSrc} alt='' />
+                              <p>{nestedItem.value}</p>
                             </div>
                           </div>
                         </div>
                       </React.Fragment>
-                    ))
-                  )
-                )
-            : // Not visitor
-              detailsArray
-                .filter(category =>
-                  section ? category.snakeCase === section : category.snakeCase === 'overview'
-                )[0]
-                .subItems.map(subItem => {
-                  // differs her  ut shouldnt
-                  return (
-                    <React.Fragment key={subItem.name}>
-                      <div className='content_item'>
-                        <h4>{subItem.name}</h4>
-                        {/* check if we have value */}
-                        {!subItem.value || subItem.value.length === 0 ? (
-                          <div
-                            className='add_row'
-                            onClick={() => handleShowInput(subItem.mongoName)}>
-                            <BsFillPlusCircleFill /> Add {subItem.noun || subItem.name}
-                          </div>
-                        ) : (
-                          <>
-                            <div className='subItem_row'>
-                              <div className='subItem_left'>
-                                <img src={subItem.iconSrc} alt='' />
-                                <p>{subItem.text}</p>
-                              </div>
-                              <div className='subItem_right'>
-                                <BsPeopleFill />
-                                <MdModeEditOutline
-                                  onClick={() => handleShowInput(subItem.mongoName)}
-                                />
-                              </div>
+                    ) : (
+                      <React.Fragment key={nestedItem.name}>
+                        <div className='content_item'>
+                          <h4>{nestedItem.name}</h4>
+                          {!nestedItem.value || nestedItem.value.length === 0 ? (
+                            <div
+                              className='add_row'
+                              onClick={() => handleShowInput(nestedItem.mongoName)}>
+                              <BsFillPlusCircleFill /> Add {nestedItem.noun || nestedItem.name}
                             </div>
-                          </>
-                        )}
-                      </div>
+                          ) : (
+                            <>
+                              <div className='subItem_row'>
+                                <div className='subItem_left'>
+                                  <img src={nestedItem.iconSrc} alt='' />
+                                  <p>{nestedItem.text}</p>
+                                </div>
+                                <div className='subItem_right'>
+                                  <BsPeopleFill />
+                                  <MdModeEditOutline
+                                    onClick={() => handleShowInput(nestedItem.mongoName)}
+                                  />
+                                </div>
+                              </div>
+                            </>
+                          )}
+                        </div>
 
-                      {showDetailInput === subItem.mongoName && (
-                        <DetailInput
-                          name={subItem.mongoName}
-                          value={updatedDetails[subItem.mongoName]}
-                          changeHandler={handleChange}
-                          cancelHandler={reset}
-                          saveHandler={handleSubmit}
-                          disabled={updatedDetails[subItem.mongoName] === ''}
-                          subTitle={subItem.name}
-                        />
-                      )}
-                    </React.Fragment>
-                  );
-                })}
+                        {showDetailInput === nestedItem.mongoName && (
+                          <DetailInput
+                            name={nestedItem.mongoName}
+                            value={updatedDetails[nestedItem.mongoName]}
+                            changeHandler={handleChange}
+                            cancelHandler={reset}
+                            saveHandler={handleSubmit}
+                            disabled={updatedDetails[nestedItem.mongoName] === ''}
+                            subTitle={nestedItem.name}
+                          />
+                        )}
+                      </React.Fragment>
+                    )
+                  )}
+                </h3>
+              )
+            )}
         </div>
-        {/* <About2 /> */}
       </section>
     </>
   );

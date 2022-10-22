@@ -159,7 +159,7 @@ export const Intro = () => {
     const { data } = await updateUserDetails({
       postData,
       userId: profileUser.id,
-      field: 'details',
+      path: 'details',
     });
     const { userData, message } = data;
     dispatch(updateUser(userData));

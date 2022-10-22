@@ -7,10 +7,10 @@ export const usersApiSlice = apiSlice.injectEndpoints({
       providesTags: ['UserTag'],
     }),
     updateUserDetails: builder.mutation({
-      query: ({ postData, userId, field }) => {
-        console.log('in updatedUserDetails: ', field);
+      query: ({ postData, userId, path }) => {
+        console.log('in updatedUserDetails: ', path);
         return {
-          url: `/users/${userId}/update?field=${field}`,
+          url: `/users/${userId}/update?path=${path}`,
           method: 'PUT',
           body: postData,
         };

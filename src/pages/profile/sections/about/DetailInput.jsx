@@ -6,6 +6,7 @@ export const DetailInput = ({
   changeHandler,
   cancelHandler,
   saveHandler,
+  path,
   disabled,
   subTitle,
 }) => {
@@ -40,7 +41,8 @@ export const DetailInput = ({
           <button type='button' onClick={cancelHandler} className='btn grey_btn'>
             Cancel
           </button>
-          <button type='button' onClick={saveHandler} className='btn red_btn' disabled={disabled}>
+          {/* <button type='button' onClick={saveHandler} className='btn red_btn' disabled={disabled}> */}
+          <button type='button' onClick={(e) => saveHandler(e, path)} className='btn red_btn' disabled={disabled}>
             Save
           </button>
         </div>

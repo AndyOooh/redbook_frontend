@@ -1,4 +1,5 @@
 import React from 'react';
+import { relationshopOptions } from './detailInputData';
 
 export const DetailInput = ({
   name,
@@ -16,12 +17,9 @@ export const DetailInput = ({
     <div className='detail_input'>
       {subTitle === 'Relationship' ? (
         <select name={name} value={value} onChange={changeHandler}>
-          <option value='Single'>Single</option>
-          <option value='In a relationship'>In a relationship</option>
-          <option value='Married'>Married</option>
-          <option value='Engaged'>Engaged</option>
-          <option value="It's Complicated">It's Complicated</option>
-          <option value='Prefer not to say'>Prefer not to say</option>
+          {relationshopOptions.map(option => (
+            <option value={option}>{option}</option>
+          ))}
         </select>
       ) : (
         <>
@@ -42,7 +40,11 @@ export const DetailInput = ({
             Cancel
           </button>
           {/* <button type='button' onClick={saveHandler} className='btn red_btn' disabled={disabled}> */}
-          <button type='button' onClick={(e) => saveHandler(e, path)} className='btn red_btn' disabled={disabled}>
+          <button
+            type='button'
+            onClick={e => saveHandler(e, path)}
+            className='btn red_btn'
+            disabled={disabled}>
             Save
           </button>
         </div>

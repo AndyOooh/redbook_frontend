@@ -74,7 +74,7 @@ export const About = () => {
         {
           subTitle: 'College',
           noun: 'college',
-          iconSrc: iconsBaseUrl + ,
+          iconSrc: iconsBaseUrl + 'studies.png',
           text: `Went to ${profileUser?.details.college}`,
           mongoName: 'college',
         },

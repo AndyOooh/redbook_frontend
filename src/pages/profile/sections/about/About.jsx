@@ -10,10 +10,9 @@ import { updateUser } from 'features/auth/authSlice';
 import { DetailInput } from './DetailInput';
 import { useContext } from 'react';
 import { ProfileContext } from 'pages/profile/profileContext/profileContext';
-import { About2 } from './About2';
 import { camelToLetterCase, camelToSnakeCase } from 'utils/stringHelpers';
-import { useGetUserDetailsQuery } from 'features/users/usersApiSlice';
 import { isObject } from 'utils/isObject';
+import { flattenObjectDeep } from 'utils/flattenObjectDeep';
 
 export const About = () => {
   const { profileUser, visitor } = useContext(ProfileContext);
@@ -34,6 +33,8 @@ export const About = () => {
   };
 
   const handleShowInput = detailName => {
+    console.log('🚀 ~ file: About.jsx ~ line 38 ~ handleShowInput ~ detailName', detailName);
+    console.log('🚀 ~ file: About.jsx ~ line 38 ~ showDetailInput', typeof showDetailInput)
     showDetailInput === '' ? setShowDetailInput(detailName) : reset();
   };
 
@@ -52,7 +53,7 @@ export const About = () => {
       const data = await updateUserDetails({
         postData,
         userId: profileUser.id,
-        path: 'details.' + path, // here we nned to add path
+        path: 'details.' + path,
       }).unwrap();
       const { userData, message } = data;
       // ååå
@@ -63,70 +64,69 @@ export const About = () => {
     }
   };
 
-  const { details } = useContext(ProfileContext).profileUser;
+  const { details: detailsWithbio } = useContext(ProfileContext).profileUser;
+  const { bio, ...details } = detailsWithbio;
+
   console.log('🚀 ~ file: About2.jsx ~ line 6 ~ details', details);
+
+  const createMissingText = string => `No ${string} to show`;
+  const getSubItemTextAndIcon = val => {
+    return {
+      workPlace: {
+        text: val ? `Works at ${val}` : createMissingText('workplace info'),
+        icon: iconsBaseUrl + 'job.png',
+      },
+      job: {
+        text: val ? `Works as ${val}` : createMissingText('job info'),
+        icon: iconsBaseUrl + 'job.png',
+      },
+      college: {
+        text: val ? `Went to ${val}` : createMissingText('college'),
+        icon: iconsBaseUrl + 'studies.png',
+      },
+      highSchool: {
+        text: val ? `Went to ${val}` : createMissingText('high school'),
+        icon: iconsBaseUrl + 'studies.png',
+      },
+      currentCity: {
+        text: val ? `Lives in ${val}` : createMissingText('current city'),
+        icon: iconsBaseUrl + 'home.png',
+      },
+      hometown: {
+        text: val ? `From ${val}` : createMissingText('hometown info'),
+        icon: iconsBaseUrl + 'from.png',
+      },
+      relationshipStatus: {
+        text: val ? val : createMissingText('relationship info'),
+        icon: iconsBaseUrl + 'relationship.png',
+      },
+      familyMembers: {
+        text: val ? val : createMissingText('family members'),
+        icon: iconsBaseUrl + 'relationship.png',
+      },
+      instagram: {
+        text: val ? val : createMissingText('instagram'),
+        icon: iconsBaseUrl + 'instagram.png',
+      },
+    };
+  };
 
   const overView = {
     title: 'Overview',
     snakeCase: 'overview',
-    // subItems: [
-    //   {
-    //     name: 'Test',
-    //     dbName: 'test',
-    //     value: 'test',
-    //     iconSrc: iconsBaseUrl + 'job.png',
-    //   },
-    // ],
-    // subItems:  Object.entries(details).filter(([key, value]) => ['', ''].includes(key)).map(([key, value]) => {
-    subItems:  Object.entries(details).map(([key, value]) => {
-      return 'flat array, then create object like the rest each entry'
-  }),
-}
+    subItems: Object.entries(flattenObjectDeep(details)).map(([key, value]) => {
+      return {
+        name: camelToLetterCase(key),
+        dbName: key,
+        value: value,
+        iconSrc: getSubItemTextAndIcon(value)[key]?.icon,
+        text: getSubItemTextAndIcon(value)[key]?.text,
+      };
+    }),
+  };
 
   let detailsArray = [overView];
   Object.entries(details).forEach(([key, value]) => {
-    const createMissingText = string => `No ${string} to show`;
-    const getSubItemTextAndIcon = val => {
-      return {
-        workPlace: {
-          text: val ? `Works at ${val}` : createMissingText('workplace info'),
-          icon: iconsBaseUrl + 'job.png',
-        },
-        job: {
-          text: val ? `Works as ${val}` : createMissingText('job info'),
-          icon: iconsBaseUrl + 'job.png',
-        },
-        college: {
-          text: val ? `Went to ${val}` : createMissingText('college'),
-          icon: iconsBaseUrl + 'studies.png',
-        },
-        highSchool: {
-          text: val ? `Went to ${val}` : createMissingText('high school'),
-          icon: iconsBaseUrl + 'studies.png',
-        },
-        currentCity: {
-          text: val ? `Lives in ${val}` : createMissingText('current city'),
-          icon: iconsBaseUrl + 'home.png',
-        },
-        hometown: {
-          text: val ? `From ${val}` : createMissingText('hometown info'),
-          icon: iconsBaseUrl + 'from.png',
-        },
-        relationshipStatus: {
-          text: val ? val : createMissingText('relationship info'),
-          icon: iconsBaseUrl + 'relationship.png',
-        },
-        familyMembers: {
-          text: val ? val : createMissingText('family members'),
-          icon: iconsBaseUrl + 'relationship.png',
-        },
-        instagram: {
-          text: val ? val : createMissingText('instagram'),
-          icon: iconsBaseUrl + 'instagram.png',
-        },
-      };
-    };
-
     detailsArray.push({
       dbName: key,
       title: camelToLetterCase(key),
@@ -160,7 +160,6 @@ export const About = () => {
 
   console.log('🚀 ~ file: About2.jsx ~ line 10 ~ detailsArray', detailsArray);
 
-  // let currentCategory; // move to iterator in jsx?
   let currentCategory = detailsArray.find(item => item.snakeCase === section)?.dbName;
   return (
     <>
@@ -248,7 +247,9 @@ export const About = () => {
                       </div>
                       <div className='subItem_right'>
                         <BsPeopleFill />
-                        <MdModeEditOutline onClick={() => handleShowInput(subItem.dbName)} />
+                        <div onClick={() => handleShowInput(subItem.dbName)}>
+                          <MdModeEditOutline  />
+                        </div>
                       </div>
                     </div>
                   </div>

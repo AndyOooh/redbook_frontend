@@ -9,4 +9,12 @@ export const ProfileContext = createContext({
   visitor: null,
   profileUser: null,
   detailsArray: null,
+
+  updatedDetails: null,
+  setUpdatedDetails: () => {},
+  resetDetails: () => {},
+
+  showDetailInput: null,
+  setShowDetailInput: () => {},
+  handleShowDetailsInput: () => {},
 });

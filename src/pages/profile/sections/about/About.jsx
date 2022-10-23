@@ -7,30 +7,27 @@ import { MdModeEditOutline } from 'react-icons/md';
 import './About.scss';
 import { useUpdateUserMutation } from 'features/users/usersApiSlice';
 import { updateUserStore } from 'features/auth/authSlice';
-import { DetailInput } from './DetailInput';
 import { useContext } from 'react';
 import { ProfileContext } from 'pages/profile/profileContext/profileContext';
+import { isEmptyValue } from 'utils/isEmptyValue';
+import { DetailInput } from 'pages/profile/DetailInput/DetailInput';
 
 export const About = () => {
-  const { profileUser, visitor } = useContext(ProfileContext);
-
   const dispatch = useDispatch();
-  const [showDetailInput, setShowDetailInput] = useState('');
-  const [updatedDetails, setUpdatedDetails] = useState({});
-  console.log('🚀 ~ file: About.jsx ~ line 23 ~ updatedDetails', updatedDetails);
+  const {
+    profileUser,
+    visitor,
+    detailsArray,
+    updatedDetails,
+    setUpdatedDetails,
+    resetDetails,
+    showDetailInput,
+    handleShowDetailsInput,
+  } = useContext(ProfileContext);
+
   const searchParams = useSearchParams()[0];
   const section = searchParams.get('section');
-  console.log('🚀 ~ file: About.jsx ~ line 24 ~ section', section);
-  const [updateUser, {}] = useUpdateUserMutation();
-
-  const reset = () => {
-    setShowDetailInput('');
-    setUpdatedDetails({});
-  };
-
-  const handleShowInput = detailName => {
-    showDetailInput === '' ? setShowDetailInput(detailName) : reset();
-  };
+  const [updateUser, { isLoading, error }] = useUpdateUserMutation();
 
   const handleChange = e => {
     e.preventDefault();
@@ -49,15 +46,44 @@ export const About = () => {
       }).unwrap();
       const { userData, message } = data;
       dispatch(updateUserStore({ details: { ...userData } }));
-      reset();
+      resetDetails();
     } catch (error) {
       console.log('🚀 ~ file: About.jsx ~ line 52 ~ error', error);
     }
   };
 
-  const { detailsArray } = useContext(ProfileContext);
+  console.log('🚀 ~ file: About.jsx ~ line 60 ~ detailsArray', detailsArray);
 
   let currentCategory = detailsArray?.find(item => item.snakeCase === section)?.dbName;
+  console.log('🚀 ~ file: About.jsx ~ line 58 ~ currentCategory', currentCategory);
+
+  let wanted = 'workAndEducation.work.job';
+
+  //  --------------------------
+  const currentSubcategory = dbField => {
+    console.log('🚀 ~ file: About.jsx ~ line 63 ~ name', dbField);
+    if (!detailsArray) return;
+    let pathArray = [currentCategory];
+
+    const check = detailsArray.find(detail => detail.dbName === currentCategory);
+    console.log('🚀 ~ file: About.jsx ~ line 71 ~ check', check);
+
+    check.subItems.forEach(subItem => {
+      if (subItem.dbName === dbField) {
+        pathArray.push(dbField);
+        return;
+      } else if (subItem.nestedItems) {
+        subItem.nestedItems.some(nestedItem => nestedItem.dbName === dbField) &&
+          pathArray.push(subItem.dbName, dbField);
+      } else return null;
+    });
+    return pathArray.length > 1 ? pathArray.join('.') : null;
+  };
+
+  console.log('🚀 ~ file: About.jsx ~ line 62 ~ currentSubcategory', currentSubcategory('aoksls'));
+
+  // ----------------
+
   return !detailsArray ? null : ( // <DotLoader color='var(--red-main)' size={'10rem'} className='dotLoader' /> seems redundant. it's set from /profile already
     <>
       <section className='card_main about'>
@@ -67,7 +93,7 @@ export const About = () => {
             <NavLink
               key={category.title}
               to={`?section=${category.snakeCase}`}
-              onClick={() => reset()}
+              onClick={() => resetDetails()}
               className={section === category.snakeCase ? 'menu_link active_link ' : 'menu_link'}>
               {category.title}
             </NavLink>
@@ -79,135 +105,149 @@ export const About = () => {
             .filter(category => {
               return section ? category.snakeCase === section : category.snakeCase === 'overview';
             })[0] //start iterating over one category. the one which matches current section.
-            .subItems.map(
-              subItem =>
-                visitor ? ( // --------------------- visitor --------------------------------
-                  !subItem.value || !subItem.nestedItems ? (
-                    <React.Fragment key={subItem.value}>
-                      <div className='content_item'>
-                        <h4>{subItem.name}</h4>
-                        <div className='subItem_row'>
-                          <div className='subItem_left'>
-                            <img src={subItem.iconSrc} alt='' />
-                            <p>{subItem.text}</p>
-                          </div>
-                        </div>
-                      </div>
-                    </React.Fragment>
-                  ) : (
-                    // nestedItems
-                    <React.Fragment key={subItem.name}>
-                      <h3>{subItem.subTitle}</h3>
-                      {subItem.nestedItems.map(nestedItem => (
-                        <div key={nestedItem.name} className='content_item'>
-                          <h4>{nestedItem.name}</h4>
-                          <div className='subItem_row'>
-                            <div className='subItem_left'>
-                              <img src={nestedItem.iconSrc} alt='' />
-                              <p>{nestedItem.text}</p>
-                            </div>
-                          </div>
-                        </div>
-                      ))}
-                    </React.Fragment>
-                  )
-                ) : // -------------------------------- !visitor --------------------------------
-                !subItem.value && !subItem.nestedItems ? (
-                  <React.Fragment key={subItem.name}>
-                    <div key={subItem.name} className='content_item'>
-                      <h4>{subItem.name}</h4>
-                      <div className='add_row' onClick={() => handleShowInput(subItem.dbName)}>
-                        <BsFillPlusCircleFill /> Add {subItem.name}
-                      </div>
-                    </div>
-                    {showDetailInput === subItem.dbName && (
-                      <DetailInput
-                        name={subItem.dbName}
-                        value={updatedDetails[subItem.dbName]}
-                        changeHandler={handleChange}
-                        cancelHandler={reset}
-                        saveHandler={handleUpdateDetails}
-                        path={currentCategory + '.' + subItem.dbName}
-                        disabled={updatedDetails[subItem.dbName] === ''}
-                        subTitle={subItem.name}
-                      />
-                    )}
-                  </React.Fragment>
-                ) : !subItem.nestedItems ? (
-                  // !nestedItems
-                  <div key={subItem.name} className='content_item'>
-                    <h4>{subItem.name}</h4>
+            .subItems.map(subItem =>
+              visitor ? ( // --------------------- visitor --------------------------------
+                isEmptyValue(subItem.value) && !subItem.nestedItems ? ( // Not nested, no value
+                  <div key={subItem.name} className='content_subitem'>
+                    {currentCategory !== 'overview' && <h4>{subItem.name}</h4>}
                     <div className='subItem_row'>
                       <div className='subItem_left'>
                         <img src={subItem.iconSrc} alt='' />
                         <p>{subItem.text}</p>
                       </div>
-                      <div className='subItem_right'>
-                        <BsPeopleFill />
-                        <div onClick={() => handleShowInput(subItem.dbName)}>
-                          <MdModeEditOutline />
-                        </div>
+                    </div>
+                  </div>
+                ) : !subItem.nestedItems ? (
+                  // !nestedItems
+                  <div key={subItem.name} className='content_subitem'>
+                    {currentCategory !== 'overview' && <h4>{subItem.name}</h4>}
+                    <div className='subItem_row'>
+                      <div className='subItem_left'>
+                        <img src={subItem.iconSrc} alt='' />
+                        <p>{subItem.text}</p>
                       </div>
                     </div>
-                    {showDetailInput === subItem.dbName && (
-                      <DetailInput
-                        name={subItem.dbName}
-                        value={updatedDetails[subItem.dbName]}
-                        changeHandler={handleChange}
-                        cancelHandler={reset}
-                        saveHandler={handleUpdateDetails}
-                        path={currentCategory + '.' + subItem.dbName}
-                        disabled={updatedDetails[subItem.dbName] === ''}
-                        subTitle={subItem.name}
-                      />
-                    )}
                   </div>
                 ) : (
                   // nestedItems
-                  <React.Fragment key={subItem.subTitle}>
-                    <h3 key={subItem.subTitle}>{subItem.subTitle}</h3>
+                  <div key={subItem.name + 'i'} className='content_item'>
+                    {currentCategory !== 'overview' && <h3>{subItem.subTitle}</h3>}
                     {subItem.nestedItems.map(nestedItem => (
-                      <React.Fragment key={nestedItem.name}>
-                        <div className='content_item'>
-                          <h4>{nestedItem.name}</h4>
-                          {!nestedItem.value || nestedItem.value.length === 0 ? (
-                            <div
-                              className='add_row'
-                              onClick={() => handleShowInput(nestedItem.dbName)}>
-                              <BsFillPlusCircleFill /> Add {nestedItem.noun || nestedItem.name}
-                            </div>
-                          ) : (
-                            <div className='subItem_row'>
-                              <div className='subItem_left'>
-                                <img src={nestedItem.iconSrc} alt='' />
-                                <p>{nestedItem.text}</p>
-                              </div>
-                              <div className='subItem_right'>
-                                <BsPeopleFill />
-                                <MdModeEditOutline
-                                  onClick={() => handleShowInput(nestedItem.dbName)}
-                                />
-                              </div>
-                            </div>
-                          )}
+                      <div key={nestedItem.value} className='content_subitem'>
+                        {currentCategory !== 'overview' && <h4>{nestedItem.name}</h4>}
+                        <div className='subItem_row'>
+                          <div className='subItem_left'>
+                            <img src={nestedItem.iconSrc} alt='' />
+                            <p>{nestedItem.text}</p>
+                          </div>
                         </div>
-
-                        {showDetailInput === nestedItem.dbName && (
-                          <DetailInput
-                            name={nestedItem.dbName}
-                            value={updatedDetails[nestedItem.dbName]}
-                            changeHandler={handleChange}
-                            cancelHandler={reset}
-                            saveHandler={handleUpdateDetails}
-                            path={'test' + nestedItem.dbName}
-                            disabled={updatedDetails[nestedItem.dbName] === ''}
-                            subTitle={nestedItem.name}
-                          />
-                        )}
-                      </React.Fragment>
+                      </div>
                     ))}
-                  </React.Fragment>
+                  </div>
                 )
+              ) : // -------------------------------- !visitor --------------------------------
+              isEmptyValue(subItem.value) && !subItem.nestedItems ? (
+                <React.Fragment key={subItem.name}>
+                  <div key={subItem.name} className='content_subitem'>
+                    {currentCategory !== 'overview' && <h4>{subItem.name}</h4>}
+                    <div className='add_row' onClick={() => handleShowDetailsInput(subItem.dbName)}>
+                      <BsFillPlusCircleFill /> Add {subItem.name}
+                    </div>
+                  </div>
+                  {showDetailInput === subItem.dbName && (
+                    <DetailInput
+                      name={subItem.dbName}
+                      value={updatedDetails[subItem.dbName]}
+                      defaulValue={subItem.value} //doesn't work here but works in Intro for bio. why?
+                      changeHandler={handleChange}
+                      cancelHandler={resetDetails}
+                      saveHandler={handleUpdateDetails}
+                      // path={currentCategory + '.' + subItem.dbName}
+                      path={currentSubcategory(subItem.dbName)}
+                      disabled={updatedDetails[subItem.dbName] === ''}
+                      subTitle={subItem.name}
+                    />
+                  )}
+                </React.Fragment>
+              ) : !subItem.nestedItems ? (
+                // !nestedItems
+                <div key={subItem.name} className='content_subitem'>
+                  {currentCategory !== 'overview' && <h4>{subItem.name}</h4>}
+                  <div className='subItem_row'>
+                    <div className='subItem_left'>
+                      <img src={subItem.iconSrc} alt='' />
+                      <p>{subItem.text}</p>
+                    </div>
+                    <div className='subItem_right'>
+                      <BsPeopleFill />
+                      <div onClick={() => handleShowDetailsInput(subItem.dbName)}>
+                        <MdModeEditOutline />
+                      </div>
+                    </div>
+                  </div>
+                  {showDetailInput === subItem.dbName && (
+                    <DetailInput
+                      name={subItem.dbName}
+                      value={updatedDetails[subItem.dbName]}
+                      defaultValue={subItem.value}
+                      changeHandler={handleChange}
+                      cancelHandler={resetDetails}
+                      saveHandler={handleUpdateDetails}
+                      path={currentSubcategory(subItem.dbName)}
+                      disabled={updatedDetails[subItem.dbName] === ''}
+                      subTitle={subItem.name}
+                    />
+                  )}
+                </div>
+              ) : (
+                // nestedItems
+                <div key={subItem.name} className='content_item'>
+                  {currentCategory !== 'overview' && (
+                    <h3 key={subItem.subTitle}>{subItem.subTitle}</h3>
+                  )}
+                  {subItem.nestedItems.map(nestedItem => (
+                    <React.Fragment key={nestedItem.name}>
+                      <div className='content_subitem'>
+                        {currentCategory !== 'overview' && <h4>{nestedItem.name}</h4>}
+                        {!nestedItem.value || nestedItem.value.length === 0 ? (
+                          <div
+                            className='add_row'
+                            onClick={() => handleShowDetailsInput(nestedItem.dbName)}>
+                            <BsFillPlusCircleFill /> Add {nestedItem.noun || nestedItem.name}
+                          </div>
+                        ) : (
+                          <div className='subItem_row'>
+                            <div className='subItem_left'>
+                              <img src={nestedItem.iconSrc} alt='' />
+                              <p>{nestedItem.text}</p>
+                            </div>
+                            <div className='subItem_right'>
+                              <BsPeopleFill />
+                              <MdModeEditOutline
+                                onClick={() => handleShowDetailsInput(nestedItem.dbName)}
+                              />
+                            </div>
+                          </div>
+                        )}
+                      </div>
+
+                      {showDetailInput === nestedItem.dbName && (
+                        <DetailInput
+                          name={nestedItem.dbName}
+                          value={updatedDetails[nestedItem.dbName]}
+                          defaultValue={nestedItem.value}
+                          changeHandler={handleChange}
+                          cancelHandler={resetDetails}
+                          saveHandler={handleUpdateDetails}
+                          path={currentSubcategory(nestedItem.dbName)} // fix tgis ååå
+                          disabled={updatedDetails[nestedItem.dbName] === ''}
+                          subTitle={nestedItem.name}
+                        />
+                      )}
+                    </React.Fragment>
+                  ))}
+                </div>
+              )
             )}
         </div>
       </section>

@@ -1,5 +1,4 @@
 import { apiSlice } from 'app/api/apiSlice';
-import authService from './[old]authService';
 
 const authApiSlice = apiSlice.injectEndpoints({
   endpoints: builder => ({
@@ -22,14 +21,7 @@ const authApiSlice = apiSlice.injectEndpoints({
       }),
       invalidatesTags: ['UserTag'],
     }),
-    // register: builder.mutation({
-    //   query: userInputs => ({
-    //     url: '/users',
-    //     method: 'POST',
-    //     body: { ...userInputs },
-    //   }),
-    //   invalidatesTags: ['UserTag'],
-    // }),
+
     verifyAccount: builder.mutation({
       query: verificationToken => ({
         url: `verify/${verificationToken}`,
@@ -75,12 +67,10 @@ const authApiSlice = apiSlice.injectEndpoints({
 });
 
 export const {
-  useRefreshAccessTokenQuery,
-
   useLoginMutation,
   useLogoutMutation,
-  // useRegisterMutation,
-
+  
+  useRefreshAccessTokenQuery,
   useVerifyAccountMutation,
   useResendVerificationEmailMutation,
 

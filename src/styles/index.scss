@@ -79,6 +79,10 @@ a {
   }
 }
 
+.icon_invert {
+  filter: invert(40%);
+}
+
 :root {
   // mine
   --header-height: 5.6rem;
@@ -97,6 +101,8 @@ a {
   --phone: 42rem;
   --tablet: 90rem;
   --desktop: 120rem;
+
+  --icon-invert: invert(40%);
 
   // mohammads --------------------------------------------------
   --bg-primary: #fff;

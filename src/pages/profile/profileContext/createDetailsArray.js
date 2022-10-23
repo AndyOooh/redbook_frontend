@@ -1,16 +1,17 @@
 // const { details: detailsWithbio } = useContext(ProfileContext).profileUser; // getting rid of bio as it doesnt conform to theother details properties.
 // const { bio, ...details } = detailsWithbio;
 
-import { flattenObjectDeep } from "utils/flattenObjectDeep";
-import { isObject } from "utils/isObject";
-import { camelToLetterCase, camelToSnakeCase } from "utils/stringHelpers";
+import { flattenObjectDeep } from 'utils/flattenObjectDeep';
+import { isEmptyValue } from 'utils/isEmptyValue';
+import { isObject } from 'utils/isObject';
+import { camelToLetterCase, camelToSnakeCase } from 'utils/stringHelpers';
 
 // console.log('🚀 ~ file: About2.jsx ~ line 6 ~ details', details);
 
 const iconsBaseUrl = '../../../../../icons/';
 
 export const createDetailsArray = details => {
-  console.log('🚀 ~ file: createDetailsArray.js ~ line 13 ~ details', details)
+  console.log('🚀 ~ file: createDetailsArray.js ~ line 13 ~ details', details);
   const createMissingText = string => `No ${string} to show`;
   const getSubItemTextAndIcon = val => {
     return {
@@ -43,7 +44,7 @@ export const createDetailsArray = details => {
         icon: iconsBaseUrl + 'relationship.png',
       },
       familyMembers: {
-        text: val ? val : createMissingText('family members'),
+        text: !isEmptyValue(val) ? val : createMissingText('family members'),
         icon: iconsBaseUrl + 'relationship.png',
       },
       instagram: {
@@ -56,6 +57,7 @@ export const createDetailsArray = details => {
   const overView = {
     title: 'Overview',
     snakeCase: 'overview',
+    dbName: 'overview',
     subItems: Object.entries(flattenObjectDeep(details)).map(([key, value]) => {
       return {
         name: camelToLetterCase(key),
@@ -77,6 +79,7 @@ export const createDetailsArray = details => {
         if (isObject(value)) {
           return {
             subTitle: camelToLetterCase(key),
+            dbName: key,
             nestedItems: Object.entries(value).map(([nestedKey, nestedValue]) => {
               return {
                 name: camelToLetterCase(nestedKey),

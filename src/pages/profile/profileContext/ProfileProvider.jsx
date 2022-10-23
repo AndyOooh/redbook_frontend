@@ -17,6 +17,21 @@ export const ProfileProvider = ({ children }) => {
   const { username } = useParams();
   const [detailsArray, setDetailsArray] = useState(null);
 
+  const [updatedDetails, setUpdatedDetails] = useState({});
+  const [showDetailInput, setShowDetailInput] = useState('');
+
+  const resetDetails = useCallback(() => {
+    setShowDetailInput('');
+    setUpdatedDetails({});
+  }, []);
+
+  const handleShowDetailsInput = useCallback(
+    detailName => {
+      showDetailInput === '' ? setShowDetailInput(detailName) : resetDetails();
+    },
+    [resetDetails, showDetailInput]
+  );
+
   useEffect(() => {
     setVisitor(username ? username !== user.username : false);
   }, [username, user.username]);
@@ -69,6 +84,13 @@ export const ProfileProvider = ({ children }) => {
       visitor,
       profileUser,
       detailsArray,
+
+      updatedDetails,
+      setUpdatedDetails,
+      resetDetails,
+      showDetailInput,
+      setShowDetailInput,
+      handleShowDetailsInput,
     }),
     [
       getUserError,
@@ -79,6 +101,13 @@ export const ProfileProvider = ({ children }) => {
       visitor,
       profileUser,
       detailsArray,
+
+      updatedDetails,
+      setUpdatedDetails,
+      resetDetails,
+      showDetailInput,
+      setShowDetailInput,
+      handleShowDetailsInput,
     ]
   );
 

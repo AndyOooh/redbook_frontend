@@ -1,0 +1,39 @@
+@use '../../../styles//mixins';
+
+.detail_input {
+  width: 100%;
+  //   margin-top: -1rem;
+
+  input,
+  textarea,
+  select {
+    width: 100%;
+    border-radius: 1rem;
+    outline: none;
+    padding: 1.25rem;
+    font-size: 1.8rem;
+    font-family: inherit;
+    margin-bottom: 1rem;
+    background-color: var(--bg-secondary);
+    border: 2px solid var(--red-main);
+  }
+  textarea {
+    resize: none;
+  }
+
+  .remaining {
+    text-align: left;
+    margin-top: -1rem;
+  }
+  .button_row {
+    @include mixins.flex-row(1rem, $justify: flex-end);
+
+    button {
+      width: 15%;
+      &:disabled {
+        background: #ccc;
+      }
+    }
+   
+  }
+}

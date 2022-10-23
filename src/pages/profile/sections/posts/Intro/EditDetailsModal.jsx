@@ -1,21 +1,32 @@
-import { Link } from 'react-router-dom';
+import React, { useContext } from 'react';
+import { Link, NavLink } from 'react-router-dom';
+import { MdModeEditOutline } from 'react-icons/md';
+import { BsFillPlusCircleFill, BsPeopleFill } from 'react-icons/bs';
 
 import { Modal } from 'components';
 import { Modalheader } from 'components/ui/modal/Modalheader';
-import { DetailItem } from './DetailItem';
+import { ProfileContext } from 'pages/profile/profileContext/profileContext';
+import { isEmptyValue } from 'utils/isEmptyValue';
 
-export const EditDetailsModal = ({
-  // detailsArray,
-  handleChange,
-  updateDetails,
-  visible,
-  setVisible,
-}) => {
-  let topicArray = [];
-  let currentTopic = '';
-
+export const EditDetailsModal = ({ visible, setVisible }) => {
   const { detailsArray } = useContext(ProfileContext);
 
+  const findSection = (itemName, nested = false) => {
+    return !nested
+      ? detailsArray
+          ?.slice(1)
+          .find(item => item.subItems?.some(subItem => subItem?.name === itemName))?.snakeCase
+      : detailsArray
+          ?.slice(1)
+          .find(item =>
+            item.subItems?.map(subItem =>
+              subItem.nestedItems.some(nestedItem => nestedItem?.name === itemName)
+            )
+          )?.snakeCase;
+  };
+
+  // Much of this component is the repeated in About.
+  // Could extract About right side to a component and use here for the middle part.
   return (
     <Modal className='modal_type_1 edit_details_modal' visible={visible} setVisible={setVisible}>
       <Modalheader setVisible={setVisible} headerText='Edit Details' />
@@ -27,100 +38,70 @@ export const EditDetailsModal = ({
           <p>Details you select will be public</p>
         </div>
 
-        {detailsArray.slice.map(detail => {
-          !subItem.value && !subItem.nestedItems ? (
-            <React.Fragment key={subItem.name}>
-              <div key={subItem.name} className='content_item'>
+        {detailsArray?.slice(1).map(detail =>
+          detail.subItems.map(subItem =>
+            isEmptyValue(subItem.value) && !subItem.nestedItems ? ( // Not nested, no value
+              <React.Fragment key={subItem.name}>
+                <div key={subItem.name} className='content_subitem'>
+                  <h4>{subItem.name}</h4>
+                  <p>{subItem.value} </p>
+                  <NavLink className='add_row' to={`about?section=${findSection(subItem.name)}`}>
+                    <BsFillPlusCircleFill /> Add {subItem.name}
+                  </NavLink>
+                </div>
+              </React.Fragment>
+            ) : !subItem.nestedItems ? (
+              // !nestedItems
+              <div key={subItem.name} className='content_subitem'>
                 <h4>{subItem.name}</h4>
-                <div className='add_row' onClick={() => handleShowInput(subItem.dbName)}>
-                  <BsFillPlusCircleFill /> Add {subItem.name}
-                </div>
-              </div>
-              {showDetailInput === subItem.dbName && (
-                <DetailInput
-                  name={subItem.dbName}
-                  value={updatedDetails[subItem.dbName]}
-                  changeHandler={handleChange}
-                  cancelHandler={reset}
-                  saveHandler={handleUpdateDetails}
-                  path={currentCategory + '.' + subItem.dbName}
-                  disabled={updatedDetails[subItem.dbName] === ''}
-                  subTitle={subItem.name}
-                />
-              )}
-            </React.Fragment>
-          ) : !subItem.nestedItems ? (
-            // !nestedItems
-            <div key={subItem.name} className='content_item'>
-              <h4>{subItem.name}</h4>
-              <div className='subItem_row'>
-                <div className='subItem_left'>
-                  <img src={subItem.iconSrc} alt='' />
-                  <p>{subItem.text}</p>
-                </div>
-                <div className='subItem_right'>
-                  <BsPeopleFill />
-                  <div onClick={() => handleShowInput(subItem.dbName)}>
-                    <MdModeEditOutline />
+                <div className='subItem_row'>
+                  <div className='subItem_left'>
+                    <img src={subItem.iconSrc} alt='' />
+                    <p>{subItem.text}</p>
+                  </div>
+                  <div className='subItem_right'>
+                    <BsPeopleFill />
+                    <NavLink to={`about?section=${findSection(subItem.name)}`}>
+                      <MdModeEditOutline />
+                    </NavLink>
                   </div>
                 </div>
               </div>
-              {showDetailInput === subItem.dbName && (
-                <DetailInput
-                  name={subItem.dbName}
-                  value={updatedDetails[subItem.dbName]}
-                  changeHandler={handleChange}
-                  cancelHandler={reset}
-                  saveHandler={handleUpdateDetails}
-                  path={currentCategory + '.' + subItem.dbName}
-                  disabled={updatedDetails[subItem.dbName] === ''}
-                  subTitle={subItem.name}
-                />
-              )}
-            </div>
-          ) : (
-            // nestedItems
-            <React.Fragment key={subItem.subTitle}>
-              <h3 key={subItem.subTitle}>{subItem.subTitle}</h3>
-              {subItem.nestedItems.map(nestedItem => (
-                <React.Fragment key={nestedItem.name}>
-                  <div className='content_item'>
-                    <h4>{nestedItem.name}</h4>
-                    {!nestedItem.value || nestedItem.value.length === 0 ? (
-                      <div className='add_row' onClick={() => handleShowInput(nestedItem.dbName)}>
-                        <BsFillPlusCircleFill /> Add {nestedItem.noun || nestedItem.name}
-                      </div>
-                    ) : (
-                      <div className='subItem_row'>
-                        <div className='subItem_left'>
-                          <img src={nestedItem.iconSrc} alt='' />
-                          <p>{nestedItem.text}</p>
+            ) : (
+              // nestedItems
+              <div className='content_item' key={subItem.name}>
+                <h3 key={subItem.subTitle}>{subItem.subTitle}</h3>
+                {subItem.nestedItems.map(nestedItem => (
+                  <React.Fragment key={nestedItem.name}>
+                    <div className='content_subitem'>
+                      <h4>{nestedItem.name}</h4>
+                      {!nestedItem.value || nestedItem.value.length === 0 ? (
+                        <NavLink
+                          className='add_row'
+                          to={`about?section=${findSection(nestedItem.name, true)}`}>
+                          <BsFillPlusCircleFill /> Add {nestedItem.name}
+                        </NavLink>
+                      ) : (
+                        <div className='subItem_row'>
+                          <div className='subItem_left'>
+                            <img src={nestedItem.iconSrc} alt='' />
+                            <p>{nestedItem.text}</p>
+                          </div>
+                          <div className='subItem_right'>
+                            <BsPeopleFill />
+                            <NavLink to={`about?section=${findSection(nestedItem.name, true)}`}>
+                              <MdModeEditOutline />
+                            </NavLink>
+                          </div>
                         </div>
-                        <div className='subItem_right'>
-                          <BsPeopleFill />
-                          <MdModeEditOutline onClick={() => handleShowInput(nestedItem.dbName)} />
-                        </div>
-                      </div>
-                    )}
-                  </div>
-
-                  {showDetailInput === nestedItem.dbName && (
-                    <DetailInput
-                      name={nestedItem.dbName}
-                      value={updatedDetails[nestedItem.dbName]}
-                      changeHandler={handleChange}
-                      cancelHandler={reset}
-                      saveHandler={handleUpdateDetails}
-                      path={'test' + nestedItem.dbName}
-                      disabled={updatedDetails[nestedItem.dbName] === ''}
-                      subTitle={nestedItem.name}
-                    />
-                  )}
-                </React.Fragment>
-              ))}
-            </React.Fragment>
-          );
-        })}
+                      )}
+                    </div>
+                  </React.Fragment>
+                ))}
+              </div>
+            )
+          )
+        )}
       </div>
 
       <div className='modal_bottom'>

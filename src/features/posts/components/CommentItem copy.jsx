@@ -13,15 +13,17 @@ export const CommentItem = ({ comment, clickHandler, commentId }) => {
   return (
     // <div className='comment_item' key={comment.id} onClick={() => clickHandler(commentId)}>
     <div className='comment_item' key={comment.id}>
-      <ProfileImage size='3rem' image={commentor.pictures[0].url} />
-      <div className='comment'>
-        <Link to={`/profile/${commentor?._id}`} className=''>
-          <span className='commentor'>
-            {commentor?.first_name} {commentor?.last_name}
-          </span>
-        </Link>
-        <div>
-          <span className='comment_text'>{comment.text}</span>
+      <div className='comment_row'>
+        <ProfileImage size='2.4rem' image={commentor.pictures[0].url} />
+        <div className='comment_box'>
+          <div>
+            <Link to={`/profile/${commentor?._id}`} className=''>
+              <span className='user_names'>
+                {commentor?.first_name} {commentor?.last_name}
+              </span>
+            </Link>
+          </div>
+          <span className='comment'>{comment.text}</span>
           {comment.images > 0 && (
             <div className='images_row'>
               {comment.images.length > 0 && (
@@ -34,23 +36,20 @@ export const CommentItem = ({ comment, clickHandler, commentId }) => {
             </div>
           )}
         </div>
+        <div className='comment_menu' onClick={prev => setShowCommentMenu(!prev)}>
+          <Dots />
+        </div>
+        {showCommentMenu && <div className='comment_menu_dropdown'>lkdadjasd</div>}
       </div>
-      <div className='comment_dots' onClick={prev => setShowCommentMenu(!prev)}>
-        <Dots />
-      </div>
-
-      {showCommentMenu && <div className='comment_menu_dropdown'>lkdadjasd</div>}
-
-      <div className='empty_div'></div>
-      <div className='comment_actions'>
-        <span>Like</span>
-        <span>Reply</span>
-        <span>
-          <Moment fromNow interval={30}>
-            {comment.commentAt}
-          </Moment>
-        </span>
-      </div>
+      <div className="comment_actions">
+          <span>Like</span>
+          <span>Reply</span>
+          <span>
+            <Moment fromNow interval={30}>
+              {comment.commentAt}
+            </Moment>
+          </span>
+        </div>
     </div>
   );
   // );

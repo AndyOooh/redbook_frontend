@@ -10,6 +10,8 @@ export const EmojiSelector = ({ setVisible, handleInput, bottom = 0, right = 0 }
     --category-icon-size: 1.8rem;
     --font-size: 1.2rem;
 
+    box-shadow:0 0.5rem 1rem rgba(0, 0, 0, 0.1);
+
   }`;
 
   return (

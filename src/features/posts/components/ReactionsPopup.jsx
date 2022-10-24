@@ -1,36 +1,47 @@
 import { useHoverHandler } from 'hooks/useHoverHandler';
+import { useCudReactionMutation } from '../postsApiSlice';
 
-const reactsArray = [
+const folder = '../../../../reacts/';
+const reactionsArray = [
   {
     name: 'like',
-    image: '../../../../reacts/like.gif',
+    image: folder + 'like.gif',
   },
   {
     name: 'love',
-    image: '../../../../reacts/love.gif',
+    image: folder + 'love.gif',
   },
   {
     name: 'haha',
-    image: '../../../../reacts/haha.gif',
+    image: folder + 'haha.gif',
   },
   {
     name: 'wow',
-    image: '../../../../reacts/wow.gif',
+    image: folder + 'wow.gif',
   },
   {
     name: 'sad',
-    image: '../../../../reacts/sad.gif',
+    image: folder + 'sad.gif',
   },
   {
     name: 'angry',
-    image: '../../../../reacts/angry.gif',
+    image: folder + 'angry.gif',
   },
 ];
 
-export const ReactionsPopup = ({ visible, setVisible }) => {
+export const ReactionsPopup = ({ postId, visible, setVisible }) => {
   const hoverHandler = useHoverHandler();
 
-  return (
+  const [cudReaction, { isLoading, Error }] = useCudReactionMutation();
+
+  const handleSubmit = async reaction => {
+    const response = await cudReaction({ postId: postId, type: reaction });
+    // hoverHandler(setVisible, false);
+    setVisible(false);
+    console.log('🚀 ~ file: ReactionsPopup.jsx ~ line 38 ~ response', response);
+  };
+
+  return isLoading ? null : (
     <>
       {visible && (
         <>
@@ -38,8 +49,8 @@ export const ReactionsPopup = ({ visible, setVisible }) => {
             className='reacts_popup'
             onMouseOver={() => hoverHandler(setVisible, true)}
             onMouseLeave={() => hoverHandler(setVisible, false)}>
-            {reactsArray.map(react => (
-              <div className='react' key={react.name}>
+            {reactionsArray.map(react => (
+              <div key={react.name} className='react' onClick={() => handleSubmit(react.name)}>
                 <img src={react.image} alt={react.name} />
               </div>
             ))}

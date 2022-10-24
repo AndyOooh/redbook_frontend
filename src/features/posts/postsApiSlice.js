@@ -53,6 +53,19 @@ const postsApiSlice = apiSlice.injectEndpoints({
       },
       invalidatesTags: ['PostsTag'],
     }),
+    cudReaction: builder.mutation({
+      query: payload => {
+        const { postId, type } = payload;
+        console.log('🚀 ~ file: postsApiSlice.js ~ line 59 ~ type', type)
+        console.log('🚀 ~ file: postsApiSlice.js ~ line 59 ~ postId', postId)
+        return {
+          url: `/posts/${postId}/reaction`,
+          method: 'POST',
+          body: { type },
+        };
+      },
+      invalidatesTags: ['PostsTag'],
+    }),
 
     // getPost: builder.get('/posts/:id'),
     // updatePost: builder.put('/posts/:id'),
@@ -65,4 +78,6 @@ export const {
   useDeletePostMutation,
   useGetPostsQuery,
   useCreateCommentMutation,
+
+  useCudReactionMutation,
 } = postsApiSlice;

@@ -15,6 +15,8 @@ export const Main = () => {
   const { verified } = useSelector(selectCurrentUser); //might be bad to have state in such a high level component. Verified shouldn't change often though
   const { data: posts = [], isLoading, error } = useGetPostsQuery();
   const verificationToken = searchParams.get('verificationToken');
+  const { REACT_APP_USEEMAIL } = process.env;
+
 
   useEffect(() => {
     if (verificationToken) {
@@ -26,7 +28,7 @@ export const Main = () => {
       {verificationToken && <VerifyModal />}
       <main className='home_middle scrollbar'>
         <Stories />
-        {!verified && <ResendVerification />}
+        {!verified && REACT_APP_USEEMAIL === 'true' && <ResendVerification />}
         <CreatePost />
         <PostsArray posts={posts} />
       </main>

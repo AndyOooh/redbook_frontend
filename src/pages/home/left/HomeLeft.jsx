@@ -58,19 +58,17 @@ export const HomeLeft = () => {
         <div className='heading'>Your Shortcuts</div>
         <div className='edit_shortcut'>Edit</div>
       </div>
-      <div className='shortcut_list'>
-        <Shortcut
-          link='https://www.youtube.com/c/MohamedHaJJi1/featured'
-          img='../../images/ytb.png'
-          name='My Youtube channel'
-        />
+      <Shortcut
+        link={`https://www.instagram.com/${user.details.socialMedia.youtube}`}
+        img='../../images/ytb.png'
+        name='My Youtube channel'
+      />
 
-        <Shortcut
-          link='https://www.instagram.com/med_hajji7/'
-          img='../../images/insta.png'
-          name='My Instagram '
-        />
-      </div>
+      <Shortcut
+        link={`https://www.instagram.com/${user.details.socialMedia.instagram}`}
+        img='../../images/insta.png'
+        name='My Instagram '
+      />
       <div className='fb_copyright'>
         <Link to='/'>Privacy - </Link>
         <Link to='/'>Terms - </Link>

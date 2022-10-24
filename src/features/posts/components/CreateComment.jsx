@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import { EmojiSelector } from '../createPostModal/bgAndEmoji/EmojiSelector';
 import { ImagePicker } from '../../../components/ui/inputs/ImagePicker';
 import { useCreateCommentMutation, useUpdatePostMutation } from '../postsApiSlice';
+import { DotLoader } from 'react-spinners';
 
 export const CreateComment = ({ postId, visible, setVisible }) => {
   const [commentText, setCommentText] = React.useState('');
@@ -41,12 +42,6 @@ export const CreateComment = ({ postId, visible, setVisible }) => {
         commentData.append('images', commentImages[i]);
       }
     }
-    // log formData
-    for (var pair of commentData.entries()) {
-      console.log('in for loop');
-      console.log('from iterator:', pair[0] + ', ' + pair[1]);
-    }
-
     try {
       const { data } = await createComment({
         commentData,
@@ -59,26 +54,19 @@ export const CreateComment = ({ postId, visible, setVisible }) => {
 
     setCommentText('');
     setCommentImages([]);
-    setVisible(false);
+    // setVisible(false);
   };
 
-  return visible ? (
+  return isLoadingComment ? (
+    <DotLoader color='var(--red-main)' size={'10rem'} className='dotLoader' />
+  ) : (
     <section className='post_comments'>
-      {/* <div className='sorting'>
-        <select name='' id=''>
-          <option value=''>Latest</option>
-          <option value=''>First</option>
-          <option value=''>Most commented</option>
-        </select>
-      </div> */}
-
-      {/* Create comment. CreateComment component? */}
       <form className='comment_form' onSubmit={submitCommentHandler}>
         <ImagePicker preview setImages={setCommentImages}>
           {props => (
             <>
               <div className='create_comment'>
-                <ProfileImage size='2.4rem' />
+                <ProfileImage size='3rem' />
                 <div className='input_wrap'>
                   <div className='comment_text_wrapper'>
                     <label htmlFor='comment_text' />
@@ -97,8 +85,8 @@ export const CreateComment = ({ postId, visible, setVisible }) => {
                     <EmojiSelector
                       setVisible={setEmojiSelectorVisible}
                       handleInput={handleEmojiInput}
-                      bottom='5rem'
-                      right='-20%'
+                      bottom='6rem'
+                      // right='-10%'
                     />
                   )}
                   <div className='emoji_wrapper'>
@@ -149,5 +137,5 @@ export const CreateComment = ({ postId, visible, setVisible }) => {
       <div className='like_reply'></div>
       <div className='more'></div>
     </section>
-  ) : null;
+  );
 };

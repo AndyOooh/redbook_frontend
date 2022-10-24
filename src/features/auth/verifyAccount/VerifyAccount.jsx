@@ -47,7 +47,6 @@ export const VerifyAccount = () => {
   return (
     <>
       <VerifyModal {...{ isLoading, isSuccess, error, successMessage }} />
-      <Header />
       <Home />
     </>
   );

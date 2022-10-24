@@ -17,10 +17,48 @@ export const PostItem = memo(({ post }) => {
   const [showMenu, setShowMenu] = useState(false);
   const [showReactionsPopup, setShowReactionsPopup] = useState(false);
   const [showComments, setShowComments] = useState(true);
-  const user = useSelector(selectCurrentUser);
   const hoverHandler = useHoverHandler();
+  const userId = useSelector(selectCurrentUser).id;
+
+  const existingReaction = post.reactions.find(reaction => reaction.user === userId);
+
+  const emojiPath = '../../../../reacts/';
 
   const { user: poster, images, type } = post;
+
+  const reactionsMap = post.reactions.reduce(
+    (acc, react) => {
+      if (react.type === 'like') {
+        acc[0].count++;
+      } else if (react.type === 'love') {
+        acc[1].count++;
+      } else if (react.type === 'haha') {
+        acc[2].count++;
+      } else if (react.type === 'wow') {
+        acc[3].count++;
+      } else if (react.type === 'sad') {
+        acc[4].count++;
+      } else if (react.type === 'angry') {
+        acc[5].count++;
+      }
+      return acc;
+    },
+    [
+      { type: 'like', count: 0 },
+      { type: 'love', count: 0 },
+      { type: 'haha', count: 0 },
+      { type: 'wow', count: 0 },
+      { type: 'sad', count: 0 },
+      { type: 'angry', count: 0 },
+    ]
+  );
+  const sortedReactionsMap = reactionsMap.sort((a, b) => b.count - a.count);
+  const reactionsObject = {
+    first: sortedReactionsMap[0].type,
+    second: sortedReactionsMap[1].type,
+    count: post.reactions.length,
+  };
+  console.log('🚀 ~ file: PostItem.jsx ~ line 56 ~ sortedReactionsMap', sortedReactionsMap);
 
   const updatedText =
     type === 'profile'
@@ -134,24 +172,64 @@ export const PostItem = memo(({ post }) => {
 
         <div className='post_interactions'>
           <div className='reactions'>
-            <div className='reactions'>emojis</div>
-            <div className='num_reactions'> 64k</div>
+            {/* ååå */}
+            {reactionsObject.count > 0 && (
+              <>
+                <img
+                  src={`${emojiPath}${reactionsObject.first}.svg`}
+                  alt='emoji'
+                  className='reaction_image'
+                />
+                {reactionsObject.count > 1 && (
+                  <img
+                    src={`${emojiPath}${reactionsObject.second}.svg`}
+                    alt='emoji'
+                    className='reaction_image'
+                  />
+                )}
+                {reactionsObject.count}
+              </>
+            )}
           </div>
+
           <div className='shares_comments'>
-            <div className='num_shares'>1 share</div>
-            <div className='num_comments'>{post.comments.length} comments</div>
+            <div className='num_shares'>No shares</div>
+            <div className='num_comments' onClick={() => setShowComments(prev => !prev)}>
+              {post.comments.length < 1
+                ? 'No comments'
+                : reactionsObject.count === 1
+                ? '1 comment'
+                : `${post.comments.length} comments`}
+            </div>
           </div>
         </div>
 
         {/* not responsive */}
         <div className='post_actions'>
-          <ReactionsPopup visible={showReactionsPopup} setVisible={setShowReactionsPopup} />
+          <ReactionsPopup
+            postId={post._id}
+            visible={showReactionsPopup}
+            setVisible={setShowReactionsPopup}
+          />
           <div
             className='like hover1'
             onMouseOver={() => hoverHandler(setShowReactionsPopup)}
             onMouseLeave={() => hoverHandler(setShowReactionsPopup, false)}>
-            <i className='like_icon'></i>
-            <span>Like</span>
+            {existingReaction ? (
+              <div className='emoji_like'>
+                <img
+                  src={`${emojiPath}${existingReaction.type}.svg`}
+                  alt='emoji'
+                  className='reaction_image'
+                />
+                <span>{existingReaction.type} </span>
+              </div>
+            ) : (
+              <>
+                <i className='like_icon'></i>
+                <span>Like</span>
+              </>
+            )}
           </div>
 
           <div className='comment hover1' onClick={() => setShowComments(prev => !prev)}>
@@ -165,38 +243,18 @@ export const PostItem = memo(({ post }) => {
         </div>
         {/* not responsive */}
 
-        <CreateComment postId={post._id} visible={showComments} setVisible={setShowComments} />
-
-        {post.comments.length > 0 && (
-          <div className='comments'>
-            {post.comments.map(comment => (
-              <CommentItem key={comment._id} comment={comment} />
-            ))}
-          </div>
+        {showComments && (
+          <>
+            <CreateComment postId={post._id} visible={showComments} setVisible={setShowComments} />
+            {post.comments.length > 0 && (
+              <div className='comments'>
+                {post.comments.map(comment => (
+                  <CommentItem key={comment._id} comment={comment} />
+                ))}
+              </div>
+            )}
+          </>
         )}
-
-        {/* <div className='comment_header_right_top'>
-                        <Link to={`/profile/${comment.user.username}`} className=''>
-                          <span>{comment.user.first_name} {comment.user.last_name}</span>
-                        </Link>
-                        <Moment fromNow interval={30}>
-                          {comment.createdAt}
-                        </Moment>
-
-                        <div className='comment_header_right_bottom'>
-                          <div className='comment_header_right_bottom_left'>
-                            <i className='comment_icon'></i>
-                            <span>{comment.text}</span>
-
-                            <div className='comment_header_right_bottom_right'>
-                              <i className='like_icon'></i>
-                              <span>Like</span>
-
-                              <i className='comment_icon'></i>
-                              <span>Reply</span>
-
-                              <i className='share_icon'></i>
-                              <span>Share</span> */}
       </div>
     </>
   );

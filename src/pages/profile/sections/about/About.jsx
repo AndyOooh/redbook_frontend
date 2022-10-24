@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { NavLink, useSearchParams } from 'react-router-dom';
 import { BsFillPlusCircleFill, BsPeopleFill } from 'react-icons/bs';
@@ -52,37 +52,29 @@ export const About = () => {
     }
   };
 
-  console.log('🚀 ~ file: About.jsx ~ line 60 ~ detailsArray', detailsArray);
+let currentCategory = detailsArray?.find(item => item.snakeCase === section)?.dbName || 'overview';
 
-  let currentCategory = detailsArray?.find(item => item.snakeCase === section)?.dbName;
-  console.log('🚀 ~ file: About.jsx ~ line 58 ~ currentCategory', currentCategory);
+  const currentSubcategory = useCallback(
+    dbField => {
+      if (!detailsArray) return;
+      let pathArray = [currentCategory];
+      console.log('🚀 ~ file: About.jsx ~ line 61 ~ pathArray', pathArray)
 
-  let wanted = 'workAndEducation.work.job';
+      const check = detailsArray?.find(detail => detail.dbName === currentCategory);
 
-  //  --------------------------
-  const currentSubcategory = dbField => {
-    console.log('🚀 ~ file: About.jsx ~ line 63 ~ name', dbField);
-    if (!detailsArray) return;
-    let pathArray = [currentCategory];
-
-    const check = detailsArray.find(detail => detail.dbName === currentCategory);
-    console.log('🚀 ~ file: About.jsx ~ line 71 ~ check', check);
-
-    check.subItems.forEach(subItem => {
-      if (subItem.dbName === dbField) {
-        pathArray.push(dbField);
-        return;
-      } else if (subItem.nestedItems) {
-        subItem.nestedItems.some(nestedItem => nestedItem.dbName === dbField) &&
-          pathArray.push(subItem.dbName, dbField);
-      } else return null;
-    });
-    return pathArray.length > 1 ? pathArray.join('.') : null;
-  };
-
-  console.log('🚀 ~ file: About.jsx ~ line 62 ~ currentSubcategory', currentSubcategory('aoksls'));
-
-  // ----------------
+      check.subItems.forEach(subItem => {
+        if (subItem.dbName === dbField) {
+          pathArray.push(dbField);
+          return;
+        } else if (subItem.nestedItems) {
+          subItem.nestedItems.some(nestedItem => nestedItem.dbName === dbField) &&
+            pathArray.push(subItem.dbName, dbField);
+        } else return null;
+      });
+      return pathArray.length > 1 ? pathArray.join('.') : null;
+    },
+    [detailsArray, currentCategory]
+  );
 
   return !detailsArray ? null : ( // <DotLoader color='var(--red-main)' size={'10rem'} className='dotLoader' /> seems redundant. it's set from /profile already
     <>

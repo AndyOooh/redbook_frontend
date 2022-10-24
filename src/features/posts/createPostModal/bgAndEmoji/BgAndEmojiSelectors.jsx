@@ -37,6 +37,7 @@ export const BgAndEmojiSelectors = ({ imagePickerVisible, setPost, post, changeB
           onClick={showEmojiPicker}>
           <VscSmiley />
         </div>
+        </div>
         {emojiSelectorVisible && (
           <EmojiSelector
             setVisible={setEmojiSelectorVisible}
@@ -45,7 +46,6 @@ export const BgAndEmojiSelectors = ({ imagePickerVisible, setPost, post, changeB
             {...emojiSelectorPosition}
           />
         )}
-      </div>
     </>
   );
 };

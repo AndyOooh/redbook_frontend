@@ -1,6 +1,7 @@
 @use '../../../styles/mixins';
 
 .comment_item {
+  // position: relative;
   padding: 1rem 0;
   width: 100%;
 
@@ -48,8 +49,33 @@
   }
 
   .comment_dots {
+    position: relative;
     &:hover {
       cursor: pointer;
+    }
+    .comment_menu {
+      @include mixins.flex-column(0.2rem);
+      min-width: 14rem;
+      padding: 1rem;
+      position: absolute;
+      z-index: 1000;
+
+      &:hover {
+        cursor: auto;
+      }
+      // background-color: rgb(248, 106, 106);
+
+      right: -7rem;
+      bottom: -7rem;
+
+      .comment_menu_item {
+        font-weight: 500;
+
+        &:hover {
+          cursor: pointer;
+          color: var(--red-main);
+        }
+      }
     }
   }
 

@@ -1,14 +1,22 @@
 import { Link } from 'react-router-dom';
 
 import { ProfileImage } from 'components/ProfileImage';
-import './PostComment.scss';
+import './CommentItem.scss';
+
 import { Dots } from 'assets/svg';
 import { useState } from 'react';
 import Moment from 'react-moment';
+import { useDeleteCommentMutation } from '../postsApiSlice';
+import { useSelector } from 'react-redux';
+import { selectCurrentUser } from 'features/auth/authSlice';
 
-export const CommentItem = ({ comment, clickHandler, commentId }) => {
+export const CommentItem = ({ comment, clickHandler, commentId, postId }) => {
+  const user = useSelector(selectCurrentUser);
+  console.log('🚀 ~ file: CommentItem.jsx ~ line 15 ~ user', user.id);
   const commentor = comment.commentBy;
-  const [showCommentMenu, setShowCommentMenu] = useState(false);
+
+  const [showCommentMenu, setShowCommentMenu] = useState(true);
+  const [deleteComment, { isLoading: loadingDeleteComment }] = useDeleteCommentMutation();
 
   return (
     // <div className='comment_item' key={comment.id} onClick={() => clickHandler(commentId)}>
@@ -35,11 +43,23 @@ export const CommentItem = ({ comment, clickHandler, commentId }) => {
           )}
         </div>
       </div>
-      <div className='comment_dots' onClick={prev => setShowCommentMenu(!prev)}>
-        <Dots />
-      </div>
-
-      {showCommentMenu && <div className='comment_menu_dropdown'>lkdadjasd</div>}
+      {commentor._id === user.id ? (
+        <div className='comment_dots' onClick={prev => setShowCommentMenu(!prev)}>
+          <Dots />
+          {showCommentMenu && (
+            <div className='comment_menu card_main'>
+              <div className='comment_menu_item'>Edit</div>
+              <div
+                className='comment_menu_item'
+                onClick={() => deleteComment({ postId: postId, commentId: comment.id })}>
+                Delete
+              </div>
+            </div>
+          )}
+        </div>
+      ) : (
+        <div className='empty_div'></div>
+      )}
 
       <div className='empty_div'></div>
       <div className='comment_actions'>

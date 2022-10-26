@@ -6,8 +6,6 @@ import { isEmptyValue } from 'utils/isEmptyValue';
 import { isObject } from 'utils/isObject';
 import { camelToLetterCase, camelToSnakeCase } from 'utils/stringHelpers';
 
-// console.log('🚀 ~ file: About2.jsx ~ line 6 ~ details', details);
-
 const iconsBaseUrl = '../../../../../icons/';
 
 export const createDetailsArray = details => {

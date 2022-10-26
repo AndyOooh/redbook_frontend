@@ -58,7 +58,6 @@ export const PostItem = memo(({ post }) => {
     second: sortedReactionsMap[1].type,
     count: post.reactions.length,
   };
-  console.log('🚀 ~ file: PostItem.jsx ~ line 56 ~ sortedReactionsMap', sortedReactionsMap);
 
   const updatedText =
     type === 'profile'
@@ -109,10 +108,11 @@ export const PostItem = memo(({ post }) => {
               </div>
             </div>
           </div>
-
-          <div className='header_right' onClick={() => setShowMenu(prev => !prev)}>
-            <Dots color='#828387' />
-          </div>
+          {poster._id === userId && (
+            <div className='header_right' onClick={() => setShowMenu(prev => !prev)}>
+              <Dots color='#828387' />
+            </div>
+          )}
         </div>
         {showMenu && (
           <PostMenu
@@ -249,7 +249,7 @@ export const PostItem = memo(({ post }) => {
             {post.comments.length > 0 && (
               <div className='comments'>
                 {post.comments.map(comment => (
-                  <CommentItem key={comment._id} comment={comment} />
+                  <CommentItem key={comment._id} comment={comment} postId={post._id} />
                 ))}
               </div>
             )}

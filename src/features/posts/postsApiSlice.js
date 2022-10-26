@@ -47,7 +47,7 @@ const postsApiSlice = apiSlice.injectEndpoints({
       query: comment => {
         const { commentId, postId } = comment;
         return {
-          url: `/posts/${postId}?comment=${commentId}`,
+          url: `/posts/${postId}/${commentId}`,
           method: 'DELETE',
         };
       },
@@ -56,8 +56,6 @@ const postsApiSlice = apiSlice.injectEndpoints({
     cudReaction: builder.mutation({
       query: payload => {
         const { postId, type } = payload;
-        console.log('🚀 ~ file: postsApiSlice.js ~ line 59 ~ type', type)
-        console.log('🚀 ~ file: postsApiSlice.js ~ line 59 ~ postId', postId)
         return {
           url: `/posts/${postId}/reaction`,
           method: 'POST',
@@ -78,6 +76,7 @@ export const {
   useDeletePostMutation,
   useGetPostsQuery,
   useCreateCommentMutation,
+  useDeleteCommentMutation,
 
   useCudReactionMutation,
 } = postsApiSlice;

@@ -36,6 +36,7 @@ export const ProfileProvider = ({ children }) => {
     setVisitor(username ? username !== user.username : false);
   }, [username, user.username]);
 
+  // Should this go inside a useEffect? Or use a useMemo?
   const {
     data: profileData,
     isLoading: getUserLoading,

@@ -5,7 +5,9 @@ export const Developing = () => {
   return (
     <>
       <Header />
-      <h1>Under development...</h1>
+      <div className='developing_page'>
+        <h1>Under development...</h1>
+      </div>
     </>
   );
 };

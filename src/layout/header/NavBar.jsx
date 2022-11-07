@@ -7,7 +7,7 @@ import { Link, NavLink } from 'react-router-dom';
 import { Friends, Gaming, Home, Market, Watch } from 'assets/svg';
 
 export const NavBar = () => {
-  const [showTitleBox, setShowTitleBox] = useState(null);
+  const [showTitleBox, setShowTitleBox] = useState('watch');
   const hoverHandler = useHoverHandler();
 
   const navItems = [
@@ -41,15 +41,20 @@ export const NavBar = () => {
 
   const navBar = navItems.map(item => {
     return (
-      <NavLink
-        key={item.name}
-        to={item.link}
-        className={({ isActive }) => (isActive ? 'nav_link nav_link_active' : 'nav_link nav_link_inactive')}
-        onMouseOver={() => hoverHandler(setShowTitleBox, item.name)}
-        onMouseLeave={() => hoverHandler(setShowTitleBox, null)}>
-        {item.svg}
-        {showTitleBox === item.name && <div className='titleBox'>{item.name}</div>}
-      </NavLink>
+      <>
+        <NavLink
+          end
+          key={item.name}
+          to={item.link}
+          className={({ isActive }) =>
+            isActive ? 'nav_link nav_link_active' : 'nav_link nav_link_inactive'
+          }
+          onMouseOver={() => hoverHandler(setShowTitleBox, item.name)}
+          onMouseLeave={() => hoverHandler(setShowTitleBox, null)}>
+          {item.svg}
+          {showTitleBox === item.name && <div className='titleBox'>{item.name}</div>}
+        </NavLink>
+      </>
     );
   });
 

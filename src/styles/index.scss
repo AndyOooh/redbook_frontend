@@ -36,6 +36,11 @@ select {
   cursor: pointer;
 }
 
+.developing_page {
+  @include mixins.flex-center();
+  height: 90vh;
+}
+
 .text_input {
   outline: none;
   background: var(--bg-secondary);
@@ -145,7 +150,7 @@ select {
   --color-secondary: #b0b3b8;
 
   i,
-  .nav_link_inactive {
+  .nav_link_inactive svg {
     filter: invert(100%);
   }
 }

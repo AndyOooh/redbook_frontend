@@ -12,7 +12,7 @@ import { Developing } from 'pages/Developing';
 import { useSelector } from 'react-redux';
 
 const App = () => {
-  const theme  = useSelector(state => state.auth.user?.theme);
+  const theme = useSelector(state => state.auth.user?.theme);
   const themeClass = theme || 'dark'; // for login page as we don't have user yet.
 
   return (
@@ -35,7 +35,7 @@ const App = () => {
               <Route path='/:username/*' element={<Profile />} />
             </Route>
             <Route path='/verify' element={<VerifyAccount />} />
-            <Route exact path='/' element={<Home />} />
+            <Route path='/' element={<Home />} />
           </Route>
           <Route path='/reset' element={<ResetPassword />} />
         </Routes>

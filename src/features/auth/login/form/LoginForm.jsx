@@ -75,7 +75,7 @@ export const LoginForm = ({ setRegisterFormVisible }) => {
                 Log In
               </button>
             )}
-            {isError && <div className='error_text'>{error.data.message}</div>}
+            {isError && <div className='error_text'>{error.data?.message}</div>}
           </Form>
         </Formik>
         {/* {isError && <div className='error_text'>{error}</div>} */}

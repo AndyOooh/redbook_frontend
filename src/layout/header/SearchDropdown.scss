@@ -1,0 +1,38 @@
+@use '../../styles/mixins';
+
+/*---Search menu-----*/
+.search_dropdown {
+  position: absolute;
+  top: 5rem;
+  z-index: 10;
+
+  // background-color: hotpink;
+
+  @include mixins.flex-column(0.6rem);
+  background: var(--bg-primary);
+  width: fit-content;
+  padding: 2rem;
+  padding-right: 4rem;
+
+  transition: all 0.2s;
+  -webkit-font-smoothing: antialiased;
+  min-height: 20rem;
+  max-height: 40rem;
+
+  .dropdown_header {
+    // @include mixins.flex-row(1rem, center);
+  }
+
+  .dropdown_body {
+    @include mixins.flex-column(1rem);
+    overflow-y: scroll;
+
+    @include mixins.hideScrollbar;
+    max-height: 30rem;
+
+
+    .search_result {
+      @include mixins.flex-row(1rem, center);
+    }
+  }
+}

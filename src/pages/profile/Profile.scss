@@ -1,5 +1,7 @@
 @use '../../styles/mixins';
 
+
+
 .profile {
   @include mixins.flex-column(0);
   min-height: 100vh;
@@ -18,7 +20,8 @@
 }
 
 .profile_top {
-  background: linear-gradient(to bottom, #ff5b5b, white 50%);
+  background: linear-gradient(to bottom, #ff5b5b, var(--bg-primary) 60%);
+  // background: green;
   width: 100%;
 
   box-shadow: 0 1rem 1rem -1rem rgba(0, 0, 0, 0.4);
@@ -28,6 +31,7 @@
 
     .cover_photo {
       position: relative;
+      background-color: var(--bg-primary);
 
       img {
         border-bottom-left-radius: 1.5rem;
@@ -47,6 +51,7 @@
 
     .top_lower {
       padding: 0 4rem;
+      background-color: var(--bg-primary);
 
       .name_row {
         @include mixins.flex-row(1rem, space-between);
@@ -154,9 +159,11 @@
 }
 
 .profile_bottom {
+  @include mixins.flex-column(1rem);
+  // background-color: var(--bg-primary);
   width: 100%;
   padding: 1.5rem 4rem;
-  @include mixins.flex-column(1rem);
+
 
   .profile_posts {
     width: 100%;

@@ -1,8 +1,6 @@
 @use '../../../styles/mixins';
 
 .left_home {
-  
-
 
   & > * {
     padding: 0.7rem;
@@ -38,8 +36,6 @@
   cursor: pointer;
   font-weight: 600;
   font-size: 14px;
-
-  // margin-bottom: 0.3rem;
 
   img {
     @include mixins.circle(3.6rem);

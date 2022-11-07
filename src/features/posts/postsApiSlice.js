@@ -46,6 +46,8 @@ const postsApiSlice = apiSlice.injectEndpoints({
     deleteComment: builder.mutation({
       query: comment => {
         const { commentId, postId } = comment;
+        console.log('🚀 ~ file: postsApiSlice.js ~ line 49 ~ postId', postId)
+        console.log('🚀 ~ file: postsApiSlice.js ~ line 49 ~ commentId', commentId)
         return {
           url: `/posts/${postId}/${commentId}`,
           method: 'DELETE',

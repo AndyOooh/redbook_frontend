@@ -1,70 +1,72 @@
-import { useRef, useState } from 'react';
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
-
-import { BsGrid3X3GapFill } from 'react-icons/bs';
+import { useDispatch, useSelector } from 'react-redux';
+import { BsFillBellFill, BsGrid3X3GapFill } from 'react-icons/bs';
+import { MdOutlineLightMode, MdOutlineModeNight } from 'react-icons/md';
 
 import './Header.scss';
-import SearchDropdown from './SearchDropdown';
-import AllMenu from './AllMenu';
-import { useClickOutside } from 'hooks/useClickOutside';
+import { AllMenu } from './AllMenu';
 import { UserMenu } from './userMenu/UserMenu';
 import RbLogo from 'assets/icons/icon-redbook.png';
-import { Messenger, Notifications, Search } from 'assets/svg';
 import { ProfileImage } from 'components/ProfileImage';
 import { NavBar } from './NavBar';
+import { SearchBar } from './SearchBar';
+import { useUpdateUserMutation } from 'features/users/usersApiSlice';
+import { selectCurrentUser, updateUserStore } from 'features/auth/authSlice';
 
 export const Header = () => {
-  const color = '#65676b';
-  const [showSearchMenu, setShowSearchMenu] = useState(false);
   const [showAllMenu, setShowAllMenu] = useState(false);
   const [showUserMenu, setShowUserMenu] = useState(false);
-  const allmenu = useRef(null);
-  const usermenu = useRef(null);
+  const dispatch = useDispatch();
+  const { theme, id } = useSelector(selectCurrentUser);
 
-  useClickOutside(allmenu, () => {
-    setShowAllMenu(false);
-  });
+  const [updateUser, { isLoading, error }] = useUpdateUserMutation();
 
-  useClickOutside(usermenu, () => {
-    setShowUserMenu(false);
-  });
+  const handleChangeTheme = async () => {
+    const payload = { theme: theme === 'light' ? 'dark' : 'light' };
+    try {
+      const { data } = await updateUser({
+        payload,
+        userId: id,
+      });
+      dispatch(updateUserStore(data.user));
+    } catch (error) {
+      console.log('🚀 ~ file: Header.jsx ~ line 36 ~ error', error);
+    }
+  };
 
   return (
     <header className='header_main'>
       <div className='header_left'>
-        {showSearchMenu && <SearchDropdown color={color} setVisible={setShowSearchMenu} />}
         <Link to='/' className='logo'>
           <img src={RbLogo} alt='logo' />
         </Link>
-        <div className='search search1' onClick={() => setShowSearchMenu(true)}>
-          <Search color={color} />
-          <input type='text' placeholder='Search Redbook' className='hide_input' />
-        </div>
+        <SearchBar />
       </div>
-
       <NavBar />
-
       <div className='header_right'>
-        <div
-          className='circle_icon hover1'
-          ref={allmenu}
-          onClick={() => setShowAllMenu(prev => !prev)}>
-          <BsGrid3X3GapFill />
-          {/* <Menu /> */}
-          {showAllMenu && <AllMenu />}
-        </div>
         <div className='circle_icon hover1'>
-          <Messenger />
+          <BsGrid3X3GapFill onClick={() => setShowAllMenu(prev => !prev)} />
+          {showAllMenu && <AllMenu visible={showAllMenu} setVisible={setShowAllMenu} />}
         </div>
+        {theme === 'light' ? (
+          <div className='circle_icon hover1' onClick={handleChangeTheme}>
+            <MdOutlineModeNight />
+          </div>
+        ) : (
+          <div className='circle_icon hover1' onClick={handleChangeTheme}>
+            <MdOutlineLightMode />
+          </div>
+        )}
         <div className='circle_icon hover1'>
-          <Notifications />
+          <BsFillBellFill />
           <div className='right_notification'>5</div>
         </div>
-        <div ref={usermenu} onClick={() => setShowUserMenu(prev => !prev)}>
+        <div onClick={() => setShowUserMenu(prev => !prev)}>
           <ProfileImage className='hover1' size='4rem' isHeader />
-          {showUserMenu && <UserMenu />}
         </div>
       </div>
+      {showUserMenu && <UserMenu visible={showUserMenu} setVisible={setShowUserMenu} />}
     </header>
   );
 };

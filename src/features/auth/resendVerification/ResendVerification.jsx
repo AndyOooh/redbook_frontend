@@ -8,7 +8,7 @@ import './ResendVerification.scss';
 
 export const ResendVerification = () => {
   const dispatch = useDispatch();
-  const user = useSelector(selectCurrentUser);
+  const currentUser = useSelector(selectCurrentUser);
   const { REACT_APP_DWIGHT_USERNAME } = process.env;
   const [resendVerificationEmail, { isLoading: resendLoading, isSuccess, isError, error, data }] =
     useResendVerificationEmailMutation();
@@ -26,8 +26,8 @@ export const ResendVerification = () => {
   const handleCheatVerify = async () => {
     try {
       const data = await updateUser({
-        postData: { verify: true },
-        userId: user.id,
+        payload: { verify: true },
+        userId: currentUser.id,
         path: 'verified',
       }).unwrap();
       dispatch(updateUserStore({ verified: true }));
@@ -38,7 +38,11 @@ export const ResendVerification = () => {
 
   let content;
   if (updateUserLoading || resendLoading) {
-    content = <DotLoader color='var(--red-main)' size={'10rem'} className='dotLoader' />;
+    content = (
+      <div className='dot_loader'>
+        <DotLoader color='var(--red-main)' size={'10rem'} />
+      </div>
+    );
   }
   if (isSuccess) {
     content = <div className='success_text'>{data.message}</div>;
@@ -47,7 +51,7 @@ export const ResendVerification = () => {
   } else {
     content = (
       <div className='send_verification'>
-        <h1 className='welcome'>Welcome to Redbook, {user?.first_name}!</h1> <br />
+        <h1 className='welcome'>Welcome to Redbook, {currentUser?.first_name}!</h1> <br />
         <span>
           Looks like you're already friends with the boss himself. Why don't you check if you have a
           friend request from his assistant,&nbsp;

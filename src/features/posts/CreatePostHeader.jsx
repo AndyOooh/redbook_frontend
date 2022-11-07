@@ -3,12 +3,12 @@ import { selectCurrentUser } from 'features/auth/authSlice';
 import { useSelector } from 'react-redux';
 
 export const CreatePostHeader = ({ setVisible }) => {
-  const user = useSelector(selectCurrentUser);
+  const currentUser = useSelector(selectCurrentUser);
   return (
     <div className='createPost_header'>
       <ProfileImage size='4rem' />
       <div className='open_post hover2' onClick={() => setVisible(true)}>
-        What's on your mind, {user?.first_name} ?
+        What's on your mind, {currentUser?.first_name} ?
       </div>
     </div>
   );

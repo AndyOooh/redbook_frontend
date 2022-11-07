@@ -176,7 +176,9 @@ export const RegisterForm = ({ visible, setVisible }) => {
               {/* {isSuccess && <div className='success_text'>{message}</div>} */}
               <div className='btn_wrapper'>
                 {isLoading ? (
-                  <DotLoader color='var(--red-main)' loading={isLoading} size={30} />
+                  <div className='dot_loader'>
+                    <DotLoader color='var(--red-main)' size={30} />
+                  </div>
                 ) : (
                   <button
                     type='submit'

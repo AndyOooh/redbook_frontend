@@ -1,4 +1,4 @@
-import { Dots, Search } from 'assets/svg';
+import { Dots, Search, SearchSVG } from 'assets/svg';
 import { ProfileContext } from 'pages/profile/profileContext/profileContext';
 import { useContext } from 'react';
 import { NavLink, useSearchParams } from 'react-router-dom';
@@ -33,7 +33,7 @@ export const Friends = () => {
               className='search search1'
               // onClick={() => setShowSearchMenu(true)}
             >
-              <Search color={color} />
+              <SearchSVG color={color} />
               <input
                 type='text'
                 placeholder='Search Friends'

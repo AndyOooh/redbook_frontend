@@ -5,9 +5,13 @@ export const ProfileBottom = () => {
   return (
     <>
       <Routes>
-        {profileMenuItems.map(item => (
-          <Route key={item.name} path={item.link} element={item.component} />
-        ))}
+        {profileMenuItems.map(item =>
+          item.index ? (
+            <Route index key={item.name} path={item.link} element={item.component} />
+          ) : (
+            <Route key={item.name} path={item.link} element={item.component} />
+          )
+        )}
       </Routes>
     </>
   );

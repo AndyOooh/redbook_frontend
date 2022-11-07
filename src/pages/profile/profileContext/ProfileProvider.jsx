@@ -11,9 +11,9 @@ import { useFriendRequestMutation, useGetUserQuery } from 'features/users/usersA
 import { ProfileContext } from './profileContext';
 
 export const ProfileProvider = ({ children }) => {
-  const [visitor, setVisitor] = useState(null);
+  const [visitor, setVisitor] = useState(true);
   const [profileUser, setProfileUser] = useState(null);
-  const user = useSelector(selectCurrentUser);
+  const currentUser = useSelector(selectCurrentUser);
   const { username } = useParams();
   const [detailsArray, setDetailsArray] = useState(null);
 
@@ -33,8 +33,8 @@ export const ProfileProvider = ({ children }) => {
   );
 
   useEffect(() => {
-    setVisitor(username ? username !== user.username : false);
-  }, [username, user.username]);
+    setVisitor(username ? username !== currentUser.username : false);
+  }, [username, currentUser.username]);
 
   // Should this go inside a useEffect? Or use a useMemo?
   const {
@@ -43,7 +43,7 @@ export const ProfileProvider = ({ children }) => {
     isSuccess: getUserSuccess,
     isError: getUserError,
   } = useGetUserQuery({
-    userId: username || user.username,
+    userId: username || currentUser.username,
     type: 'profile',
   });
 

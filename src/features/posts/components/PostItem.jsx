@@ -1,4 +1,5 @@
 import { memo, useState } from 'react';
+import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import Moment from 'react-moment';
 
@@ -6,21 +7,20 @@ import './PostItem.scss';
 import { ReactionsPopup } from './ReactionsPopup';
 import { Dots, Public } from 'assets/svg';
 import { useHoverHandler } from 'hooks/useHoverHandler';
-import { CreateComment } from './CreateComment';
 import { PostMenu } from './PostMenu';
-import { CommentItem } from './CommentItem';
 import { ProfileImage } from 'components/ProfileImage';
-import { useSelector } from 'react-redux';
 import { selectCurrentUser } from 'features/auth/authSlice';
+import { Comments } from './Comments';
 
 export const PostItem = memo(({ post }) => {
+  // console.log('🚀 ~ file: PostItem.jsx ~ line 17 ~ post', post);
   const [showMenu, setShowMenu] = useState(false);
   const [showReactionsPopup, setShowReactionsPopup] = useState(false);
-  const [showComments, setShowComments] = useState(true);
+  const [showComments, setShowComments] = useState(false);
   const hoverHandler = useHoverHandler();
-  const userId = useSelector(selectCurrentUser).id;
+  const currentUserId = useSelector(selectCurrentUser).id;
 
-  const existingReaction = post.reactions.find(reaction => reaction.user === userId);
+  const existingReaction = post.reactions.find(reaction => reaction.user === currentUserId);
 
   const emojiPath = '../../../../reacts/';
 
@@ -84,178 +84,154 @@ export const PostItem = memo(({ post }) => {
   }
 
   return (
-    <>
-      <div className='card_main post_item'>
-        <div className='post_header'>
-          <div className='header_left'>
-            {/* <Link to={`/profile/${user.username}`} className=''> */}
-            <Link to={poster.username} className=''>
-              <ProfileImage image={poster.pictures[0].url} />
-            </Link>
-            <div className='post_details'>
-              <div className='profile_name'>
-                {/* <Link to={`/profile/${user.username}`} className=''> */}
-                <Link to={`/${poster.username}`} className=''>
-                  {poster.first_name} {poster.last_name} <span>{updatedText}</span>
-                </Link>
-              </div>
-              <div className='privacy_date'>
-                <Moment fromNow interval={30}>
-                  {post.createdAt}
-                </Moment>
-                &middot;
-                <Public color='#828387' />
-              </div>
+    <div className='card_main post_item'>
+      <div className='post_header'>
+        <div className='header_left'>
+          <Link to={poster.username} className=''>
+            <ProfileImage image={poster.pictures[0].url} />
+          </Link>
+          <div className='post_details'>
+            <div className='profile_name'>
+              <Link to={`/${poster.username}`} className=''>
+                {poster.first_name} {poster.last_name} <span>{updatedText}</span>
+              </Link>
             </div>
-          </div>
-          {poster._id === userId && (
-            <div className='header_right' onClick={() => setShowMenu(prev => !prev)}>
-              <Dots color='#828387' />
-            </div>
-          )}
-        </div>
-        {showMenu && (
-          <PostMenu
-            posterId={poster._id}
-            postId={post._id}
-            imagesLength={images?.length}
-            setVisible={setShowMenu}
-          />
-        )}
-
-        {/* POST START ----------------- */}
-        <div className='post_content'>
-          <div
-            className={post.background ? 'background' : 'no_background'}
-            style={post.background && { backgroundImage: `url(${post.background})` }}>
-            {post.text}
-          </div>
-          {type === 'profile' ? (
-            <div className='profile_post'>
-              <div
-                className='profile_cover'
-                style={{ backgroundImage: `url(${poster.covers[0].url})` }}></div>
-              <img className='profile_image' src={images[0].url} alt='' />
-            </div>
-          ) : type === 'cover' ? (
-            // <div className='cover_post'>
-            //   <div
-            //     className='cover_image'
-            //     style={{ backgroundImage: `url(${user.covers[0].url})` }}></div>
-            // </div>
-            <img className='cover_image' src={poster.covers[0].url} alt='' />
-          ) : (
-            images?.length > 0 && (
-              <div className={`post_images_grid ${gridClass}`}>
-                {images?.slice(0, 4).map((image, index) => (
-                  <div
-                    key={image.id}
-                    style={
-                      index === 3
-                        ? {
-                            backgroundImage:
-                              `url(${image.url})` +
-                              `, linear-gradient(rgba(0, 94, 255, 0.5), rgba(0, 94, 255, 0.5))`,
-                          }
-                        : { backgroundImage: `url(${image.url})` }
-                    }
-                    alt=''
-                    className={`grid_item image${index + 1}`}>
-                    {index === 3 && images.length > 4 && `+${images.length - 4}`}
-                  </div>
-                ))}
-              </div>
-            )
-          )}
-        </div>
-        {/* POST END ----------------- */}
-
-        <div className='post_interactions'>
-          <div className='reactions'>
-            {/* ååå */}
-            {reactionsObject.count > 0 && (
-              <>
-                <img
-                  src={`${emojiPath}${reactionsObject.first}.svg`}
-                  alt='emoji'
-                  className='reaction_image'
-                />
-                {reactionsObject.count > 1 && (
-                  <img
-                    src={`${emojiPath}${reactionsObject.second}.svg`}
-                    alt='emoji'
-                    className='reaction_image'
-                  />
-                )}
-                {reactionsObject.count}
-              </>
-            )}
-          </div>
-
-          <div className='shares_comments'>
-            <div className='num_shares'>No shares</div>
-            <div className='num_comments' onClick={() => setShowComments(prev => !prev)}>
-              {post.comments.length < 1
-                ? 'No comments'
-                : reactionsObject.count === 1
-                ? '1 comment'
-                : `${post.comments.length} comments`}
+            <div className='privacy_date'>
+              <Moment fromNow interval={30}>
+                {post.createdAt}
+              </Moment>
+              &middot;
+              <Public color='#828387' />
             </div>
           </div>
         </div>
-
-        {/* not responsive */}
-        <div className='post_actions'>
-          <ReactionsPopup
-            postId={post._id}
-            visible={showReactionsPopup}
-            setVisible={setShowReactionsPopup}
-          />
-          <div
-            className='like hover1'
-            onMouseOver={() => hoverHandler(setShowReactionsPopup)}
-            onMouseLeave={() => hoverHandler(setShowReactionsPopup, false)}>
-            {existingReaction ? (
-              <div className='emoji_like'>
-                <img
-                  src={`${emojiPath}${existingReaction.type}.svg`}
-                  alt='emoji'
-                  className='reaction_image'
-                />
-                <span>{existingReaction.type} </span>
-              </div>
-            ) : (
-              <>
-                <i className='like_icon'></i>
-                <span>Like</span>
-              </>
-            )}
+        {poster._id === currentUserId && (
+          <div className='header_right' onClick={() => setShowMenu(prev => !prev)}>
+            <Dots color='#828387' />
           </div>
-
-          <div className='comment hover1' onClick={() => setShowComments(prev => !prev)}>
-            <i className='comment_icon'></i>
-            <span>Comment</span>
-          </div>
-          <div className='share hover1'>
-            <i className='share_icon'></i>
-            <span>Share</span>
-          </div>
-        </div>
-        {/* not responsive */}
-
-        {showComments && (
-          <>
-            <CreateComment postId={post._id} visible={showComments} setVisible={setShowComments} />
-            {post.comments.length > 0 && (
-              <div className='comments'>
-                {post.comments.map(comment => (
-                  <CommentItem key={comment._id} comment={comment} postId={post._id} />
-                ))}
-              </div>
-            )}
-          </>
         )}
       </div>
-    </>
+      {showMenu && (
+        <PostMenu
+          posterId={poster._id}
+          postId={post._id}
+          imagesLength={images?.length}
+          setVisible={setShowMenu}
+        />
+      )}
+
+      {/* POST START ----------------- */}
+      <div className='post_content'>
+        <div
+          className={post.background ? 'background' : 'no_background'}
+          style={post.background && { backgroundImage: `url(${post.background})` }}>
+          {post.text}
+        </div>
+        {type === 'profile' ? (
+          <div className='profile_post'>
+            <div
+              className='profile_cover'
+              style={{ backgroundImage: `url(${poster.covers[0].url})` }}></div>
+            <img className='profile_image' src={images[0].url} alt='' />
+          </div>
+        ) : type === 'cover' ? (
+          <img className='cover_image' src={poster.covers[0].url} alt='' />
+        ) : (
+          images?.length > 0 && (
+            <div className={`post_images_grid ${gridClass}`}>
+              {images?.slice(0, 4).map((image, index) => (
+                <div
+                  key={image.id}
+                  style={
+                    index === 3
+                      ? {
+                          backgroundImage:
+                            `url(${image.url})` +
+                            `, linear-gradient(rgba(0, 94, 255, 0.5), rgba(0, 94, 255, 0.5))`,
+                        }
+                      : { backgroundImage: `url(${image.url})` }
+                  }
+                  alt=''
+                  className={`grid_item image${index + 1}`}>
+                  {index === 3 && images.length > 4 && `+${images.length - 4}`}
+                </div>
+              ))}
+            </div>
+          )
+        )}
+      </div>
+      {/* POST END ----------------- */}
+
+      <div className='post_interactions'>
+        <div className='reactions'>
+          {reactionsObject.count > 0 && (
+            <>
+              <img
+                src={`${emojiPath}${reactionsObject.first}.svg`}
+                alt='emoji'
+                className='reaction_image'
+              />
+              {reactionsObject.count > 1 && (
+                <img
+                  src={`${emojiPath}${reactionsObject.second}.svg`}
+                  alt='emoji'
+                  className='reaction_image'
+                />
+              )}
+              {reactionsObject.count}
+            </>
+          )}
+        </div>
+
+        <div className='shares_comments'>
+          <div className='num_shares'>No shares</div>
+          <div className='num_comments' onClick={() => setShowComments(prev => !prev)}>
+            {post.comments.length < 1
+              ? 'No comments'
+              : reactionsObject.count === 1
+              ? '1 comment'
+              : `${post.comments.length} comments`}
+          </div>
+        </div>
+      </div>
+
+      <div className='post_actions'>
+        <ReactionsPopup
+          postId={post._id}
+          visible={showReactionsPopup}
+          setVisible={setShowReactionsPopup}
+        />
+        <div
+          className='like hover1'
+          onMouseOver={() => hoverHandler(setShowReactionsPopup)}
+          onMouseLeave={() => hoverHandler(setShowReactionsPopup, false)}>
+          {existingReaction ? (
+            <div className='emoji_like'>
+              <img
+                src={`${emojiPath}${existingReaction.type}.svg`}
+                alt='emoji'
+                className='reaction_image'
+              />
+              <span>{existingReaction.type} </span>
+            </div>
+          ) : (
+            <>
+              <i className='like_icon'></i>
+              <span>Like</span>
+            </>
+          )}
+        </div>
+
+        <div className='comment hover1' onClick={() => setShowComments(prev => !prev)}>
+          <i className='comment_icon'></i>
+          <span>Comment</span>
+        </div>
+        <div className='share hover1'>
+          <i className='share_icon'></i>
+          <span>Share</span>
+        </div>
+      </div>
+      {showComments && <Comments post={post} />}
+    </div>
   );
 });

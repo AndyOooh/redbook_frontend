@@ -13,8 +13,12 @@ html {
 body {
   font-family: 'Segoe UI', Helvetica, Arial, sans-serif;
   font-size: 1.6rem;
-  color: var(--color-primary);
-  background: var(--bg-secondary);
+}
+
+.app {
+  background: var(--bg-secondary); // Mo dont have this
+  color: var(--color-primary); // Mo dont have this
+  // color: hotpink; // Mo dont have this
 }
 
 a {
@@ -24,6 +28,14 @@ a {
   display: inline-block;
 }
 
+select {
+  font-size: 1.6rem;
+  color: var(--color-primary);
+  background: var(--bg-primary);
+  border-radius: 0.5rem;
+  cursor: pointer;
+}
+
 .text_input {
   outline: none;
   background: var(--bg-secondary);
@@ -31,9 +43,9 @@ a {
   height: 5.2rem;
   padding: 1.4rem 1.6rem;
   border-radius: 0.7rem;
-  // border: 1px solid var(--color-primar);
   border: 1px solid var(--border-color);
   font-size: 1.7rem;
+  color: var(--color-primary);
 
   .error {
     border: 2px solid var(--color-error-1);
@@ -51,7 +63,6 @@ a {
   margin: 0.5rem 0;
   // padding: 1rem 0;
   background: var(--bg-primary);
-
   border-radius: 1rem;
   box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
 
@@ -69,11 +80,8 @@ a {
 .blue_link {
   // color: blue;
   color: var(--red-main);
-
   padding: 0.5rem 1rem;
-
   border-radius: 1rem;
-
   &:hover {
     background: var(--bg-secondary);
   }
@@ -86,37 +94,21 @@ a {
 :root {
   // mine
   --header-height: 5.6rem;
+  --phone: 42rem;
+  --tablet: 90rem;
+  --desktop: 120rem;
+  --icon-invert: invert(40%);
 
   --red-main: #ff6060;
-  // Noyt in use yet
-  --red-dark: #c70000;
-
+  --red-dark: #c70000; // Noyt in use yet
   --white-main: #ffe0e0;
-
   --color-error-1: #1876f2;
   --color-input: #949ea8;
   --border-grey: #ccd0d5;
   --scrollbar: #aeaeafa1;
 
-  --phone: 42rem;
-  --tablet: 90rem;
-  --desktop: 120rem;
-
-  --icon-invert: invert(40%);
-
   // mohammads --------------------------------------------------
-  --bg-primary: #fff;
-  --bg-secondary: #f0f2f5;
-  --bg-third: #e4e6eb;
-  --bg-fourth: #f0f2f5;
-  --color-primary: #050505;
-  --color-secondary: #65676b;
   --divider: #ced0d4;
-  --dark-bg-primary: #18191a;
-  --dark-bg-secondary: #242526;
-  --dark-bg-third: #3a3b3c;
-  --dark-color-primary: #242526;
-  --dark-color-secondary: #b0b3b8;
   --blue-color: #1876f2;
   // --red-color2: #FF5757; //same as icon color but we will change icon instead i  canva.
   --green-color: #42b72a;
@@ -128,6 +120,34 @@ a {
   --shadow-3: rgba(0, 0, 0, 0.3);
   --shadow-4: rgba(0, 0, 0, 0.4);
   --shadow-inset: rgba(255, 255, 255, 0.5);
+
+  --bg-primary: #fff;
+  --bg-secondary: #f0f2f5;
+  --bg-third: #e4e6eb;
+  --bg-fourth: #f0f2f5;
+  --color-primary: #050505;
+  --color-secondary: #65676b;
+
+  --dark-bg-primary: #242526;
+  --dark-bg-secondary: #18191a;
+  --dark-bg-third: #3a3b3c;
+  --dark-bg-fourth: #f0f2f5;
+  --dark-color-primary: #e4e6eb;
+  --dark-color-secondary: #b0b3b8;
+}
+
+.dark {
+  --bg-primary: #242526;
+  --bg-secondary: #18191a;
+  --bg-third: #3a3b3c;
+  --bg-fourth: #3a3b3c; //same as third, not a mistake
+  --color-primary: #e4e6eb;
+  --color-secondary: #b0b3b8;
+
+  i,
+  .nav_link_inactive {
+    filter: invert(100%);
+  }
 }
 
 // My stuff -------------------------------------------------------
@@ -144,18 +164,15 @@ a {
 .blue_btn {
   background: var(--blue-color);
   color: #fff;
-  // padding: 8.5px 12px;
 }
 .red_btn {
   background: var(--red-main);
   color: #fff;
-  // padding: 0 1.6rem;
 }
 
 .gray_btn {
-  background: var(--bg-secondary);
-  color: #111;
-  // padding: 0 1.6rem;
+  background: var(--bg-secondary); // change this in dark
+  color: var(--color-primary);
 }
 
 .btn {
@@ -168,14 +185,8 @@ a {
   font-weight: 600;
   font-size: 1.4rem;
 
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.6rem;
+  @include mixins.flex-row(0.6rem, center);
   cursor: pointer;
-
-  // padding: 8.5px 12px;
-  // padding: 0 1.6rem;
 }
 
 .create_account_btn {
@@ -191,15 +202,30 @@ a {
   height: 100vh;
   width: 100%;
 }
-.dotLoader {
-  // margin: auto;
-  // width: 80%;
+
+.dot_loader {
+  @include mixins.flex-center();
 }
 
 .vert_line {
   width: 100%;
   height: 1px;
   background: var(--bg-third);
+}
+
+.text_btn {
+  font-size: 1.8rem;
+  font-weight: 500;
+
+  outline: none;
+  border: none;
+  background: none;
+  //   color: var(--color-primary);
+  color: var(--color-secondary);
+
+  &:hover {
+    cursor: pointer;
+  }
 }
 
 // My stuff END -------------------------------------------------------
@@ -227,33 +253,27 @@ a {
   background: #d4d6da3a;
 }
 /*-----Hovers-----*/
-// .card {
-//   height: 50rem;
-//   width: 50rem;
-//   background: red;
-// }
 
 /*----Scrollbar----*/
 
 .scrollbar::-webkit-scrollbar {
-  width: 8px;
+  width: 0.8rem;
 }
 .scrollbar::-webkit-scrollbar-thumb {
   background: var(--scrollbar);
-  border-radius: 5px;
+  border-radius: 0.5rem;
 }
 /*----Scrollbar----*/
 
 /*---Circles------*/
 .small_circle {
   // position: relative;
-  height: 36px;
-  width: 36px;
+  height: 3.6rem;
+  width: 3.6rem;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  // margin-right: 11px;
   background: var(--bg-third);
   cursor: pointer;
 

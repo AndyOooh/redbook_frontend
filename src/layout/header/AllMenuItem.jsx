@@ -1,4 +1,4 @@
-export default function AllMenuItem({ name, description, icon }) {
+export const AllMenuItem = ({ name, description, icon }) => {
   return (
     <div className="all_menu_item hover1">
       <img src={`../../left/${icon}.png`} alt="" />

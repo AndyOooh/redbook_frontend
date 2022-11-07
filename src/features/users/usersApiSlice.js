@@ -6,6 +6,7 @@ export const usersApiSlice = apiSlice.injectEndpoints({
       query: ({ userId, type }) => `users/${userId}?type=${type}`,
       providesTags: ['UserTag'],
     }),
+
     registerUser: builder.mutation({
       query: userInputs => ({
         url: '/users',
@@ -15,16 +16,27 @@ export const usersApiSlice = apiSlice.injectEndpoints({
       invalidatesTags: ['UserTag'],
     }),
     updateUser: builder.mutation({
-      query: ({ postData, userId, path }) => {
-        console.log('🚀 ~ file: usersApiSlice.js ~ line 19 ~ path', path)
-        console.log('🚀 ~ file: usersApiSlice.js ~ line 19 ~ userId', userId)
+      query: ({ payload, userId, path, isArray }) => {
+        console.log('🚀 ~ file: usersApiSlice.js ~ line 19 ~ payload', payload);
+        console.log('🚀 ~ file: usersApiSlice.js ~ line 19 ~ userId', userId);
+        // console.log('🚀 ~ file: usersApiSlice.js ~ line 19 ~ path', path);
+        // const pathString = path ? `path=${path}` : '';
+        // const isArrrayString = isArray ? `isArray=${isArray}` : '';
         return {
-          url: `/users/${userId}?path=${path}`,
+          // url: `/users/${userId}?${path}${isArrrayString}`,
+          url: `/users/${userId}?path=${path}&isArray=${isArray}`,
           method: 'PUT',
-          body: postData,
+          body: payload,
         };
       },
       invalidatesTags: ['UserTag'],
+    }),
+    deleteUser: builder.mutation({
+      query: userId => ({
+        url: `/users/${userId}`,
+        method: 'DELETE',
+      }),
+      invalidatesTags: ['UserTag', 'PostsTag'],
     }),
     updateProfileImages: builder.mutation({
       query: payload => {
@@ -50,6 +62,22 @@ export const usersApiSlice = apiSlice.injectEndpoints({
       },
       invalidatesTags: ['UserTag'],
     }),
+    searchUserName: builder.query({
+      query: searchTerm => `users/search?term=${searchTerm}`,
+    }),
+    // getUsers: builder.query({
+    //   query: ({ queryString }) => `users?${queryString}`,
+    // }),
+    getUsers: builder.query({
+      query: queryObject => {
+        console.log('🚀 ~ file: usersApiSlice.js ~ line 73 ~ queryObject', queryObject)
+        const queryString = Object.keys(queryObject)
+          .map(key => key + '=' + queryObject[key])
+          .join('&');
+        console.log('🚀 ~ file: usersApiSlice.js ~ line 75 ~ queryString', queryString);
+        return `users?${queryString}`;
+      },
+    }),
   }),
 });
 
@@ -58,6 +86,13 @@ export const {
   useGetUserQuery,
   useLazyGetUserQuery,
   useUpdateUserMutation,
+  useDeleteUserMutation,
+
+  useSearchUsersQuery,
+  useLazySearchUserNameQuery,
+
+  useLazyGetUsersQuery,
+
 
   useUpdateProfileImagesMutation,
   useFriendRequestMutation,

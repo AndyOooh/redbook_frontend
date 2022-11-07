@@ -9,11 +9,11 @@ import { useDeletePostMutation } from '../postsApiSlice';
 import { isOutOfViewport } from 'utils/isOutOfView';
 
 export const PostMenu = ({ posterId, postId, imagesLength, setVisible }) => {
-  const user = useSelector(selectCurrentUser);
+  const currentUser = useSelector(selectCurrentUser);
   const [postMenuref, setPostMenuref] = useState(null);
   useClickOutside(postMenuref, () => setVisible(false));
 
-  const isAuthor = posterId === user.id;
+  const isAuthor = posterId === currentUser.id;
 
   //Not in use. Can use to place Postmenu differently when out of viewport. Note: using callbak ref.
   let outOfView;

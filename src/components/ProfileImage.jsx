@@ -3,11 +3,11 @@ import { useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 
 export const ProfileImage = ({ size, isHeader, image }) => {
-  const user = useSelector(selectCurrentUser);
+  const currentUser = useSelector(selectCurrentUser);
   const location = useLocation();
   const onProfileRoute = location?.pathname.includes('/profile');
 
-  const src = image ? image : user?.pictures[0]?.url;
+  const src = image ? image : currentUser?.pictures[0]?.url;
 
   const imageStyles = {
     // width: '100%',

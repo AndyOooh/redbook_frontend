@@ -5,11 +5,11 @@
   gap: $gap;
 }
 
-@mixin flex-column($gap: 0, $align: flex-start) {
+@mixin flex-column($gap: 0, $justify: flex-start, $align: flex-start) {
   display: flex;
   flex-direction: column;
   align-items: $align;
-  // justify-content: center;
+  justify-content: $justify;
   gap: $gap;
 }
 

@@ -12,13 +12,13 @@ import { selectCurrentUser } from 'features/auth/authSlice';
 
 export const HomeLeft = () => {
   const [visible, setVisible] = useState(false);
-  const user = useSelector(selectCurrentUser);
+  const currentUser = useSelector(selectCurrentUser);
   return (
     <section className='left_home scrollbar'>
       <Link to='/profile' className='left_link hover1'>
         <ProfileImage />
         <span>
-          {user?.first_name} {user?.last_name}
+          {currentUser?.first_name} {currentUser?.last_name}
         </span>
       </Link>
       {left.slice(0, 8).map((link, i) => (
@@ -59,13 +59,13 @@ export const HomeLeft = () => {
         <div className='edit_shortcut'>Edit</div>
       </div>
       <Shortcut
-        link={`https://www.instagram.com/${user.details.socialMedia.youtube}`}
+        link={`https://www.instagram.com/${currentUser.details.socialMedia.youtube}`}
         img='../../images/ytb.png'
         name='My Youtube channel'
       />
 
       <Shortcut
-        link={`https://www.instagram.com/${user.details.socialMedia.instagram}`}
+        link={`https://www.instagram.com/${currentUser.details.socialMedia.instagram}`}
         img='../../images/insta.png'
         name='My Instagram '
       />

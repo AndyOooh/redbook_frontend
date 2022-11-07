@@ -4,7 +4,7 @@ import { BsPersonFill } from 'react-icons/bs';
 import { useSelector } from 'react-redux';
 
 export const PostModalUser = () => {
-  const user = useSelector(selectCurrentUser); // Better to pass as prop?
+  const currentUser = useSelector(selectCurrentUser); // Better to pass as prop?
 
   return (
     <div className='modal_profile'>
@@ -13,7 +13,7 @@ export const PostModalUser = () => {
       </div>
       <div className='name_aud_wrapper'>
         <span className='profile_name'>
-          {user.first_name} {user.last_name}
+          {currentUser.first_name} {currentUser.last_name}
         </span>
         <button className='btn'>
           <BsPersonFill />

@@ -10,7 +10,7 @@ import { useCreatePostMutation } from 'features/posts/postsApiSlice';
 
 export const ImageCropper = ({ image, setImage, setParentVisible, type }) => {
   console.log('🚀 ~ file: ImageCropper.jsx ~ line 11 ~ type', type);
-  const user = useSelector(selectCurrentUser);
+  const currentUser = useSelector(selectCurrentUser);
   const dispatch = useDispatch();
   const sliderRef = useRef(null);
 
@@ -52,7 +52,7 @@ export const ImageCropper = ({ image, setImage, setParentVisible, type }) => {
         const newImageArray = await updateProfileImages({
           postData,
           type,
-          userId: user.id,
+          userId: currentUser.id,
         }).unwrap();
 
         postData.set('image', JSON.stringify(newImageArray[0]));
@@ -71,7 +71,7 @@ export const ImageCropper = ({ image, setImage, setParentVisible, type }) => {
     [
       text,
       updateProfileImages,
-      user.id,
+      currentUser.id,
       setParentVisible,
       image,
       dispatch,
@@ -124,7 +124,9 @@ export const ImageCropper = ({ image, setImage, setParentVisible, type }) => {
       </div>
       <div className='buttons'>
         {isLoading ? (
-          <DotLoader color='var(--red-main)' loading={isLoading} size={30} />
+          <div className='dot_loader'>
+            <DotLoader color='var(--red-main)' size={30} />
+          </div>
         ) : (
           <>
             {/* <button className='btn' onClick={handleCropImage}>

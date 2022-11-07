@@ -1,3 +1,5 @@
+@use '../../../../styles/mixins';
+
 .register_form {
   .header {
     //   position: relative;
@@ -19,7 +21,7 @@
 
     span {
       font-size: 1.5rem;
-      color: var(--color-secondary);
+      // color: var(--color-secondary);
     }
   }
 
@@ -55,7 +57,9 @@
     align-items: center;
     gap: 2px;
     font-size: 13px;
-    color: var(--color-secondary);
+    // color: var(--color-seconodary);
+    // color: var(--color-primary);
+    // color: yellow;
 
     i {
       margin-top: 3px;
@@ -79,16 +83,11 @@
     cursor: pointer;
   }
   label {
-    // width: 9rem;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    font-size: 1.6rem;
-    color: var(--color-primary);
+    @include mixins.flex-row(0, space-between);
+
     border-radius: 0.5rem;
     cursor: pointer;
-    border: 1px solid var(--color-secondary);
-    // border: 1px solid var(--border-grey);
+    border: 1px solid var(--border-grey);
     padding: 0 1rem;
   }
 }
@@ -96,10 +95,10 @@
 .reg_infos {
   font-size: 11px;
   margin-top: 1rem;
-  color: var(--color-secondary);
+  // color: var(--color-secondary);
 }
 .reg_infos span {
-  color: var(--blue-color);
+  color: var(--red-main);
 }
 
 /*-----Register---------*/
@@ -112,7 +111,7 @@
   position: relative;
   padding: 15px 1rem;
   background: #b94a48;
-  color: #fff;
+  // color: var(--color-primary);
   font-size: 13px;
   border-radius: 5px;
   margin-top: 1rem;
@@ -137,7 +136,7 @@
   border-radius: 0.7rem;
   font-size: 1.5rem;
   border: 1px solid var(--color-primary);
-  border: 1px solid var(--border-grey);
+  // border: 1px solid var(--border-grey);
 }
 
 .error_icon {

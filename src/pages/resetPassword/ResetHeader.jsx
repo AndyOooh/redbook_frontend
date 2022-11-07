@@ -6,7 +6,7 @@ import { Link, useNavigate } from 'react-router-dom';
 export const ResetHeader = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const user = useSelector(selectCurrentUser);
+  const currentUser = useSelector(selectCurrentUser);
   const [logout, { isLoading }] = useLogoutMutation();
 
   const logoutHandler = async () => {
@@ -15,10 +15,10 @@ export const ResetHeader = () => {
     navigate('/login');
   };
 
-  const rightHeader = user ? (
+  const rightHeader = currentUser ? (
     <div className='right_header'>
       <Link to='/profile'>
-        <img src={user.picture} alt='' />
+        <img src={currentUser.picture} alt='' />
       </Link>
       <button className=' btn red_btn' onClick={logoutHandler}>
         Logout
@@ -26,8 +26,6 @@ export const ResetHeader = () => {
     </div>
   ) : (
     <>
-      {/* <Link to='/'>Back to Home</Link>
-      <Link to='/profile'>Back to Profile</Link> */}
       <Link to='/login' className='right_header'>
         <button className='btn red_btn'>Login</button>
       </Link>
@@ -36,7 +34,6 @@ export const ResetHeader = () => {
 
   return (
     <header className='header'>
-      {/* <img src='../../../icons/facebook.svg' alt='' /> */}
       <h1 className='welcome_header'>Redbook</h1>
       <div className='right_header'>{rightHeader}</div>
     </header>

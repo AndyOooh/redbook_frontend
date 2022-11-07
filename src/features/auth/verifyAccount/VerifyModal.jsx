@@ -8,7 +8,9 @@ export const VerifyModal = ({ isLoading, isSuccess, error, successMessage }) => 
   const classname = isSuccess ? 'success_text' : 'error_text';
 
   if (isLoading) {
-    <DotLoader color='var(--red-main)' size={40} loading={isLoading} />;
+    <div className='dot_loader'>
+      <DotLoader color='var(--red-main)' size={40} />
+    </div>;
   } else {
     <>
       <div className={`header ${classname}`}>{headerText}</div>
@@ -19,7 +21,9 @@ export const VerifyModal = ({ isLoading, isSuccess, error, successMessage }) => 
   return (
     <Modal styles='verify_modal'>
       {isLoading ? (
-        <DotLoader color='var(--red-main)' size={40} loading={isLoading} />
+        <div className='dot_loader'>
+          <DotLoader color='var(--red-main)' size={40} />
+        </div>
       ) : (
         <>
           <div className={`header ${classname}`}>{headerText}</div>

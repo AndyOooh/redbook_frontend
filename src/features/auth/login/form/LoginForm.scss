@@ -1,26 +1,20 @@
+@use '../../../../styles/mixins';
+
 .loginForm_wrapper {
-  text-align: center;
-
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 1.6rem;
-
-  background: var(--bg-primary);
-  box-shadow: 0 1px 2px var(--shadow-1);
-
-  padding: 1.5rem 1.5rem 2rem;
+  @include mixins.flex-column(1.6rem, $align: center);
   width: 40rem;
   height: fit-content;
+  background: var(--bg-primary);
   margin: 1rem auto;
-  user-select: none;
+  padding: 1.5rem 1.5rem 2rem;
   border-radius: 1rem;
+  box-shadow: 0 1px 2px var(--shadow-1);
+  text-align: center;
+  user-select: none;
 
   .form {
     width: 100%;
-    display: flex;
-    flex-direction: column;
-    gap: 1.6rem;
+    @include mixins.flex-column(1.6rem, $align: space-between);
 
     .error-message {
       color: var(--color-error-1);
@@ -28,15 +22,13 @@
       // margin-top: 0.5rem;
       text-align: left;
     }
+  }
 
-    .forgot_password {
-      // color: var(--blue-color);
-      color: var(--red-main);
-      font-size: 1.4rem;
-      cursor: pointer;
-    }
+  .forgot_password {
+    color: var(--red-main);
+    font-size: 1.4rem;
 
-    .forgot_password:hover {
+    &:hover {
       text-decoration: underline;
     }
   }

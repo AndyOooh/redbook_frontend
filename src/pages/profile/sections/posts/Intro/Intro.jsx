@@ -22,7 +22,7 @@ export const Intro = () => {
     showDetailInput,
     setShowDetailInput,
   } = useContext(ProfileContext);
-  console.log('🚀 ~ file: Intro.jsx ~ line 15 ~ detailsArray', detailsArray);
+  // console.log('🚀 ~ file: Intro.jsx ~ line 15 ~ detailsArray', detailsArray);
 
   // const [showUpdateBio, setShowUpdateBio] = useState(false);
   const [showEditDetailsModal, setShowEditDetailsModal] = useState(false);
@@ -41,9 +41,9 @@ export const Intro = () => {
   const [updateUser, {}] = useUpdateUserMutation();
 
   const handleSubmitBio = async () => {
-    const postData = updatedDetails;
+    const payload = updatedDetails;
     const { data } = await updateUser({
-      postData,
+      payload,
       userId: profileUser.id,
       path: 'bio',
     });

@@ -1,21 +1,19 @@
 import { Link } from 'react-router-dom';
-
-import { ProfileImage } from 'components/ProfileImage';
-import './CommentItem.scss';
-
-import { Dots } from 'assets/svg';
-import { useState } from 'react';
 import Moment from 'react-moment';
+import { useState } from 'react';
+
+import './CommentItem.scss';
+import { ProfileImage } from 'components/ProfileImage';
+import { Dots } from 'assets/svg';
 import { useDeleteCommentMutation } from '../postsApiSlice';
 import { useSelector } from 'react-redux';
 import { selectCurrentUser } from 'features/auth/authSlice';
 
 export const CommentItem = ({ comment, clickHandler, commentId, postId }) => {
-  const user = useSelector(selectCurrentUser);
-  console.log('🚀 ~ file: CommentItem.jsx ~ line 15 ~ user', user.id);
-  const commentor = comment.commentBy;
+  const currentUser = useSelector(selectCurrentUser);
+  const commentor = comment.user;
 
-  const [showCommentMenu, setShowCommentMenu] = useState(true);
+  const [showCommentMenu, setShowCommentMenu] = useState(false);
   const [deleteComment, { isLoading: loadingDeleteComment }] = useDeleteCommentMutation();
 
   return (
@@ -43,15 +41,15 @@ export const CommentItem = ({ comment, clickHandler, commentId, postId }) => {
           )}
         </div>
       </div>
-      {commentor._id === user.id ? (
-        <div className='comment_dots' onClick={prev => setShowCommentMenu(!prev)}>
+      {commentor._id === currentUser.id ? (
+        <div className='comment_dots' onClick={() => setShowCommentMenu(prev => !prev)}>
           <Dots />
           {showCommentMenu && (
             <div className='comment_menu card_main'>
               <div className='comment_menu_item'>Edit</div>
               <div
                 className='comment_menu_item'
-                onClick={() => deleteComment({ postId: postId, commentId: comment.id })}>
+                onClick={() => deleteComment({ postId: postId, commentId: comment._id })}>
                 Delete
               </div>
             </div>
@@ -67,7 +65,7 @@ export const CommentItem = ({ comment, clickHandler, commentId, postId }) => {
         <span>Reply</span>
         <span>
           <Moment fromNow interval={30}>
-            {comment.commentAt}
+            {comment.createdAt}
           </Moment>
         </span>
       </div>

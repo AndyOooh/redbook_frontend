@@ -7,7 +7,7 @@ const baseQuery = fetchBaseQuery({
   baseUrl: process.env.REACT_APP_BACKEND_URL,
   credentials: 'include',
   prepareHeaders: (headers, { getState }) => {
-    console.log('in baseQuery');
+    // console.log('in baseQuery');
     const token = getState().auth.accessToken;
     // If we have a token set in state, let's assume that we should be passing it.
     if (token) {

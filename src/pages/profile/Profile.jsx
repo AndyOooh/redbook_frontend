@@ -14,33 +14,44 @@ import { ProfileSectionsMenu } from './profileNavigation/ProfileSectionsMenu';
 import { RequestDropDown } from './RequestDropDown';
 import { ProfileContext } from './profileContext/profileContext';
 import { VisitorButtons } from './VisitorButtons';
+import { useSelector } from 'react-redux';
+import { selectCurrentUser } from 'features/auth/authSlice';
 
 export const Profile = () => {
   const navigate = useNavigate();
   const [changeImageModal, setChangeImageModal] = useState('');
   const [showRequestDropdown, setShowRequestDropdown] = useState(false);
-
+  const currentUser = useSelector(selectCurrentUser);
   const profCtx = useContext(ProfileContext);
   const { getUserError, username, visitor, profileUser } = profCtx;
 
   // navigate to ('/profile') if user is looking at their own profile. NB: don't use !visitor because it defaults to null
+  // useEffect(() => {
+  //   if (visitor === false && username) {
+  //     console.log('visitor is false and we have username ***************************', username)
+  //     navigate('/profile');
+  //   }
+  // }, [visitor, navigate, username]);
+
+  // navigate to ('/profile') if user is looking at their own profile. NB: don't use !visitor because it defaults to null
   useEffect(() => {
-    if (visitor === false && username) {
+    if (username === currentUser.username) {
       navigate('/profile');
     }
-  }, [visitor, navigate, username]);
+  }, [visitor, navigate, username, currentUser.username]);
 
   // if error when fetching profileUser, navigate to ('/profile')
   useEffect(() => {
     if (getUserError) {
+      console.log('🚀 ~ file: Profile.jsx ~ line 37 ~ getUserError', getUserError);
       navigate('/');
     }
   }, [getUserError, navigate]);
 
   //******************************************** return ********************************************
   return !profileUser ? (
-    <main className='dotloader_wrapper'>
-      <DotLoader color='var(--red-main)' size={'10rem'} className='dotLoader' />
+    <main className=' dotloader_wrapper'>
+      <DotLoader color='var(--red-main)' size={'10rem'} />
     </main>
   ) : (
     <>
@@ -114,7 +125,9 @@ export const Profile = () => {
                         Add to story
                       </button>
                       <button className='btn gray_btn'>
-                        <MdModeEditOutline />
+                        <MdModeEditOutline 
+                        className='react_icon'
+                        />
                         Edit profile
                       </button>
                     </>
@@ -131,7 +144,7 @@ export const Profile = () => {
 
         <div className='profile_container '>
           <div className='profile_bottom'>
-            <ProfileBottom user={profileUser} visitor={visitor} />
+            <ProfileBottom />
           </div>
         </div>
       </div>

@@ -37,10 +37,10 @@ export const About = () => {
 
   const handleUpdateDetails = async (e, path) => {
     e.preventDefault();
-    const postData = updatedDetails;
+    const payload = updatedDetails;
     try {
       const data = await updateUser({
-        postData,
+        payload,
         userId: profileUser.id,
         path: 'details.' + path,
       }).unwrap();

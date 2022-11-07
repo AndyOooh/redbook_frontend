@@ -114,7 +114,13 @@ export const CreatePostModal = ({ visible, setVisible }) => {
             <AddToPost setVisible={setImagePickerVisible} />
 
             <button className='btn red_btn post_submit' type='submit' disabled={isLoading}>
-              {isLoading ? <DotLoader color='var(--white-main)' size={15} /> : 'Post'}
+              {isLoading ? (
+                <div className='dot_loader'>
+                  <DotLoader color='var(--red-main)' size={15} />
+                </div>
+              ) : (
+                'Post'
+              )}
             </button>
           </div>
         </form>

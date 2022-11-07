@@ -82,11 +82,13 @@ export const LoginForm = ({ setRegisterFormVisible }) => {
         {/* {isSuccess && <div className='success_text'>{message}</div>} */}
 
         {isLoading ? (
-          <DotLoader color='var(--red-main)' loading={isLoading} size={30} />
+          <div className='dot_loader'>
+            <DotLoader color='var(--red-main)' size={30} />
+          </div>
         ) : (
           <>
             <Link to='/reset' className='forgot_password'>
-              Forgot password?
+                Forgot password?
             </Link>
             <div className='vert_line'></div>
 

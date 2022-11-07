@@ -1,9 +1,15 @@
 import { useRef } from 'react';
 import { menu, create } from './allMenuData';
 import { useClickOutside } from 'hooks/useClickOutside';
-import AllMenuItem from './AllMenuItem';
+import { AllMenuItem } from './AllMenuItem';
 
-export default function AllMenu() {
+export const AllMenu = ({ visible, setVisible }) => {
+  const allmenuRef = useRef(null);
+
+  useClickOutside(allmenuRef, () => {
+    setVisible(false);
+  });
+
   const menuGroupsArray = [
     {
       title: 'Social',
@@ -59,7 +65,7 @@ export default function AllMenu() {
   });
 
   return (
-    <div className='all_menu'>
+    <div ref={allmenuRef} className='all_menu'>
       <div className='all_menu_header'>Menu</div>
       <div className='all_menu_wrap scrollbar'>
         <div className='all_left'>
@@ -83,4 +89,4 @@ export default function AllMenu() {
       </div>
     </div>
   );
-}
+};

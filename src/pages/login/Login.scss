@@ -1,16 +1,10 @@
+@use '../../styles/mixins';
+
 .login_wrapper {
-  background: var(--bg-secondary);
+  @include mixins.flex-column(1.6rem, space-around, center);
   min-height: 90vh;
   padding: 0 2rem 10rem;
   width: 100%;
-  // max-width: 98rem;
-  color: var(--color-primary);
-
-  display: flex;
-  flex-direction: column;
-  justify-content: space-around;
-  align-items: center;
-  gap: 1.6rem;
 }
 
 @media only screen and (min-width: 900px) {

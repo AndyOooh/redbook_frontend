@@ -1,11 +1,11 @@
-import { Dots, NewRoom, Search } from 'assets/svg';
+import { Dots, NewRoom,  SearchSVG } from 'assets/svg';
 import { selectCurrentUser } from 'features/auth/authSlice';
 import { useSelector } from 'react-redux';
 import Contact from './Contact';
 import './styles.scss';
 
 export const HomeRight = () => {
-  const user = useSelector(selectCurrentUser);
+  const currentUser = useSelector(selectCurrentUser);
   const color = '#65676b';
 
   return (
@@ -20,7 +20,7 @@ export const HomeRight = () => {
               <NewRoom color={color} />
             </div>
             <div className='contact_circle hover1'>
-              <Search color={color} />
+              <SearchSVG color={color} />
             </div>
             <div className='contact_circle hover1'>
               <Dots color={color} />
@@ -28,7 +28,7 @@ export const HomeRight = () => {
           </div>
         </div>
         <div className='contacts_list'>
-          <Contact user={user} />
+          <Contact user={currentUser} />
         </div>
       </div>
     </section>

@@ -44,9 +44,7 @@ export const NavBar = () => {
       <NavLink
         key={item.name}
         to={item.link}
-        className={({ isActive }) =>
-          isActive ? 'header_item middle_icon active' : 'header_item middle_icon'
-        }
+        className={({ isActive }) => (isActive ? 'nav_link nav_link_active' : 'nav_link nav_link_inactive')}
         onMouseOver={() => hoverHandler(setShowTitleBox, item.name)}
         onMouseLeave={() => hoverHandler(setShowTitleBox, null)}>
         {item.svg}

@@ -6,6 +6,7 @@ import { ProfileContext } from './profileContext/profileContext';
 export const VisitorButtons = ({ setShowRequestDropdown }) => {
   const profCtx = useContext(ProfileContext);
   const { visitor, profileUser, handleFriendRequest, friendRequestLoading } = profCtx;
+  // console.log('🚀 ~ file: VisitorButtons.jsx ~ line 9 ~ profileUser.friendship', profileUser.friendship)
 
   return (
     visitor &&
@@ -19,10 +20,10 @@ export const VisitorButtons = ({ setShowRequestDropdown }) => {
         ) : profileUser?.friendship?.requestSent ? (
           <button className='btn red_btn' onClick={() => handleFriendRequest('cancel')}>
             {friendRequestLoading ? (
-              <>
-                <DotLoader color='var(--white-main)' size={10} loading={friendRequestLoading} />{' '}
+              <div className='dot_loader'>
+                <DotLoader color='var(--white-main)' size={10} loading={friendRequestLoading} />
                 Loading...
-              </>
+              </div>
             ) : (
               <>
                 <FaUserTimes /> Cancel request
@@ -32,10 +33,10 @@ export const VisitorButtons = ({ setShowRequestDropdown }) => {
         ) : profileUser?.friendship.requestReceived ? (
           <button className='btn red_btn' onClick={() => setShowRequestDropdown(true)}>
             {friendRequestLoading ? (
-              <>
+              <div className='dot_loader'>
                 <DotLoader color='var(--white-main)' size={10} loading={friendRequestLoading} />{' '}
                 Loading...
-              </>
+              </div>
             ) : (
               <>
                 <FaUserCheck /> Respond
@@ -45,9 +46,9 @@ export const VisitorButtons = ({ setShowRequestDropdown }) => {
         ) : (
           <button className='btn red_btn' onClick={() => handleFriendRequest('add')}>
             {friendRequestLoading ? (
-              <>
+              <div className='dot_loader'>
                 <DotLoader color='var(--white-main)' size={10} loading={true} /> Loading...
-              </>
+              </div>
             ) : (
               <>
                 <FaUserPlus /> Add Friend

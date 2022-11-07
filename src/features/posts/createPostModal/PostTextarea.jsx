@@ -2,13 +2,13 @@ import { selectCurrentUser } from 'features/auth/authSlice';
 import { useSelector } from 'react-redux';
 
 export const PostTextarea = ({ imagePickerVisible, bgRef, post, setPost }) => {
-  const user = useSelector(selectCurrentUser);
+  const currentUser = useSelector(selectCurrentUser);
 
   const handlePostInput = e => {
     setPost(e.target.value);
   };
 
-  const textareaPlaceholder = `What's on your mind, ${user.first_name} ?`;
+  const textareaPlaceholder = `What's on your mind, ${currentUser.first_name} ?`;
 
   let fontSize;
   let numRows;

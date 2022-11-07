@@ -1,0 +1,21 @@
+@use '../../styles/mixins';
+
+.search_bar {
+  .search {
+    @include mixins.flex-row(0.8rem, center);
+    background: var(--bg-fourth);
+    padding: 1rem;
+    border-radius: 5rem;
+    cursor: text;
+
+    input {
+      border: none;
+      background: transparent;
+      font-size: 1.5rem;
+      font-family: inherit;
+      outline: none;
+    }
+  }
+
+  
+}

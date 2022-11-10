@@ -17,13 +17,7 @@ export const usersApiSlice = apiSlice.injectEndpoints({
     }),
     updateUser: builder.mutation({
       query: ({ payload, userId, path, isArray }) => {
-        console.log('🚀 ~ file: usersApiSlice.js ~ line 19 ~ payload', payload);
-        console.log('🚀 ~ file: usersApiSlice.js ~ line 19 ~ userId', userId);
-        // console.log('🚀 ~ file: usersApiSlice.js ~ line 19 ~ path', path);
-        // const pathString = path ? `path=${path}` : '';
-        // const isArrrayString = isArray ? `isArray=${isArray}` : '';
         return {
-          // url: `/users/${userId}?${path}${isArrrayString}`,
           url: `/users/${userId}?path=${path}&isArray=${isArray}`,
           method: 'PUT',
           body: payload,
@@ -40,7 +34,6 @@ export const usersApiSlice = apiSlice.injectEndpoints({
     }),
     updateProfileImages: builder.mutation({
       query: payload => {
-        console.log('postData in usersApiSlice -----------------: ', payload);
         const { postData, userId, type } = payload;
         return {
           url: `/users/${userId}/update-images?type=${type}`,
@@ -53,7 +46,6 @@ export const usersApiSlice = apiSlice.injectEndpoints({
     friendRequest: builder.mutation({
       query: payload => {
         const { receiverId, type } = payload;
-        console.log('🚀 ~ file: usersApiSlice.js ~ line 49 ~ receiver', receiverId);
         return {
           url: `/users/friendRequest?type=${type}`,
           method: 'PUT',
@@ -65,16 +57,11 @@ export const usersApiSlice = apiSlice.injectEndpoints({
     searchUserName: builder.query({
       query: searchTerm => `users/search?term=${searchTerm}`,
     }),
-    // getUsers: builder.query({
-    //   query: ({ queryString }) => `users?${queryString}`,
-    // }),
     getUsers: builder.query({
       query: queryObject => {
-        console.log('🚀 ~ file: usersApiSlice.js ~ line 73 ~ queryObject', queryObject)
         const queryString = Object.keys(queryObject)
           .map(key => key + '=' + queryObject[key])
           .join('&');
-        console.log('🚀 ~ file: usersApiSlice.js ~ line 75 ~ queryString', queryString);
         return `users?${queryString}`;
       },
     }),
@@ -92,7 +79,6 @@ export const {
   useLazySearchUserNameQuery,
 
   useLazyGetUsersQuery,
-
 
   useUpdateProfileImagesMutation,
   useFriendRequestMutation,

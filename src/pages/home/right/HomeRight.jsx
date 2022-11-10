@@ -1,8 +1,9 @@
-import { Dots, NewRoom,  SearchSVG } from 'assets/svg';
-import { selectCurrentUser } from 'features/auth/authSlice';
 import { useSelector } from 'react-redux';
+
+import './HomeRight.scss';
+import { selectCurrentUser } from 'features/auth/authSlice';
+import { Dots, NewRoom, SearchSVG } from 'assets/svg';
 import Contact from './Contact';
-import './styles.scss';
 
 export const HomeRight = () => {
   const currentUser = useSelector(selectCurrentUser);
@@ -28,7 +29,9 @@ export const HomeRight = () => {
           </div>
         </div>
         <div className='contacts_list'>
-          <Contact user={currentUser} />
+          {currentUser.friends?.map(friend => (
+            <Contact key={friend._id} user={friend} />
+          ))}
         </div>
       </div>
     </section>

@@ -5,6 +5,7 @@
 
   .photos_header {
     @include mixins.flex-row(0, space-between);
+    width: 100%;
 
     .header_right {
       @include mixins.flex-row(2rem);

@@ -21,13 +21,11 @@ export const Intro = () => {
     setUpdatedDetails,
     showDetailInput,
     setShowDetailInput,
+    handleShowDetailsInput
   } = useContext(ProfileContext);
-  // console.log('🚀 ~ file: Intro.jsx ~ line 15 ~ detailsArray', detailsArray);
 
-  // const [showUpdateBio, setShowUpdateBio] = useState(false);
   const [showEditDetailsModal, setShowEditDetailsModal] = useState(false);
 
-  // const [updatedDetails, setUpdatedDetails] = useState({});
   const [remainingChar, setRemainingChar] = useState(
     profileUser?.bio ? 100 - profileUser?.bio.length : 100
   );
@@ -38,7 +36,7 @@ export const Intro = () => {
     setRemainingChar(100 - e.target.value.length);
   };
 
-  const [updateUser, {}] = useUpdateUserMutation();
+  const [updateUser, {isLoading}] = useUpdateUserMutation();
 
   const handleSubmitBio = async () => {
     const payload = updatedDetails;
@@ -49,7 +47,6 @@ export const Intro = () => {
     });
     const { user, message } = data;
     dispatch(updateUserStore(user));
-    // setShowUpdateBio(false);
     resetDetails();
   };
 
@@ -57,7 +54,6 @@ export const Intro = () => {
     <div className='card_main intro'>
       <span className='card_title'>Intro</span>
 
-      {/* {showUpdateBio ? ( */}
       {showDetailInput === 'bio' ? (
         <>
           <DetailInput
@@ -79,7 +75,8 @@ export const Intro = () => {
           <span>{profileUser?.bio}</span>
           {!visitor && (
             // <button className='btn grey_btn hover1' onClick={() => setShowUpdateBio(true)}>
-            <button className='btn grey_btn hover1' onClick={() => setShowDetailInput('bio')}>
+            // <button className='btn grey_btn hover1' onClick={() => setShowDetailInput('bio')}>
+            <button className='btn grey_btn hover1' onClick={() => handleShowDetailsInput('bio')}>
               Edit Bio
             </button>
           )}
@@ -87,8 +84,7 @@ export const Intro = () => {
       ) : (
         !visitor && (
           <div className='info_col'>
-            {/* <button className='btn gray_btn hover1' onClick={() => setShowUpdateBio(true)}> */}
-            <button className='btn gray_btn hover1' onClick={() => setShowDetailInput('bio')}>
+            <button className='btn gray_btn hover1' onClick={() => handleShowDetailsInput('bio')}>
               Add Bio
             </button>
           </div>

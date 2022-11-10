@@ -1,0 +1,44 @@
+@use '../../../styles/mixins';
+
+.right_home {
+  @include mixins.flex-column();
+  margin-right: 1.6rem;
+
+  .heading {
+    font-weight: 600;
+    color: var(--color-secondary);
+  }
+
+  .contacts_wrap {
+    .contacts_header {
+      @include mixins.flex-row(1.6rem, space-between, center);
+      font-weight: 600;
+      color: var(--color-secondary);
+    }
+    .contacts_header_right {
+      @include mixins.flex-row(0.6rem, $align: center);
+    }
+    .contact_circle {
+      @include mixins.flex-center();
+      @include mixins.circle(3.5rem);
+      cursor: pointer;
+    }
+
+    .contacts_list {
+      @include mixins.flex-column(1rem);
+
+      .contact {
+        @include mixins.flex-row(1.2rem, $align: center);
+        font-size: 1.4rem;
+        font-weight: 600;
+        cursor: pointer;
+      }
+    }
+  }
+}
+
+@media (max-width: 715px) {
+  .right_home {
+    display: none;
+  }
+}

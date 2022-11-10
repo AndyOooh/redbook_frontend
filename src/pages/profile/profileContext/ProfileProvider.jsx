@@ -27,9 +27,11 @@ export const ProfileProvider = ({ children }) => {
 
   const handleShowDetailsInput = useCallback(
     detailName => {
-      showDetailInput !== detailName ? setShowDetailInput(detailName) : resetDetails();
+      resetDetails();
+      // showDetailInput !== detailName ? setShowDetailInput(detailName) : resetDetails();
+      setShowDetailInput(detailName) ;
     },
-    [resetDetails, showDetailInput]
+    [resetDetails]
   );
 
   useEffect(() => {

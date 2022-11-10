@@ -18,7 +18,15 @@ body {
 .app {
   background: var(--bg-secondary); // Mo dont have this
   color: var(--color-primary); // Mo dont have this
-  // color: hotpink; // Mo dont have this
+  
+  textarea, input {
+    color: var(--color-primary); // Mo dont have this
+
+  }
+
+  ul {
+    list-style: none;
+  }
 }
 
 a {
@@ -50,7 +58,7 @@ select {
   border-radius: 0.7rem;
   border: 1px solid var(--border-color);
   font-size: 1.7rem;
-  color: var(--color-primary);
+  // color: var(--color-primary);
 
   .error {
     border: 2px solid var(--color-error-1);

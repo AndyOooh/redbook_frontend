@@ -1,13 +1,11 @@
 import { useHoverHandler } from 'hooks/useHoverHandler';
-import React, { useState } from 'react';
-import { Link, NavLink } from 'react-router-dom';
-
-// import { AiFillHome } from 'react-icons/ai';
+import { useState } from 'react';
+import { NavLink } from 'react-router-dom';
 
 import { Friends, Gaming, Home, Market, Watch } from 'assets/svg';
 
 export const NavBar = () => {
-  const [showTitleBox, setShowTitleBox] = useState('watch');
+  const [showTitleBox, setShowTitleBox] = useState(null);
   const hoverHandler = useHoverHandler();
 
   const navItems = [
@@ -15,7 +13,6 @@ export const NavBar = () => {
       name: 'home',
       link: '/',
       svg: <Home />,
-      //   svg: <AiFillHome />,
     },
     {
       name: 'groups',
@@ -41,10 +38,9 @@ export const NavBar = () => {
 
   const navBar = navItems.map(item => {
     return (
-      <>
+      <li key={item.name}>
         <NavLink
           end
-          key={item.name}
           to={item.link}
           className={({ isActive }) =>
             isActive ? 'nav_link nav_link_active' : 'nav_link nav_link_inactive'
@@ -54,14 +50,13 @@ export const NavBar = () => {
           {item.svg}
           {showTitleBox === item.name && <div className='titleBox'>{item.name}</div>}
         </NavLink>
-      </>
+      </li>
     );
   });
 
-  //   return <ul className='navBar header_nav'>{navBar}</ul>;
   return (
     <nav className='header_nav'>
-      <div className='nav_list'>{navBar}</div>
+      <ul className='nav_list'>{navBar}</ul>
     </nav>
   );
 };

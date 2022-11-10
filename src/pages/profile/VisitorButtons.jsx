@@ -6,7 +6,7 @@ import { ProfileContext } from './profileContext/profileContext';
 export const VisitorButtons = ({ setShowRequestDropdown }) => {
   const profCtx = useContext(ProfileContext);
   const { visitor, profileUser, handleFriendRequest, friendRequestLoading } = profCtx;
-  // console.log('🚀 ~ file: VisitorButtons.jsx ~ line 9 ~ profileUser.friendship', profileUser.friendship)
+  console.log('🚀 ~ file: VisitorButtons.jsx ~ line 9 ~ profileUser.friendship', profileUser.friendship)
 
   return (
     visitor &&

@@ -10,6 +10,7 @@ const authSlice = createSlice({
     },
     setCredentials: (state, action) => {
       const { user, accessToken } = action.payload;
+      console.log('🚀 ~ file: authSlice.js ~ line 13 ~ user', user)
       state.user = user;
       state.accessToken = accessToken;
     },

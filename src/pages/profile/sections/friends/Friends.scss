@@ -5,6 +5,7 @@
 
   .friends_header {
     @include mixins.flex-row(0, space-between);
+    width: 100%;
     .search {
       @include mixins.flex-row(0.8rem, center);
       background: var(--bg-fourth);

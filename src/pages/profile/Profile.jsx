@@ -26,14 +26,6 @@ export const Profile = () => {
   const { getUserError, username, visitor, profileUser } = profCtx;
 
   // navigate to ('/profile') if user is looking at their own profile. NB: don't use !visitor because it defaults to null
-  // useEffect(() => {
-  //   if (visitor === false && username) {
-  //     console.log('visitor is false and we have username ***************************', username)
-  //     navigate('/profile');
-  //   }
-  // }, [visitor, navigate, username]);
-
-  // navigate to ('/profile') if user is looking at their own profile. NB: don't use !visitor because it defaults to null
   useEffect(() => {
     if (username === currentUser.username) {
       navigate('/profile');
@@ -125,9 +117,7 @@ export const Profile = () => {
                         Add to story
                       </button>
                       <button className='btn gray_btn'>
-                        <MdModeEditOutline 
-                        className='react_icon'
-                        />
+                        <MdModeEditOutline className='react_icon' />
                         Edit profile
                       </button>
                     </>

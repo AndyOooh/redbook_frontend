@@ -15,8 +15,8 @@
 # misc
 .DS_Store
 .env.local
-.env.development
 .env.test.local
+.env.development
 .env.production
 
 

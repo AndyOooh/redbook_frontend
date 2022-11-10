@@ -20,11 +20,9 @@ export const SearchDropdown = ({ searchResult, setVisible }) => {
 
   // const searchedIds = currentUser.search.slice(0, 6);
   const searchedIds = useMemo(() => currentUser.search.slice(0, 6), [currentUser]);
-  console.log('🚀 ~ file: SearchDropdown.jsx ~ line 23 ~ searchedIds', searchedIds)
   const searchIdsString = searchedIds.map(id => `${id}`).join(',');
 
   const [trigger, { data: prevSearchedUsers }] = useLazyGetUsersQuery();
-  console.log('🚀 ~ file: SearchDropdown.jsx ~ line 26 ~ prevSearchedUsers', prevSearchedUsers)
 
   useEffect(() => {
     if (searchedIds.length > 0) {
@@ -37,14 +35,12 @@ export const SearchDropdown = ({ searchResult, setVisible }) => {
   // Add search result to array on user
   const clickResultHandler = async profileId => {
     const payload = { search: profileId };
-    console.log('🚀 ~ file: SearchDropdown.jsx ~ line 50 ~ payload', payload)
     try {
       const { data, isLoading } = await updateUser({
         payload: payload,
         userId: currentUser.id,
         isArray: true,
       });
-      console.log('🚀 ~ file: SearchDropdown.jsx ~ line 47 ~ data', data)
       dispatch(updateUserStore(data.updatedUser));
     } catch (error) {
       console.log('🚀 ~ file: SearchDropdown.jsx ~ line 24 ~ error', error);

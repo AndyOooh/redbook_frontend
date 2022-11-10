@@ -27,7 +27,6 @@ export const ToggleSwitch = ({
     e.preventDefault();
     onChange(!checked);
   };
-  console.log(name, 'cheked ?', checked);
 
   return (
     <div className='toggle-switch' style={{ height: size }}>

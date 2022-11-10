@@ -6,7 +6,6 @@ import './Home.scss';
 import { Main } from './Main/Main';
 
 export const Home = () => {
-  console.log('in Home');
 
   return (
     <>

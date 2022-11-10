@@ -17,7 +17,6 @@ export const CodeVerification = ({ email, setContent }) => {
       console.log(error.data.message);
     }
   };
-  console.log(email);
 
   return isLoading ? (
     <div>Loading...</div>

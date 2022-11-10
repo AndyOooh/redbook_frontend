@@ -9,7 +9,6 @@ import { getCroppedImg } from 'utils/getCroppedImg';
 import { useCreatePostMutation } from 'features/posts/postsApiSlice';
 
 export const ImageCropper = ({ image, setImage, setParentVisible, type }) => {
-  console.log('🚀 ~ file: ImageCropper.jsx ~ line 11 ~ type', type);
   const currentUser = useSelector(selectCurrentUser);
   const dispatch = useDispatch();
   const sliderRef = useRef(null);
@@ -57,7 +56,6 @@ export const ImageCropper = ({ image, setImage, setParentVisible, type }) => {
 
         postData.set('image', JSON.stringify(newImageArray[0]));
         const { data } = await createPost({ postData, type }).unwrap();
-        console.log('🚀 ~ file: ImageCropper.jsx ~ line 61 ~ data', data);
 
         const payload =
           type === 'profile' ? { pictures: newImageArray } : { covers: newImageArray }; // shouldnt it be pictures/covers: [...newImageArray]? seems like its working without it

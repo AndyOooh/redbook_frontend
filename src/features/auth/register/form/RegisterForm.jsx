@@ -59,7 +59,6 @@ export const RegisterForm = ({ visible, setVisible }) => {
 
   //  SubmitHandler ------------------------------------------------------------------------------------------------
   const registerSubmitHandler = async e => {
-    console.log('in registerSubmitHandler');
     try {
       const userData = await registerUser(formData).unwrap();
       dispatch(setCredentials({ ...userData }));
@@ -97,7 +96,6 @@ export const RegisterForm = ({ visible, setVisible }) => {
           }}
           validationSchema={registerValidation}
           onSubmit={() => {
-            console.log('onsubmit');
             let current_date = new Date();
             let picked_date = new Date(birth_year, birth_month - 1, birth_date);
             let atleast14 = new Date(1970 + 14, 0, 1);

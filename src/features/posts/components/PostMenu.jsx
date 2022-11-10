@@ -24,7 +24,6 @@ export const PostMenu = ({ posterId, postId, imagesLength, setVisible }) => {
 
   const [deletPost, { isLoading, isSuccess, error }] = useDeletePostMutation();
   const handleDeletePost = postId => {
-    console.log('deleting post:', postId);
     deletPost(postId);
     return;
   };

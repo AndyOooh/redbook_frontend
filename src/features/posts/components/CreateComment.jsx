@@ -52,7 +52,6 @@ export const CreateComment = ({ postId }) => {
         commentData,
         postId,
       }).unwrap();
-      console.log('data', data);
     } catch (error) {
       console.log('error', error);
     }

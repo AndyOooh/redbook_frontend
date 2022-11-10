@@ -27,7 +27,6 @@ export const EmojiSelector = ({ setVisible, handleInput, bottom = 0, right = 0 }
         emojiButtonSize={'36'}
         emojiSize={'30'}
         onClickOutside={() => {
-          console.log('clicked outside');
           setVisible(false);
         }}
         // onClickOutside={() => setVisible(false)}

@@ -48,7 +48,6 @@ export const ImagePicker = ({
   // Handle Input ------------------------------------------------------------
   const handleInput = useCallback(
     files => {
-      console.log('in handleInput of ImagePicker æææææææææææææææææææææææææææææææææ');
       let filesArray = Array.from(files);
       filesArray.forEach(img => {
         filesArray = validation(img, filesArray);

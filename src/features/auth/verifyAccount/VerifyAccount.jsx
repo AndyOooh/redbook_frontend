@@ -15,8 +15,6 @@ export const VerifyAccount = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  console.log('in VerifyAccount');
-
   const verificationToken = searchParams.get('verificationToken');
 
   const [verifyAccount, { isLoading, isSuccess, error, data }] = useVerifyAccountMutation();
@@ -24,7 +22,6 @@ export const VerifyAccount = () => {
   const successMessage = data?.message; //Not a good message. Just for demonstartion using data prop from mutation. Could be geeric string instead
 
   useEffect(() => {
-    console.log('in useEffect');
     if (!verificationToken) {
       navigate('/login');
     }

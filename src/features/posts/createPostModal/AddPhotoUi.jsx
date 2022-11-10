@@ -11,8 +11,6 @@ export const AddPhotoUi = ({
   const imagePickerClasses =
     images && images.length > 0 ? 'image_picker overflow_a scrollbar' : 'image_picker';
 
-  console.log('error in ImagePickerUI', error);
-
   const openHandler = () => {
     setError(null);
     openSystemUi();

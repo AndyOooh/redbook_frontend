@@ -10,7 +10,6 @@ export const SearchBar = () => {
   const color = '#65676b';
   const [showSearchMenu, setShowSearchMenu] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
-  // console.log('🚀 ~ file: SearchBar.jsx ~ line 13 ~ searchTerm', searchTerm);
 
   const [trigger, { data: searchResult }] = useLazySearchUserNameQuery();
 

@@ -15,11 +15,6 @@ export const DetailInput = ({
   remainingChar,
   defaulValue,
 }) => {
-  console.log('🚀 ~ file: DetailInput.jsx ~ line 18 ~ path', path)
-  console.log('🚀 ~ file: DetailInput.jsx ~ line 14 ~ name', name);
-  console.log('🚀 ~ file: DetailInput.jsx ~ line 14 ~ subTitle', subTitle);
-
-  
   const instaPlaceholder = 'For example: rainnWilson. No @, https or www.';
 
   return (

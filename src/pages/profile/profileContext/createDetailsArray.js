@@ -9,7 +9,6 @@ import { camelToLetterCase, camelToSnakeCase } from 'utils/stringHelpers';
 const iconsBaseUrl = '../../../../../icons/';
 
 export const createDetailsArray = details => {
-  // console.log('🚀 ~ file: createDetailsArray.js ~ line 13 ~ details', details);
   const createMissingText = string => `No ${string} to show`;
   const getSubItemTextAndIcon = val => {
     return {

@@ -4,7 +4,6 @@ import { Navigate, Outlet } from 'react-router-dom';
 
 export const PublicRoutes = () => {
   const currentUser = useSelector(selectCurrentUser);
-  console.log('in PublicRoutes');
   return currentUser ? <Navigate to='/' /> : <Outlet />;
 };
 

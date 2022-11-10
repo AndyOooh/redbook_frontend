@@ -13,7 +13,6 @@ export const SearchAccount = ({ setUserData, setContent }) => {
   const handleSearch = async () => {
     try {
       const data = await findUser(email).unwrap();
-      console.log('data', data);
       setUserData(data);
       setContent('sendEmail');
       // setError('');

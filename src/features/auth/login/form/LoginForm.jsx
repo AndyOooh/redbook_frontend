@@ -36,7 +36,6 @@ export const LoginForm = ({ setRegisterFormVisible }) => {
   const loginSubmitHandler = async () => {
     try {
       const userData = await login(formData).unwrap();
-      console.log('🚀 ~ file: LoginForm.jsx ~ line 39 ~ userData', userData);
       dispatch(setCredentials({ ...userData }));
       setFormData(initialFormData);
       // navigate('/');

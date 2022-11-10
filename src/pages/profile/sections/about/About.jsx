@@ -58,7 +58,6 @@ let currentCategory = detailsArray?.find(item => item.snakeCase === section)?.db
     dbField => {
       if (!detailsArray) return;
       let pathArray = [currentCategory];
-      console.log('🚀 ~ file: About.jsx ~ line 61 ~ pathArray', pathArray)
 
       const check = detailsArray?.find(detail => detail.dbName === currentCategory);
 

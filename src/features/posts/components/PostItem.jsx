@@ -13,7 +13,6 @@ import { selectCurrentUser } from 'features/auth/authSlice';
 import { Comments } from './Comments';
 
 export const PostItem = memo(({ post }) => {
-  // console.log('🚀 ~ file: PostItem.jsx ~ line 17 ~ post', post);
   const [showMenu, setShowMenu] = useState(false);
   const [showReactionsPopup, setShowReactionsPopup] = useState(false);
   const [showComments, setShowComments] = useState(false);

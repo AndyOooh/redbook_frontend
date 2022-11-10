@@ -24,9 +24,6 @@ export const CreatePostModal = ({ visible, setVisible }) => {
 
   const [createPost, { isLoading }] = useCreatePostMutation();
 
-  console.log('text', postText);
-  console.log('background', postBackground);
-  console.log('images', postImages);
 
   const postBackgrounds = [
     'images/postBackgrounds/1.jpg',
@@ -60,11 +57,7 @@ export const CreatePostModal = ({ visible, setVisible }) => {
     for (let i = 0; i < postImages.length; i++) {
       postData.append('images', postImages[i]);
     }
-    // log formData
-    for (var pair of postData.entries()) {
-      console.log('in for loop');
-      console.log('from iterator:', pair[0] + ', ' + pair[1]);
-    }
+   
     try {
       const { data } = await createPost({ postData, type: 'feed' }).unwrap();
     } catch (error) {

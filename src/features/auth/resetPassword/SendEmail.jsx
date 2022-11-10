@@ -8,7 +8,6 @@ export const SendEmail = ({ userData, setContent }) => {
   const sendEmailHandler = async () => {
     try {
       const data = await sendPwResetCode(userData.email).unwrap();
-      console.log('data', data);
       setContent('verifyCode');
     } catch (error) {
       console.log('error', error.data.message);

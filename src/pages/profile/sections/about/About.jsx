@@ -52,7 +52,8 @@ export const About = () => {
     }
   };
 
-let currentCategory = detailsArray?.find(item => item.snakeCase === section)?.dbName || 'overview';
+  let currentCategory =
+    detailsArray?.find(item => item.snakeCase === section)?.dbName || 'overview';
 
   const currentSubcategory = useCallback(
     dbField => {

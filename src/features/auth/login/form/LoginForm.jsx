@@ -87,7 +87,7 @@ export const LoginForm = ({ setRegisterFormVisible }) => {
         ) : (
           <>
             <Link to='/reset' className='forgot_password'>
-                Forgot password?
+              Forgot password?
             </Link>
             <div className='vert_line'></div>
 

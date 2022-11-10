@@ -11,7 +11,6 @@ export const ImagePicker = ({
   mimeTypes = ['image/jpeg', 'image/png', 'image/webp', 'image/gif'],
   maxFileSizeMb = 5,
 }) => {
-
   const [error, setError] = useState(null);
 
   // either import image and images or do it outside of this component. probably the latter, sinve they are not shown here.

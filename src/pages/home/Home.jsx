@@ -6,7 +6,6 @@ import './Home.scss';
 import { Main } from './Main/Main';
 
 export const Home = () => {
-
   return (
     <>
       <div className='home_wrapper'>

@@ -14,7 +14,8 @@ export const SearchBar = () => {
   const [trigger, { data: searchResult }] = useLazySearchUserNameQuery();
 
   useEffect(() => {
-    if (searchTerm.length > 1) { // Only seacrh with minimum 2 characters
+    if (searchTerm.length > 1) {
+      // Only seacrh with minimum 2 characters
       trigger(searchTerm, true); //true here makes use of cahced data instead of new request.
     }
   }, [searchTerm, trigger]);
